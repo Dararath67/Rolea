@@ -1,7 +1,22 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Lock, Key, RefreshCw, CheckCircle2, Copy, Check, Eye, Code, Zap } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  Lock, 
+  Key, 
+  RefreshCw, 
+  CheckCircle2, 
+  Copy, 
+  Check, 
+  Eye, 
+  Zap, 
+  ShieldAlert, 
+  Slash, 
+  Trash2, 
+  UserX,
+  AlertTriangle
+} from 'lucide-react';
 
 interface SecurityEncryptionVaultProps {
   language?: string;
@@ -24,6 +39,12 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
   const [decrypting, setDecrypting] = useState(false);
 
   const [copiedEncrypted, setCopiedEncrypted] = useState(false);
+
+  // IP Banning State
+  const [banIpInput, setBanIpInput] = useState('');
+  const [banDuration, setBanDuration] = useState('1800'); // 30 minutes
+  const [banningIp, setBanningIp] = useState(false);
+  const [ipActionMsg, setIpActionMsg] = useState('');
 
   const fetchVaultStatus = async () => {
     setLoading(true);
@@ -99,10 +120,58 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
     }
   };
 
+  const handleBanIp = async (ipToBan?: string) => {
+    const targetIp = ipToBan || banIpInput.trim();
+    if (!targetIp) return;
+    setBanningIp(true);
+    try {
+      const res = await fetch('/api/v1/admin/security/ban-ip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ip: targetIp, duration_seconds: parseInt(banDuration, 10) })
+      });
+      if (res.ok) {
+        setIpActionMsg(isKm ? `បាន Ban IP ${targetIp} ដោយជោគជ័យ!` : `IP address ${targetIp} banned successfully!`);
+        if (!ipToBan) setBanIpInput('');
+        fetchVaultStatus();
+      }
+    } catch (err) {
+      console.error('Failed to ban IP:', err);
+    } finally {
+      setBanningIp(false);
+      setTimeout(() => setIpActionMsg(''), 4000);
+    }
+  };
+
+  const handleUnbanIp = async (ipToUnban: string) => {
+    try {
+      const res = await fetch('/api/v1/admin/security/unban-ip', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ip: ipToUnban })
+      });
+      if (res.ok) {
+        setIpActionMsg(isKm ? `បាន Unban IP ${ipToUnban} រៀបរយ!` : `IP address ${ipToUnban} unbanned!`);
+        fetchVaultStatus();
+      }
+    } catch (err) {
+      console.error('Failed to unban IP:', err);
+    } finally {
+      setTimeout(() => setIpActionMsg(''), 4000);
+    }
+  };
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedEncrypted(true);
     setTimeout(() => setCopiedEncrypted(false), 2000);
+  };
+
+  const formatRemainingTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    if (mins > 0) return `${mins}m ${secs}s`;
+    return `${secs}s`;
   };
 
   return (
@@ -127,8 +196,8 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
               </div>
               <p className="text-xs text-slate-300 mt-1 max-w-2xl">
                 {isKm 
-                  ? 'ការពារប្រព័ន្ធទាំងមូលជាមួយ 100-Layer Enterprise Security Pillars រួមមាន AES-256 CTR Encrypt-then-MAC, PBKDF2 (100,000 Rounds), WAF Anti-DDoS, IP Ban, និង Transparent Disk Vault'
-                  : 'A+++ 100% Bank Grade Protection across 10 security pillars including AES-256 CTR, PBKDF2 (100,000 rounds), WAF Threat Inspector, and Transparent Vault Encryption.'}
+                  ? 'ការពារប្រព័ន្ធទាំងមូលជាមួយ 100-Layer Enterprise Security Pillars រួមមាន AES-256 CTR Encrypt-then-MAC, PBKDF2 (100,000 Rounds), WAF Anti-DDoS, IP Ban Control, និង Transparent Disk Vault'
+                  : 'A+++ 100% Bank Grade Protection across 10 security pillars including AES-256 CTR, PBKDF2 (100,000 rounds), WAF Threat Inspector, and IP Ban Control.'}
               </p>
             </div>
           </div>
@@ -191,20 +260,137 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
               {isKm 
-                ? `ទប់ស្កាត់ការវាយប្រហារ SQLi, XSS, RCE ស្វ័យប្រវត្តិ (${wafStatus?.waf_rules_count || 10} Rules) | Rate Limit 120req/min | Banned IPs: ${wafStatus?.banned_ips_count || 0}`
-                : `Real-time inspection blocking SQLi, XSS, RCE (${wafStatus?.waf_rules_count || 10} WAF Rules) | Rate Limit: 120 req/min | Banned IPs: ${wafStatus?.banned_ips_count || 0}`}
+                ? `ទប់ស្កាត់ការវាយប្រហារ SQLi, XSS, RCE ស្វ័យប្រវត្តិ (${wafStatus?.waf_rules_count || 10} Rules) | Rate Limit 500req/min | Banned IPs: ${wafStatus?.banned_ips_count || 0}`
+                : `Real-time inspection blocking SQLi, XSS, RCE (${wafStatus?.waf_rules_count || 10} WAF Rules) | Rate Limit: 500 req/min | Banned IPs: ${wafStatus?.banned_ips_count || 0}`}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3 text-xs font-mono font-bold shrink-0">
           <div className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-emerald-400">
-            {isKm ? 'Rate Limit: ១២០/នាទី' : 'Limit: 120 req/m'}
+            {isKm ? 'Rate Limit: ៥០០/នាទី' : 'Limit: 500 req/m'}
           </div>
           <div className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-blue-400">
             {isKm ? 'IP Banning: ៣០នាទី' : 'Auto Ban: 30 mins'}
           </div>
         </div>
+      </div>
+
+      {/* IP Banning & WAF Control Panel */}
+      <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-2xs space-y-5">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600 shrink-0">
+              <ShieldAlert className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-black text-slate-900">
+                {isKm ? 'ប្រព័ន្ធគ្រប់គ្រងការ Ban/Unban IP Address (IP Banning Control Panel)' : 'IP Banning & Security Lockout Panel'}
+              </h4>
+              <p className="text-xs text-slate-500">
+                {isKm ? 'ប្លុក ឬ បើកសិទ្ធិ IP Address ណាមួយដោយដៃ ជាមួយនឹងការកំណត់រយៈពេលច្បាស់លាស់' : 'Manually ban or unban malicious IP addresses with customizable lockout durations.'}
+              </p>
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-full text-xs font-black bg-red-100 text-red-700 border border-red-200">
+            {wafStatus?.banned_ips_count || 0} {isKm ? 'IP ត្រូវបាន Ban' : 'IPs Banned'}
+          </span>
+        </div>
+
+        {ipActionMsg && (
+          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold animate-in fade-in flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <span>{ipActionMsg}</span>
+          </div>
+        )}
+
+        {/* Ban Form */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <div className="md:col-span-5">
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              {isKm ? 'អាសយដ្ឋាន IP Address ដែលត្រូវ Ban:' : 'IP Address to Ban:'}
+            </label>
+            <input
+              type="text"
+              value={banIpInput}
+              onChange={(e) => setBanIpInput(e.target.value)}
+              placeholder="e.g. 103.145.20.14"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-mono text-slate-900 focus:outline-none focus:border-red-600 bg-white"
+            />
+          </div>
+
+          <div className="md:col-span-4">
+            <label className="block text-xs font-bold text-slate-700 mb-1">
+              {isKm ? 'រយៈពេល Ban (Duration):' : 'Lockout Duration:'}
+            </label>
+            <select
+              value={banDuration}
+              onChange={(e) => setBanDuration(e.target.value)}
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-900 focus:outline-none focus:border-red-600 bg-white"
+            >
+              <option value="900">{isKm ? '១៥ នាទី (15 Minutes)' : '15 Minutes'}</option>
+              <option value="1800">{isKm ? '៣០ នាទី (30 Minutes)' : '30 Minutes'}</option>
+              <option value="3600">{isKm ? '១ ម៉ោង (1 Hour)' : '1 Hour'}</option>
+              <option value="86400">{isKm ? '២៤ ម៉ោង (24 Hours)' : '24 Hours'}</option>
+              <option value="604800">{isKm ? '៧ ថ្ងៃ (7 Days)' : '7 Days'}</option>
+            </select>
+          </div>
+
+          <div className="md:col-span-3">
+            <button
+              onClick={() => handleBanIp()}
+              disabled={banningIp || !banIpInput.trim()}
+              className="w-full py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-black text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs disabled:opacity-50"
+            >
+              <Slash className="w-4 h-4" />
+              <span>{banningIp ? (isKm ? 'កំពុង Ban IP...' : 'Banning...') : (isKm ? 'Ban IP នេះ' : 'Ban IP Address')}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Active Banned IPs Table */}
+        {wafStatus?.banned_ips && wafStatus.banned_ips.length > 0 ? (
+          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-100 text-slate-600 uppercase text-[10px] font-black border-b border-slate-200">
+                <tr>
+                  <th className="px-4 py-2.5">Banned IP Address</th>
+                  <th className="px-4 py-2.5">Remaining Cooldown</th>
+                  <th className="px-4 py-2.5 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 bg-white font-mono">
+                {wafStatus.banned_ips.map((item: any) => (
+                  <tr key={item.ip} className="hover:bg-slate-50">
+                    <td className="px-4 py-3 font-bold text-red-600">
+                      <div className="flex items-center gap-2">
+                        <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />
+                        <span>{item.ip}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-slate-700 font-bold">
+                      <span className="px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-[11px] border border-red-200">
+                        {formatRemainingTime(item.remaining_seconds)}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() => handleUnbanIp(item.ip)}
+                        className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sans font-bold text-xs transition-colors cursor-pointer"
+                      >
+                        {isKm ? 'Unban IP' : 'Unban IP'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-center py-6 bg-slate-50 rounded-2xl border border-slate-200 text-xs font-semibold text-slate-500">
+            {isKm ? 'មិនទាន់មាន IP ណាមួយត្រូវបាន Ban ឡើយ (No active banned IPs)' : 'No IP addresses are currently banned.'}
+          </div>
+        )}
       </div>
 
       {/* Interactive Encryption & Decryption Live Tester */}

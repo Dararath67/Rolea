@@ -3973,7 +3973,29 @@ function AdminControlPanelContent() {
  {aud.action}
  </span>
  </td>
- <td className="px-4 py-3 font-mono text-slate-500">{aud.ip_address}</td>
+ <td className="px-4 py-3 font-mono">
+ <div className="flex items-center gap-2">
+ <span className="text-slate-700 font-bold">{aud.ip_address}</span>
+ {aud.ip_address && aud.ip_address !== '127.0.0.1' && aud.ip_address !== 'localhost' && (
+ <button
+ onClick={async () => {
+ if (confirm(isKm ? `តើអ្នកពិតជាចង់ Ban IP ${aud.ip_address} ឬ?` : `Ban IP ${aud.ip_address}?`)) {
+ await fetch('/api/v1/admin/security/ban-ip', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ ip: aud.ip_address, duration_seconds: 1800 })
+ });
+ alert(isKm ? `បាន Ban IP ${aud.ip_address} រយៈពេល ៣០នាទី!` : `IP ${aud.ip_address} banned for 30 minutes!`);
+ }
+ }}
+ className="px-2 py-0.5 rounded text-[10px] font-black bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 transition-colors cursor-pointer shrink-0"
+ title="Ban IP Address"
+ >
+ Ban IP
+ </button>
+ )}
+ </div>
+ </td>
  <td className="px-4 py-3 text-slate-700 text-xs">{aud.details}</td>
  </tr>
  ))}
