@@ -1528,6 +1528,16 @@ from ..services.endpoint_payload_encryption import EndpointPayloadEncryptionGuar
 def admin_get_payload_encryption_status():
     return EndpointPayloadEncryptionGuard.get_encryption_metrics()
 
+# ==========================================
+# GLOBAL TRANSPARENT DATA VAULT ENCRYPTION METRICS
+# ==========================================
+from ..services.global_security_encryption import GlobalSecurityEncryptionEngine
+
+@router.get("/security/global-encryption-status", response_model=Dict[str, Any])
+def admin_get_global_encryption_status():
+    return GlobalSecurityEncryptionEngine.get_global_status()
+
+
 
 
 

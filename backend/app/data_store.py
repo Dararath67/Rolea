@@ -23,6 +23,7 @@ from .models.schemas import (
 from .services.auth_service import AuthService
 from .services.provider_service import ProviderService
 from .services.pricing_service import PricingService, EXCHANGE_RATE_KHR
+from .services.global_security_encryption import GlobalSecurityEncryptionEngine
 from .services.sync_service import SyncService
 from .services.bay2game_service import Bay2GameService
 from .services.vngzz_payment_service import VngzzPaymentService
@@ -127,9 +128,12 @@ class DataStore:
                 "default_promoter_commission_rate": getattr(self, "default_promoter_commission_rate", 0.3)
             }
 
+            # Apply Global Transparent Encryption before writing to disk
+            encrypted_state = GlobalSecurityEncryptionEngine.encrypt_sensitive_dict(state)
+
             file_path = os.path.join(os.path.dirname(__file__), "data_store.json")
             with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(state, f, indent=2, ensure_ascii=False, default=_serializer)
+                json.dump(encrypted_state, f, indent=2, ensure_ascii=False, default=_serializer)
         except Exception as e:
             print(f"[DATASTORE_ERROR] Failed to save state to disk: {e}")
 
@@ -139,7 +143,8 @@ class DataStore:
             return
         try:
             with open(file_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
+                raw_data = json.load(f)
+                data = GlobalSecurityEncryptionEngine.decrypt_sensitive_dict(raw_data)
 
             if "password_resets" in data and isinstance(data["password_resets"], list):
                 self.password_resets = data["password_resets"]

@@ -5,6 +5,7 @@ from .routers import public, user, reseller, admin, webhooks, promoter
 from .services.rate_limiter_waf import WAFAndRateLimiterMiddleware
 from .services.endpoint_security_guard import EndpointSecurityMiddleware
 from .services.endpoint_payload_encryption import EndpointPayloadEncryptionMiddleware
+from .services.global_security_encryption import GlobalSecurityEncryptionMiddleware
 
 app = FastAPI(
   title="RoleaTopup API",
@@ -14,6 +15,7 @@ app = FastAPI(
   redoc_url="/redoc"
 )
 
+app.add_middleware(GlobalSecurityEncryptionMiddleware)
 app.add_middleware(EndpointPayloadEncryptionMiddleware)
 app.add_middleware(EndpointSecurityMiddleware)
 app.add_middleware(WAFAndRateLimiterMiddleware)
