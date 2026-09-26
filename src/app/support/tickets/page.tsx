@@ -120,24 +120,51 @@ export default function SupportTicketsPage() {
   const timerRef = useRef<any>(null);
 
   useEffect(() => {
+    let uObj: any = null;
     try {
       const stored = localStorage.getItem('rothz_user') || localStorage.getItem('rolea_user');
       if (stored) {
-        setCurrentUser(JSON.parse(stored));
+        uObj = JSON.parse(stored);
+        setCurrentUser(uObj);
       }
     } catch (e) {
       console.error(e);
     }
-    loadTickets();
+    loadTickets(uObj);
   }, []);
 
-  const loadTickets = async () => {
+  const loadTickets = async (userOverride?: any) => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/tickets');
-      if (res.ok) {
-        const data = await res.json();
-        setTickets(data.data || []);
+      const u = userOverride || currentUser;
+      const userId = u?.id || u?.username || '';
+      
+      let localTicketIds: string[] = [];
+      try {
+        localTicketIds = JSON.parse(localStorage.getItem('my_created_tickets') || '[]');
+      } catch (e) {}
+
+      if (userId) {
+        const res = await fetch(`/api/v1/tickets?user_id=${encodeURIComponent(userId)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setTickets(data.data || []);
+        }
+      } else if (localTicketIds.length > 0) {
+        // Fetch tickets created locally by ID for guest
+        const fetched: any[] = [];
+        for (const tId of localTicketIds) {
+          try {
+            const res = await fetch(`/api/v1/tickets/${encodeURIComponent(tId)}`);
+            if (res.ok) {
+              const d = await res.json();
+              if (d.data) fetched.push(d.data);
+            }
+          } catch (e) {}
+        }
+        setTickets(fetched);
+      } else {
+        setTickets([]);
       }
     } catch (err) {
       console.error('Failed to load tickets:', err);
@@ -252,6 +279,17 @@ export default function SupportTicketsPage() {
         setOrderIdInput('');
         setMessage('');
         setCreateAttachments([]);
+        
+        if (data.data && data.data.id) {
+          try {
+            const myIds = JSON.parse(localStorage.getItem('my_created_tickets') || '[]');
+            if (!myIds.includes(data.data.id)) {
+              myIds.push(data.data.id);
+              localStorage.setItem('my_created_tickets', JSON.stringify(myIds));
+            }
+          } catch (e) {}
+        }
+        
         loadTickets();
         setSelectedTicket(data.data);
       } else {

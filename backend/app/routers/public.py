@@ -353,8 +353,11 @@ def list_support_tickets(
     status: Optional[str] = Query(None),
     category: Optional[str] = Query(None)
 ):
+    if not user_id or not user_id.strip() or user_id.lower() in ["all", "admin", "super_admin"]:
+        return {"success": True, "total": 0, "data": []}
     tickets = db.get_support_tickets(user_id=user_id, status=status, category=category)
     return {"success": True, "total": len(tickets), "data": tickets}
+
 
 @router.get("/tickets/{ticket_id}", response_model=Dict[str, Any])
 def get_support_ticket_details(ticket_id: str):
