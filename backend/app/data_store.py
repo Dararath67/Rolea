@@ -2819,8 +2819,8 @@ class DataStore:
 
         matched_users = []
         for u_record in self.users:
-            u = getattr(u_record, 'user', u_record)
-            role = getattr(u, 'role', 'user')
+            u = u_record.get("user") if isinstance(u_record, dict) else u_record
+            role = getattr(u, 'role', 'user') if u else 'user'
             if req.target_role == 'all':
                 matched_users.append(u)
             elif req.target_role == 'reseller' and role in ['reseller', 'admin', 'super_admin']:

@@ -5,7 +5,7 @@ import { Radio, Send, Trash2, Megaphone, CheckCircle2, ShieldAlert, Info, Sparkl
 import { useLanguage } from '@/context/LanguageContext';
 
 export interface BroadcastItem {
-  id: str;
+  id: string;
   title: string;
   message: string;
   target_role: string;
