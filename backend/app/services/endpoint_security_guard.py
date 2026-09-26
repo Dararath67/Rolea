@@ -53,7 +53,7 @@ class EndpointSecurityGuard:
     def is_bot_user_agent(cls, user_agent: str) -> bool:
         """Checks if User-Agent is an automated scraping bot."""
         if not user_agent:
-            return True
+            return False
         for bot_re in cls.SUSPICIOUS_BOT_USER_AGENTS:
             if bot_re.search(user_agent):
                 return True

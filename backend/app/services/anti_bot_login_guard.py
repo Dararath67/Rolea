@@ -65,16 +65,12 @@ class AntiBotLoginGuard:
         user_agent = request.headers.get("User-Agent", "").strip()
         client_ip = cls.get_client_ip(request)
 
-        # 1. Missing User-Agent check
-        if not user_agent:
-            cls.blocked_login_bots += 1
-            return False, "Anti-Bot Security Block: Missing mandatory User-Agent header"
-
-        # 2. Headless Browser / Script Regex check
-        for bot_re in cls.HEADLESS_LOGIN_BOT_REGEX:
-            if bot_re.search(user_agent):
-                cls.blocked_login_bots += 1
-                return False, f"Anti-Bot Security Block: Automated bot client detected ({user_agent[:40]})"
+        # 1. Headless Browser / Script Regex check (if user agent present)
+        if user_agent:
+            for bot_re in cls.HEADLESS_LOGIN_BOT_REGEX:
+                if bot_re.search(user_agent):
+                    cls.blocked_login_bots += 1
+                    return False, f"Anti-Bot Security Block: Automated bot client detected ({user_agent[:40]})"
 
         # 3. Credential Stuffing Detection (Multiple account logins from single IP within 5 mins)
         now = time.time()

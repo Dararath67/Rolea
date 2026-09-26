@@ -24,16 +24,16 @@ class RateLimiterWAFEngine:
     banned_ips: Dict[str, float] = {}  # ip -> unban_timestamp
     whitelisted_ips: Set[str] = {"127.0.0.1", "localhost", "::1"}
 
-    # Limits
-    GENERAL_RATE_LIMIT = 120    # Max 120 reqs / min
-    SENSITIVE_RATE_LIMIT = 25   # Max 25 reqs / min for auth, payment, admin
+    # Limits (High throughput to prevent false positives)
+    GENERAL_RATE_LIMIT = 500    # Max 500 reqs / min
+    SENSITIVE_RATE_LIMIT = 100   # Max 100 reqs / min for auth, payment, admin
     WINDOW_SECONDS = 60
     BAN_DURATION_SECONDS = 1800  # 30 minutes
 
-    # WAF Threat Detection Regular Expressions
+    # WAF Threat Detection Regular Expressions (Precise multi-word injection patterns only)
     WAF_RULES = [
-        # SQL Injection
-        (re.compile(r"(\b(SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|EXEC|UNION|CREATE|TRUNCATE)\b)", re.IGNORECASE), "SQL Injection Attack Detected"),
+        # SQL Injection (Exact SQL Syntax structures)
+        (re.compile(r"(\bSELECT\s+[\s\S]+\s+FROM\b|\bUNION\s+(ALL\s+)?SELECT\b|\bDROP\s+TABLE\b|\bDELETE\s+FROM\b|\bINSERT\s+INTO\b|\bALTER\s+TABLE\b|\bTRUNCATE\s+TABLE\b)", re.IGNORECASE), "SQL Query Injection Vector Detected"),
         (re.compile(r"(--|\/\*|\*\/|;\s*DROP|;\s*DELETE)", re.IGNORECASE), "SQL Comment/Batch Injection Detected"),
         (re.compile(r"('\s*OR\s*'\d+'\s*=\s*'\d+'|'\s*OR\s*1\s*=\s*1)", re.IGNORECASE), "SQL Tautology Injection Detected"),
 
@@ -90,13 +90,11 @@ class RateLimiterWAFEngine:
 
     @classmethod
     def inspect_waf_threats(cls, request: Request) -> Tuple[bool, str]:
-        """Inspects request URL, query string, and headers against WAF rules."""
-        raw_url = str(request.url)
-        headers_str = " ".join([f"{k}:{v}" for k, v in request.headers.items()])
-        full_inspect_target = f"{raw_url} {headers_str}"
+        """Inspects request URL path and query string against WAF rules."""
+        raw_url_path_and_query = f"{request.url.path}?{request.url.query}" if request.url.query else request.url.path
 
         for rule, description in cls.WAF_RULES:
-            if rule.search(full_inspect_target):
+            if rule.search(raw_url_path_and_query):
                 return True, description
 
         return False, ""
