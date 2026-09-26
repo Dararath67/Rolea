@@ -10,6 +10,7 @@ interface SecurityEncryptionVaultProps {
 export default function SecurityEncryptionVault({ language = 'km' }: SecurityEncryptionVaultProps) {
   const isKm = language === 'km';
   const [vaultStatus, setVaultStatus] = useState<any>(null);
+  const [wafStatus, setWafStatus] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   // Test encryption inputs/outputs
@@ -27,16 +28,24 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
   const fetchVaultStatus = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/admin/security/encryption-status');
-      if (res.ok) {
-        const data = await res.json();
+      const [vRes, wRes] = await Promise.all([
+        fetch('/api/v1/admin/security/encryption-status'),
+        fetch('/api/v1/admin/security/waf-status')
+      ]);
+
+      if (vRes.ok) {
+        const data = await vRes.json();
         setVaultStatus(data);
         if (data.sample_encrypted_token_preview) {
           setDecryptToken(data.sample_encrypted_token_preview);
         }
       }
+      if (wRes.ok) {
+        const wData = await wRes.json();
+        setWafStatus(wData);
+      }
     } catch (err) {
-      console.error('Failed to fetch encryption status:', err);
+      console.error('Failed to fetch security status:', err);
     } finally {
       setLoading(false);
     }
@@ -162,6 +171,39 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
             <span>{vaultStatus?.self_test_status || 'PASSED'}</span>
           </div>
           <div className="text-[11px] text-slate-500 font-medium mt-1">Zero-Plaintext Guarantee</div>
+        </div>
+      </div>
+
+      {/* WAF & Anti-DDoS Threat Protection Status */}
+      <div className="p-5 rounded-3xl bg-slate-900 text-white border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center shrink-0">
+            <ShieldCheck className="w-5 h-5 text-blue-400" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h4 className="text-sm font-black text-white">
+                {isKm ? 'ប្រព័ន្ធការពារ WAF & Anti-DDoS Protection Engine' : 'WAF & Anti-DDoS Threat Protection Engine'}
+              </h4>
+              <span className="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                {isKm ? 'ការពាររៀបរយ' : 'ACTIVE WAF'}
+              </span>
+            </div>
+            <p className="text-xs text-slate-400 mt-0.5">
+              {isKm 
+                ? `ទប់ស្កាត់ការវាយប្រហារ SQLi, XSS, RCE ស្វ័យប្រវត្តិ (${wafStatus?.waf_rules_count || 10} Rules) | Rate Limit 120req/min | Banned IPs: ${wafStatus?.banned_ips_count || 0}`
+                : `Real-time inspection blocking SQLi, XSS, RCE (${wafStatus?.waf_rules_count || 10} WAF Rules) | Rate Limit: 120 req/min | Banned IPs: ${wafStatus?.banned_ips_count || 0}`}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 text-xs font-mono font-bold shrink-0">
+          <div className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-emerald-400">
+            {isKm ? 'Rate Limit: ១២០/នាទី' : 'Limit: 120 req/m'}
+          </div>
+          <div className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-blue-400">
+            {isKm ? 'IP Banning: ៣០នាទី' : 'Auto Ban: 30 mins'}
+          </div>
         </div>
       </div>
 

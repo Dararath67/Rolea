@@ -1474,6 +1474,43 @@ def admin_security_decrypt_payload(payload: Dict[str, Any] = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Decryption failed: {str(e)}")
 
+# ==========================================
+# WAF THREAT INSPECTOR & IP BANNING ENGINE
+# ==========================================
+from ..services.rate_limiter_waf import RateLimiterWAFEngine
+
+@router.get("/security/waf-status", response_model=Dict[str, Any])
+def admin_get_waf_status():
+    return RateLimiterWAFEngine.get_waf_metrics()
+
+@router.post("/security/ban-ip", response_model=Dict[str, Any])
+def admin_ban_ip(payload: Dict[str, Any] = Body(...)):
+    ip = str(payload.get("ip") or "").strip()
+    duration = int(payload.get("duration_seconds") or 1800)
+    if not ip:
+        raise HTTPException(status_code=400, detail="IP address parameter is required")
+    RateLimiterWAFEngine.ban_ip(ip, duration_seconds=duration)
+    return {
+        "success": True,
+        "message": f"IP address {ip} has been blocked for {duration} seconds",
+        "ip": ip,
+        "banned": True
+    }
+
+@router.post("/security/unban-ip", response_model=Dict[str, Any])
+def admin_unban_ip(payload: Dict[str, Any] = Body(...)):
+    ip = str(payload.get("ip") or "").strip()
+    if not ip:
+        raise HTTPException(status_code=400, detail="IP address parameter is required")
+    RateLimiterWAFEngine.unban_ip(ip)
+    return {
+        "success": True,
+        "message": f"IP address {ip} has been unblocked",
+        "ip": ip,
+        "banned": False
+    }
+
+
 
 # ==========================================
 # TELEGRAM NOTIFICATIONS CONFIG & TEST

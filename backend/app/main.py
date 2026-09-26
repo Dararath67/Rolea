@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 from .routers import public, user, reseller, admin, webhooks, promoter
+from .services.rate_limiter_waf import WAFAndRateLimiterMiddleware
 
 app = FastAPI(
   title="RoleaTopup API",
@@ -10,6 +11,8 @@ app = FastAPI(
   docs_url="/docs",
   redoc_url="/redoc"
 )
+
+app.add_middleware(WAFAndRateLimiterMiddleware)
 
 class BankSecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
