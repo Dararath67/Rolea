@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dokumentasi API — Niar API Cek ID Game</title>
+<link rel="icon" type="image/x-icon" href="/assets/site_icon.ico?v=1779907542">
+<link rel="shortcut icon" type="image/x-icon" href="/assets/site_icon.ico?v=1779907542">
+<meta name="description" content="Niar API — Cek ID Game cepat &amp; akurat. Layanan API untuk mengecek ID game secara instan. Dukung 31+ game populer.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090f;--bg2:#0d1117;--bg3:#111827;--bg4:#1a2235;
+  --border:#1e2d45;--border2:#253550;
+  --accent:#6366f1;--accent2:#818cf8;
+  --green:#10b981;--yellow:#f59e0b;--orange:#f97316;--red:#ef4444;
+  --text:#e2e8f0;--muted:#64748b;--muted2:#94a3b8;
+  --sidebar-w:260px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── BG GRID ── */
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(99,102,241,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+
+/* ══════════ TOPBAR ══════════ */
+.topbar{position:sticky;top:0;z-index:200;background:rgba(7,9,15,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;gap:16px}
+.tb-logo{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text);flex-shrink:0}
+.tb-logo .ico{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-size:14px}
+.tb-logo .brand{font-size:14px;font-weight:700}
+.tb-logo .brand span{color:var(--accent2)}
+.tb-center{display:flex;align-items:center;gap:6px}
+.tb-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);color:var(--green)}
+.tb-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:dotPulse 2s infinite}
+@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tb-right{display:flex;align-items:center;gap:8px}
+.tb-link{padding:6px 13px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;color:var(--muted2);border:1px solid var(--border);transition:all .15s}
+.tb-link:hover{color:var(--text);border-color:var(--border2)}
+.tb-link.cta{background:var(--accent);color:#fff;border-color:var(--accent)}.tb-link.cta:hover{background:#4f46e5}
+
+/* ══════════ LAYOUT ══════════ */
+.layout{display:flex;min-height:calc(100vh - 54px);position:relative;z-index:1}
+
+/* ── Sidebar nav ── */
+.sidenav{width:var(--sidebar-w);flex-shrink:0;border-right:1px solid var(--border);position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;padding:20px 0}
+@media(max-width:860px){.sidenav{display:none}}
+.sn-section{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 20px 5px}
+.sn-link{display:flex;align-items:center;gap:9px;padding:8px 20px;font-size:13px;color:var(--muted2);text-decoration:none;border-left:2px solid transparent;transition:all .13s;cursor:pointer}
+.sn-link:hover{color:var(--text);background:rgba(255,255,255,.03);border-left-color:var(--border2)}
+.sn-link.active{color:var(--accent2);border-left-color:var(--accent);background:rgba(99,102,241,.07)}
+.sn-link .sn-num{width:20px;height:20px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.sn-link.active .sn-num{background:var(--accent);border-color:var(--accent);color:#fff}
+.sn-divider{height:1px;background:var(--border);margin:12px 20px}
+
+/* ── Main content ── */
+.main-content{flex:1;min-width:0;padding:40px 48px 80px}
+@media(max-width:860px){.main-content{padding:24px 20px 60px}}
+@media(max-width:500px){.main-content{padding:18px 14px 50px}}
+
+/* ══════════ HERO ══════════ */
+.hero{margin-bottom:48px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:var(--accent2);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:clamp(22px,4vw,34px);font-weight:800;line-height:1.2;margin-bottom:12px}
+.hero h1 span{background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:15px;color:var(--muted2);line-height:1.7;max-width:620px;margin-bottom:20px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px}
+.hero-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;border:1px solid}
+.chip-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--green)}
+.chip-blue{background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25);color:var(--accent2)}
+.chip-yellow{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--yellow)}
+
+/* ══════════ STEP CARDS ══════════ */
+.steps-list{display:flex;flex-direction:column;gap:32px}
+.step-block{scroll-margin-top:80px}
+.step-header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.step-num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0}
+.step-num.done{background:linear-gradient(135deg,#059669,#10b981)}
+.step-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent2)}
+.step-title{font-size:19px;font-weight:700;line-height:1.3}
+.step-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.step-body{padding:22px 24px}
+.step-desc{font-size:13px;color:var(--muted2);line-height:1.7;margin-bottom:18px}
+
+/* ── Code blocks ── */
+.code-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-bottom:12px}
+.code-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border2);background:rgba(99,102,241,.06)}
+.code-lang{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent2)}
+.code-copy{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 6px;border-radius:5px;transition:color .15s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:4px}
+.code-copy:hover{color:var(--text)}
+.code-body{padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.85;overflow-x:auto}
+.code-body .cm{color:var(--muted)}
+.code-body .ck{color:#f97316}
+.code-body .cv{color:#10b981}
+.code-body .cs{color:#818cf8}
+.code-body .cn{color:#f59e0b}
+.code-body .cp{color:#e2e8f0}
+.code-body .cmt{color:var(--muted)}
+
+/* ── Info box ── */
+.info-box{display:flex;gap:10px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:9px;padding:12px 14px;font-size:12.5px;color:var(--muted2);line-height:1.6;margin-bottom:14px}
+.info-box i{color:var(--accent2);flex-shrink:0;margin-top:1px}
+.warn-box{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)}.warn-box i{color:var(--yellow)}
+.ok-box{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2)}.ok-box i{color:var(--green)}
+.err-box{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.2)}.err-box i{color:var(--red)}
+
+/* ── Method badge ── */
+.method{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.m-get{background:rgba(16,185,129,.15);color:#10b981}
+.m-post{background:rgba(245,158,11,.15);color:#f59e0b}
+
+/* ── Input row ── */
+.input-row{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin-bottom:12px}
+.form-field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px}
+.form-field label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.form-input{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12.5px;outline:none;transition:border-color .15s;width:100%}
+.form-input:focus{border-color:var(--accent)}
+.form-input::placeholder{font-family:'Inter',sans-serif;letter-spacing:normal;color:var(--muted);font-size:12px}
+.form-select{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;width:100%;cursor:pointer}
+.form-select:focus{border-color:var(--accent)}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:#4f46e5}
+.btn-green{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}.btn-green:hover{background:rgba(16,185,129,.25)}
+.btn-yellow{background:rgba(245,158,11,.15);color:var(--yellow);border:1px solid rgba(245,158,11,.3)}.btn-yellow:hover{background:rgba(245,158,11,.25)}
+.btn-ghost{background:var(--bg3);color:var(--muted2);border:1px solid var(--border2)}.btn-ghost:hover{color:var(--text);border-color:var(--border)}
+.btn-orange{background:linear-gradient(135deg,#f97316,#ef4444);color:#fff}.btn-orange:hover{opacity:.9}
+.btn-sm{padding:7px 13px;font-size:12px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ── Result box ── */
+.result-box{background:var(--bg3);border:1px solid var(--border2);border-radius:9px;padding:13px 15px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted2);line-height:1.75;min-height:52px;display:none;margin-top:12px;word-break:break-all;white-space:pre-wrap}
+.result-box.show{display:block}
+.result-box.ok{border-color:rgba(16,185,129,.35);color:#6ee7b7}
+.result-box.err{border-color:rgba(239,68,68,.35);color:#fca5a5}
+.result-box.info{border-color:rgba(99,102,241,.3);color:#a5b4fc}
+
+/* ── Auth methods tabs ── */
+.auth-tabs{display:flex;gap:0;border:1px solid var(--border2);border-radius:9px;overflow:hidden;margin-bottom:12px;flex-wrap:wrap}
+.auth-tab{flex:1;padding:9px 14px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;border:none;cursor:pointer;background:var(--bg3);color:var(--muted2);transition:all .13s;border-right:1px solid var(--border2);min-width:100px}
+.auth-tab:last-child{border-right:none}
+.auth-tab.active{background:rgba(99,102,241,.12);color:var(--accent2)}
+.auth-pane{display:none}.auth-pane.active{display:block}
+
+/* ── Game table ── */
+.game-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.game-table{width:100%;border-collapse:collapse;font-size:13px}
+.game-table th{background:var(--bg3);color:var(--muted);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.game-table th:first-child{border-radius:10px 0 0 0}
+.game-table th:last-child{border-radius:0 10px 0 0}
+.game-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.game-table tr:last-child td{border-bottom:none}
+.game-table tr:hover td{background:rgba(255,255,255,.015)}
+.type-code{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent2);background:rgba(99,102,241,.1);padding:2px 8px;border-radius:5px}
+.zone-yes{display:inline-flex;align-items:center;gap:4px;color:#f59e0b;font-size:12px;font-weight:600}
+.zone-no{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:12px}
+.game-no{color:var(--muted);font-size:12px;text-align:center;width:32px;display:inline-block}
+
+/* ── Pricing cards ── */
+.price-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.price-mini{background:var(--bg3);border:1px solid var(--border2);border-radius:11px;padding:16px 14px;text-align:center;transition:all .15s;cursor:pointer}
+.price-mini:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.pm-emoji{font-size:26px;margin-bottom:8px}
+.pm-label{font-size:14px;font-weight:700;margin-bottom:3px}
+.pm-price{font-size:13px;color:var(--green);font-weight:700;margin-bottom:10px}
+.pm-sub{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:600;letter-spacing:.05em;margin-bottom:2px}
+
+/* ── Step separator ── */
+.step-sep{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:8px 0 24px}
+
+/* ══════════ FOOTER ══════════ */
+.docs-footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+@media(max-width:600px){.docs-footer{padding:20px 16px}}
+.docs-footer p{font-size:12px;color:var(--muted)}
+.docs-footer a{color:var(--muted2);text-decoration:none;font-size:12px}.docs-footer a:hover{color:var(--text)}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:11px 16px;border-radius:9px;font-size:13px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:8px;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:rgba(16,185,129,.4);color:#6ee7b7}
+.toast.err{border-color:rgba(239,68,68,.4);color:#fca5a5}
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE — MOBILE / ANDROID
+══════════════════════════════════════════════════ */
+
+/* ── Topbar hamburger button ── */
+.tb-burger{
+  display:none;
+  flex-direction:column;justify-content:center;gap:5px;
+  cursor:pointer;
+  background:var(--bg2);border:1px solid var(--border2);border-radius:8px;
+  padding:8px 10px;transition:all .15s;flex-shrink:0;
+}
+.tb-burger:hover{border-color:rgba(99,102,241,.5);background:rgba(99,102,241,.08)}
+.tb-burger span{display:block;width:18px;height:2px;background:var(--text);border-radius:1px;transition:all .24s}
+.tb-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.tb-burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.tb-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── Backdrop overlay ── */
+.sn-backdrop{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.65);
+  z-index:298;
+}
+body.sn-open .sn-backdrop{display:block}
+
+/* ── Mobile Steps Quick-Nav Bar ── */
+.mobile-bar{
+  display:none;
+  overflow-x:auto;white-space:nowrap;
+  gap:6px;padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg2);
+  position:sticky;top:54px;z-index:100;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.mobile-bar::-webkit-scrollbar{display:none}
+.mobile-bar a{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:20px;
+  font-size:11.5px;font-weight:600;
+  text-decoration:none;color:var(--muted2);
+  background:var(--bg3);border:1px solid var(--border2);
+  white-space:nowrap;transition:all .13s;flex-shrink:0;
+}
+.mobile-bar a:hover,.mobile-bar a.active{
+  background:rgba(99,102,241,.12);color:var(--accent2);border-color:rgba(99,102,241,.3)
+}
+.mb-num{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--bg4);border:1px solid var(--border2);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;
+}
+
+/* ── Mobile sidebar page-links (Beranda / Harga / Dashboard) ── */
+.sn-mobile-links{display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px}
+.sn-mobile-link{
+  display:flex;align-items:center;gap:9px;
+  padding:9px 20px;font-size:13px;color:var(--muted2);text-decoration:none;
+  transition:all .13s;
+}
+.sn-mobile-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sn-mobile-link i{width:16px;text-align:center}
+
+/* ══ Breakpoint 860px: sidebar jadi drawer overlay ══ */
+@media(max-width:860px){
+  .sidenav{
+    display:block !important;
+    position:fixed;top:54px;left:0;
+    width:280px;height:calc(100vh - 54px);
+    z-index:299;
+    transform:translateX(-100%);
+    transition:transform .28s cubic-bezier(.4,0,.2,1);
+    background:var(--bg2);
+    border-right:1px solid var(--border2);
+    box-shadow:8px 0 40px rgba(0,0,0,.55);
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:16px 0 32px;
+    will-change:transform;
+    isolation:isolate;
+  }
+  body.sn-open .sidenav{transform:translateX(0)}
+  .tb-burger{display:flex}
+  .mobile-bar{display:flex}
+  .sn-mobile-links{display:block}
+  /* Main content no longer needs margin for sidebar */
+  .main-content{padding:24px 20px 64px}
+}
+
+/* ══ Breakpoint 640px: topbar & content tighter ══ */
+@media(max-width:640px){
+  /* Topbar */
+  .topbar{padding:0 12px;gap:8px}
+  .tb-center{display:none}
+  .tb-right{display:none}
+  .tb-logo .brand{font-size:13px}
+
+  /* Hero */
+  .hero{margin-bottom:24px}
+  .hero h1{font-size:clamp(20px,6vw,26px);line-height:1.25}
+  .hero-sub{font-size:13px;line-height:1.65}
+  .hero-chips{gap:6px}
+  .hero-chip{font-size:11px;padding:4px 10px}
+
+  /* Steps */
+  .step-header{gap:10px;margin-bottom:14px}
+  .step-num{width:33px;height:33px;font-size:13px}
+  .step-title{font-size:16px}
+  .step-body{padding:14px 14px}
+  .step-desc{font-size:12.5px;margin-bottom:14px}
+  .steps-list{gap:22px}
+
+  /* Code */
+  .code-body{font-size:11.5px;padding:11px 12px;line-height:1.75}
+  .code-topbar{padding:6px 12px}
+
+  /* Auth & Lang tabs */
+  .auth-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .auth-tab{flex-shrink:0;font-size:11px;padding:8px 12px;min-width:80px}
+
+  /* Input rows */
+  .input-row{flex-direction:column}
+  .form-field{min-width:unset}
+
+  /* Game table: hide Parameter column on tiny screens */
+  .game-table th:nth-child(5),.game-table td:nth-child(5){display:none}
+  .game-table{font-size:12px}
+  .game-table th,.game-table td{padding:8px 10px}
+  .type-code{font-size:11px;padding:2px 6px}
+
+  /* Info boxes */
+  .info-box{font-size:12px;padding:10px 12px}
+
+  /* Pricing grid */
+  .price-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .pm-emoji{font-size:22px;margin-bottom:6px}
+  .pm-label{font-size:12px}
+  .pm-price{font-size:12px}
+
+  /* Buttons */
+  .btn{font-size:12px;padding:9px 14px}
+  .btn-sm{font-size:11px;padding:6px 11px}
+
+  /* Footer */
+  .docs-footer{flex-direction:column;align-items:flex-start;gap:10px;padding:18px 14px}
+  .docs-footer>div{display:flex;flex-wrap:wrap;gap:12px}
+
+  /* Toast: full-width on mobile */
+  .toast{right:12px;left:12px;max-width:unset}
+
+  /* Main content */
+  .main-content{padding:16px 13px 60px}
+}
+
+@media(max-width:400px){
+  .hero h1{font-size:19px}
+  .price-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<!-- ══════════ TOPBAR ══════════ -->
+<header class="topbar">
+  <!-- Hamburger (mobile only) -->
+  <button class="tb-burger" id="tbBurger" aria-label="Buka navigasi" aria-expanded="false" onclick="toggleSidenav()">
+    <span></span><span></span><span></span>
+  </button>
+
+  <a href="/" class="tb-logo">
+    <div class="ico"><i class="fa fa-gamepad"></i></div>
+    <span class="brand">Niar <span>API</span></span>
+  </a>
+  <div class="tb-center">
+    <span class="tb-badge"><span class="dot"></span> API Live</span>
+  </div>
+  <div class="tb-right">
+    <a href="/" class="tb-link"><i class="fa fa-arrow-left"></i> Beranda</a>
+    <a href="/#pricing" class="tb-link"><i class="fa fa-tags"></i> Harga</a>
+    <a href="/dashboard/" class="tb-link cta"><i class="fa fa-user"></i> Dashboard</a>
+  </div>
+</header>
+
+<!-- Mobile backdrop -->
+<div class="sn-backdrop" id="snBackdrop" onclick="closeSidenav()"></div>
+
+<!-- ══ Mobile Steps Quick-Nav Bar ══ -->
+<nav class="mobile-bar" id="mobileBar" aria-label="Quick nav">
+  <a href="#step-1" class="active" onclick="mbSetActive(this)"><span class="mb-num">1</span> Base URL</a>
+  <a href="#step-2" onclick="mbSetActive(this)"><span class="mb-num">2</span> API Key</a>
+  <a href="#step-3" onclick="mbSetActive(this)"><span class="mb-num">3</span> Test</a>
+  <a href="#step-4" onclick="mbSetActive(this)"><span class="mb-num">4</span> Integrasi</a>
+  <a href="#step-5" onclick="mbSetActive(this)"><span class="mb-num">5</span> Game</a>
+  <a href="#step-6" onclick="mbSetActive(this)"><span class="mb-num">6</span> Beli Key</a>
+</nav>
+
+<!-- ══════════ LAYOUT ══════════ -->
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <nav class="sidenav">
+    <div class="sn-section">Mulai</div>
+    <a class="sn-link active" href="#step-1" onclick="setActive(this)">
+      <span class="sn-num">1</span> Base URL API
+    </a>
+    <a class="sn-link" href="#step-2" onclick="setActive(this)">
+      <span class="sn-num">2</span> API Key
+    </a>
+    <a class="sn-link" href="#step-3" onclick="setActive(this)">
+      <span class="sn-num">3</span> Test Koneksi
+    </a>
+    <a class="sn-link" href="#step-4" onclick="setActive(this)">
+      <span class="sn-num">4</span> Simpan &amp; Integrasi
+    </a>
+    <div class="sn-divider"></div>
+    <div class="sn-section">Referensi</div>
+    <a class="sn-link" href="#step-5" onclick="setActive(this)">
+      <span class="sn-num">5</span> Game yang Didukung
+    </a>
+    <a class="sn-link" href="#step-6" onclick="setActive(this)">
+      <span class="sn-num">6</span> Daftar API Key
+    </a>
+    <div class="sn-divider"></div>
+    <a class="sn-link" href="https://api.digitalsoft.id/check-id-game/status" target="_blank">
+      <i class="fa fa-circle" style="width:16px;font-size:8px;color:var(--green)"></i> API Status
+    </a>
+    <a class="sn-link" href="/#pricing">
+      <i class="fa fa-cart-shopping" style="width:16px"></i> Beli Key
+    </a>
+
+    <!-- Mobile-only page links -->
+    <div class="sn-mobile-links">
+      <div class="sn-section" style="margin-top:0">Navigasi</div>
+      <a href="/" class="sn-mobile-link" onclick="closeSidenav()">
+        <i class="fa fa-arrow-left"></i> Beranda
+      </a>
+      <a href="/#pricing" class="sn-mobile-link" onclick="closeSidenav()">
+        <i class="fa fa-tags"></i> Harga
+      </a>
+      <a href="/dashboard/" class="sn-mobile-link" onclick="closeSidenav()">
+        <i class="fa fa-user"></i> Dashboard Member
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── Main ── -->
+  <div class="main-content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag"><i class="fa fa-book-open"></i> Dokumentasi Developer</div>
+      <h1>Step by Step Konfigurasi<br><span>Cek ID Game API</span></h1>
+      <p class="hero-sub">
+        Panduan lengkap untuk mengintegrasikan Niar API ke dalam aplikasi, website, atau bot Anda.
+        Ikuti 6 langkah berikut untuk mulai menggunakan API dalam hitungan menit.
+      </p>
+      <div class="hero-chips">
+        <span class="hero-chip chip-green"><i class="fa fa-circle" style="font-size:7px"></i> API Live & Ready</span>
+        <span class="hero-chip chip-blue"><i class="fa fa-gamepad"></i> 31+ Game Didukung</span>
+        <span class="hero-chip chip-yellow"><i class="fa fa-bolt"></i> Response Real-time</span>
+        <span class="hero-chip chip-blue"><i class="fa fa-shield-halved"></i> Domain Locked Security</span>
+      </div>
+    </div>
+
+    <div class="steps-list">
+
+      <!-- ═══════════════════════════════════════════════
+           STEP 1 — Base URL API
+      ═══════════════════════════════════════════════ -->
+      <div class="step-block" id="step-1">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-tag">Langkah 1</div>
+            <div class="step-title"><i class="fa fa-globe" style="color:var(--accent2);margin-right:7px"></i>Base URL API</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-body">
+            <p class="step-desc">Semua request API dikirim ke endpoint berikut. Gunakan HTTPS untuk keamanan. Tersedia 2 metode request: <strong>GET</strong> dan <strong>POST</strong>.</p>
+
+            <!-- Endpoint -->
+            <div class="code-wrap">
+              <div class="code-topbar">
+                <span class="code-lang">Endpoint Utama</span>
+                <button class="code-copy" onclick="copyEl('ep-main')"><i class="fa fa-copy"></i> Salin</button>
+              </div>
+              <div class="code-body" id="ep-main">https://api.digitalsoft.id/check-id-game</div>
+            </div>
+
+            <!-- GET example -->
+            <div class="code-wrap">
+              <div class="code-topbar">
+                <span class="code-lang"><span class="method m-get">GET</span> — Contoh Request</span>
+                <button class="code-copy" onclick="copyEl('ep-get')"><i class="fa fa-copy"></i> Salin</button>
+              </div>
+              <div class="code-body" id="ep-get"><span class="cm">// GET request dengan query parameters</span>
+<span class="ck">https://api.digitalsoft.id/check-id-game</span>
+  <span class="cv">?type_name</span>=<span class="cs">mlbb</span>
+  <span class="cv">&amp;userId</span>=<span class="cn">12345</span>
+  <span class="cv">&amp;zoneId</span>=<span class="cn">5678</span>
+  <span class="cv">&amp;api_key</span>=<span class="cs">NIAR-XXXX-XXXX-XXXX-XXXX</span></div>
+            </div>
+
+            <!-- POST example -->
+            <div class="code-wrap">
+              <div class="code-topbar">
+                <span class="code-lang"><span class="method m-post">POST</span> — Contoh Request Body (JSON)</span>
+                <button class="code-copy" onclick="copyEl('ep-post')"><i class="fa fa-copy"></i> Salin</button>
+              </div>
+              <div class="code-body" id="ep-post">{
+  "<span class="cv">type_name</span>": "<span class="cs">mlbb</span>",
+  "<span class="cv">userId</span>":    "<span class="cn">12345</span>",
+  "<span class="cv">zoneId</span>":    "<span class="cn">5678</span>"
+}</div>
+            </div>
+
+            <!-- Parameter table -->
+            <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:8px">Parameter</p>
+            <div class="game-table-wrap" style="margin-bottom:0">
+              <table class="game-table">
+                <tr><th>Parameter</th><th>Tipe</th><th>Wajib</th><th>Keterangan</th></tr>
+                <tr>
+                  <td><code class="type-code">type_name</code></td>
+                  <td style="color:var(--muted2)">string</td>
+                  <td><span class="zone-yes"><i class="fa fa-check"></i> Ya</span></td>
+                  <td style="font-size:12px;color:var(--muted2)">Kode game. Lihat daftar di <a href="#step-5" style="color:var(--accent2)">Step 5</a></td>
+                </tr>
+                <tr>
+                  <td><code class="type-code">userId</code></td>
+                  <td style="color:var(--muted2)">string</td>
+                  <td><span class="zone-yes"><i class="fa fa-check"></i> Ya</span></td>
+                  <td style="font-size:12px;color:var(--muted2)">ID pengguna game</td>
+                </tr>
+                <tr>
+                  <td><code class="type-code">zoneId</code></td>
+                  <td style="color:var(--muted2)">string</td>
+                  <td><span class="zone-no"><i class="fa fa-minus"></i> Kondisional</span></td>
+                  <td style="font-size:12px;color:var(--muted2)">Server/zona. Wajib untuk game tertentu (lihat Step 5)</td>
+                </tr>
+                <tr>
+                  <td><code class="type-code">api_key</code></td>
+                  <td style="color:var(--muted2)">string</td>
+                  <td><span class="zone-yes"><i class="fa fa-check"></i> Ya*</span></td>
+                  <td style="font-size:12px;color:var(--muted2)">*Bisa via query param, header, atau Bearer token (lihat Step 2)</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+
+      <!-- ═══════════════════════════════════════════════
+           STEP 2 — API Key
+      ═══════════════════════════════════════════════ -->
+      <div class="step-block" id="step-2">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-tag">Langkah 2</div>
+            <div class="step-title"><i class="fa fa-key" style="color:var(--yellow);margin-right:7px"></i>API Key</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-body">
+            <p class="step-desc">API Key adalah kunci akses unik Anda ke layanan ini. Ada <strong>3 cara</strong> mengirimkan API Key dalam setiap request — pilih yang paling sesuai dengan framework Anda.</p>
+
+            <div class="info-box warn-box" style="margin-bottom:18px">
+              <i class="fa fa-triangle-exclamation"></i>
+              <div><strong>Domain Locked:</strong> API Key hanya bisa digunakan dari domain yang sudah terdaftar saat pembelian. Request dari domain lain akan ditolak dengan kode <code style="color:#f59e0b">403 Forbidden</code>.</div>
+            </div>
+
+            <!-- Auth tabs -->
+            <div class="auth-tabs">
+              <button class="auth-tab active" onclick="switchAuth('qp')">Query Parameter</button>
+              <button class="auth-tab" onclick="switchAuth('hd')">Header X-API-Key</button>
+              <button class="auth-tab" onclick="switchAuth('br')">Bearer Token</button>
+            </div>
+
+            <!-- Query Param -->
+            <div id="auth-qp" class="auth-pane active">
+              <div class="info-box" style="margin-bottom:10px">
+                <i class="fa fa-circle-info"></i>
+                <span>Cara paling mudah — tambahkan <code style="color:var(--accent2)">api_key</code> langsung di URL.</span>
+              </div>
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">URL Contoh</span>
+                  <button class="code-copy" onclick="copyEl('auth-qp-code')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="auth-qp-code">https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678&<span class="ck">api_key</span>=<span class="cv">NIAR-XXXX-XXXX-XXXX-XXXX</span></div>
+              </div>
+            </div>
+
+            <!-- Header -->
+            <div id="auth-hd" class="auth-pane">
+              <div class="info-box ok-box" style="margin-bottom:10px">
+                <i class="fa fa-shield-halved"></i>
+                <span>Cara lebih aman — API Key tidak terekspos di URL log. Direkomendasikan untuk production.</span>
+              </div>
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">JavaScript (fetch)</span>
+                  <button class="code-copy" onclick="copyEl('auth-hd-code')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="auth-hd-code"><span class="cm">// Kirim API Key via request header</span>
+fetch(<span class="cv">'https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345'</span>, {
+  headers: {
+    <span class="ck">'X-API-Key'</span>: <span class="cv">'NIAR-XXXX-XXXX-XXXX-XXXX'</span>
+  }
+})
+.then(r => r.json())
+.then(data => console.log(data));</div>
+              </div>
+            </div>
+
+            <!-- Bearer -->
+            <div id="auth-br" class="auth-pane">
+              <div class="info-box" style="margin-bottom:10px">
+                <i class="fa fa-circle-info"></i>
+                <span>Kompatibel dengan library OAuth/JWT — gunakan format Authorization Bearer.</span>
+              </div>
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">cURL</span>
+                  <button class="code-copy" onclick="copyEl('auth-br-code')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="auth-br-code"><span class="cm"># Authorization: Bearer</span>
+curl -X GET \
+  <span class="cv">"https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678"</span> \
+  -H <span class="cs">"Authorization: Bearer NIAR-XXXX-XXXX-XXXX-XXXX"</span></div>
+              </div>
+            </div>
+
+            <!-- Response format -->
+            <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:18px 0 8px">Format Response</p>
+            <div class="code-wrap">
+              <div class="code-topbar">
+                <span class="code-lang">Response Sukses (200)</span>
+              </div>
+              <div class="code-body">{
+  "<span class="cv">status</span>":      <span class="cn">true</span>,
+  "<span class="cv">server_time</span>": <span class="cs">"2026-05-28 10:00:00"</span>,
+  "<span class="cv">message</span>":     <span class="cs">"Success Requesting to API"</span>,
+  "<span class="cv">nickname</span>":    <span class="cs">"NamaAkunGame"</span>,
+  "<span class="cv">type_name</span>":   <span class="cs">"mlbb"</span>
+}</div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-topbar">
+                <span class="code-lang">Response Error</span>
+              </div>
+              <div class="code-body">{
+  "<span class="ck">status</span>":      <span class="cn">false</span>,
+  "<span class="cv">server_time</span>": <span class="cs">"2026-05-28 10:00:00"</span>,
+  "<span class="ck">message</span>":     <span class="cs">"API Key tidak valid, expired, atau nonaktif."</span>
+}
+
+<span class="cm">HTTP Status Codes:</span>
+<span class="cn">401</span> <span class="cp">Unauthorized</span>  — API Key tidak valid / expired
+<span class="cn">403</span> <span class="cp">Forbidden</span>     — Domain tidak diizinkan
+<span class="cn">429</span> <span class="ck">Too Many Req</span>  — Rate limit (60 req/menit)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+
+      <!-- ═══════════════════════════════════════════════
+           STEP 3 — Test Koneksi
+      ═══════════════════════════════════════════════ -->
+      <div class="step-block" id="step-3">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-tag">Langkah 3</div>
+            <div class="step-title"><i class="fa fa-plug" style="color:var(--green);margin-right:7px"></i>Test Koneksi</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-body">
+            <p class="step-desc">Masukkan API Key Anda dan lakukan test langsung ke server API untuk memverifikasi koneksi berjalan normal.</p>
+
+            <div class="input-row">
+              <div class="form-field" style="flex:2">
+                <label>API Key Anda</label>
+                <input type="text" id="testApiKey" class="form-input" placeholder="NIAR-XXXX-XXXX-XXXX-XXXX"
+                  oninput="this.value=this.value.toUpperCase();syncKey(this.value)" spellcheck="false" autocapitalize="characters">
+              </div>
+              <div class="form-field">
+                <label>Game</label>
+                <select id="testGame" class="form-select" onchange="updateZoneHint()">
+                                    <option value="mlbb" data-zone="1">Mobile Legends Bang Bang</option>
+                                    <option value="ff" data-zone="0">Free Fire</option>
+                                    <option value="pubgm" data-zone="1">PUBG Mobile</option>
+                                    <option value="genshin" data-zone="1">Genshin Impact</option>
+                                    <option value="honkai" data-zone="1">Honkai: Star Rail</option>
+                                    <option value="honkai3" data-zone="1">Honkai Impact 3rd</option>
+                                    <option value="coc" data-zone="0">Clash of Clans</option>
+                                    <option value="cr" data-zone="0">Clash Royale</option>
+                                    <option value="valorant" data-zone="0">Valorant</option>
+                                    <option value="brawlstars" data-zone="0">Brawl Stars</option>
+                                    <option value="codm" data-zone="0">Call of Duty Mobile</option>
+                                    <option value="aov" data-zone="0">Arena of Valor</option>
+                                    <option value="undawn" data-zone="0">Undawn</option>
+                                    <option value="wuwa" data-zone="1">Wuthering Waves</option>
+                                    <option value="tof" data-zone="1">Tower of Fantasy</option>
+                                    <option value="zzz" data-zone="0">Zenless Zone Zero</option>
+                                    <option value="lads" data-zone="0">Love &amp; Deepspace</option>
+                                    <option value="rom" data-zone="0">Ragnarok M</option>
+                                    <option value="lords" data-zone="0">Lords Mobile</option>
+                                    <option value="rok" data-zone="0">Rise of Kingdoms</option>
+                                    <option value="sos" data-zone="0">State of Survival</option>
+                                    <option value="wos" data-zone="0">Whiteout Survival</option>
+                                    <option value="lastwar" data-zone="0">Last War</option>
+                                    <option value="pb" data-zone="0">Point Blank</option>
+                                    <option value="lol" data-zone="0">League of Legends</option>
+                                    <option value="stumble" data-zone="0">Stumble Guys</option>
+                                    <option value="amgus" data-zone="0">Among Us</option>
+                                    <option value="pgr" data-zone="1">Punishing: Gray Raven</option>
+                                    <option value="ag" data-zone="0">Aether Gazer</option>
+                                    <option value="sm" data-zone="0">Sausage Man</option>
+                                    <option value="sus" data-zone="0">Super SUS</option>
+                                  </select>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <div class="form-field">
+                <label>User ID</label>
+                <input type="text" id="testUserId" class="form-input" placeholder="contoh: 12345678">
+              </div>
+              <div class="form-field" id="zoneIdWrap">
+                <label id="zoneLabel">Zone ID <span id="zoneReq" style="color:var(--yellow);font-size:10px">(wajib untuk game ini)</span></label>
+                <input type="text" id="testZoneId" class="form-input" placeholder="contoh: 5678">
+              </div>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px">
+              <button class="btn btn-green" id="testBtn" onclick="runTest()">
+                <i class="fa fa-plug"></i> Test Koneksi
+              </button>
+              <button class="btn btn-ghost btn-sm" onclick="clearResult()">
+                <i class="fa fa-xmark"></i> Reset
+              </button>
+            </div>
+
+            <div id="testResult" class="result-box"></div>
+
+            <div class="info-box" style="margin-top:14px">
+              <i class="fa fa-circle-info"></i>
+              <span>Test ini melakukan request nyata ke <code style="color:var(--accent2)">https://api.digitalsoft.id/check-id-game</code>. Pastikan domain Anda sudah terdaftar di API Key. Untuk testing awal, gunakan <strong>localhost</strong> sebagai domain saat beli.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+
+      <!-- ═══════════════════════════════════════════════
+           STEP 4 — Simpan & Integrasi
+      ═══════════════════════════════════════════════ -->
+      <div class="step-block" id="step-4">
+        <div class="step-header">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-tag">Langkah 4</div>
+            <div class="step-title"><i class="fa fa-code" style="color:var(--orange);margin-right:7px"></i>Simpan &amp; Integrasi</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-body">
+            <p class="step-desc">Setelah koneksi berhasil, integrasikan API ke dalam kode aplikasi Anda. Pilih bahasa pemrograman:</p>
+
+            <div class="auth-tabs" style="margin-bottom:14px">
+              <button class="auth-tab active" onclick="switchLang('js')">JavaScript</button>
+              <button class="auth-tab" onclick="switchLang('php')">PHP</button>
+              <button class="auth-tab" onclick="switchLang('py')">Python</button>
+              <button class="auth-tab" onclick="switchLang('curl')">cURL</button>
+            </div>
+
+            <!-- JavaScript -->
+            <div id="lang-js" class="auth-pane active">
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">JavaScript / Node.js</span>
+                  <button class="code-copy" onclick="copyEl('code-js')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="code-js"><span class="cm">// Konfigurasi Niar API</span>
+<span class="ck">const</span> <span class="cp">NIAR_ENDPOINT</span> = <span class="cv">'https://api.digitalsoft.id/check-id-game'</span>;
+<span class="ck">const</span> <span class="cp">NIAR_API_KEY</span>  = <span class="cv">'<span id="js-key-1">NIAR-XXXX-XXXX-XXXX-XXXX</span>'</span>;
+
+<span class="cm">/**
+ * Cek ID Game via Niar API
+ * @param {string} game   - Kode game (mlbb, ff, dll.)
+ * @param {string} userId - ID pengguna
+ * @param {string} zoneId - ID zona/server (opsional)
+ */</span>
+<span class="ck">async function</span> <span class="cs">cekIdGame</span>(game, userId, zoneId = <span class="cv">''</span>) {
+  <span class="ck">const</span> params = <span class="ck">new</span> URLSearchParams({
+    type_name: game,
+    userId,
+    ...(zoneId && { zoneId }),
+    api_key: <span class="cp">NIAR_API_KEY</span>,
+  });
+
+  <span class="ck">const</span> res = <span class="ck">await</span> fetch(<span class="cv">`${NIAR_ENDPOINT}?${params}`</span>);
+  <span class="ck">if</span> (!res.ok) <span class="ck">throw new</span> Error(<span class="cv">`HTTP ${res.status}`</span>);
+  <span class="ck">return await</span> res.json();
+}
+
+<span class="cm">// Contoh: Cek ID Mobile Legends</span>
+cekIdGame(<span class="cv">'mlbb'</span>, <span class="cv">'12345'</span>, <span class="cv">'5678'</span>)
+  .then(data => {
+    <span class="ck">if</span> (data.status) {
+      console.log(<span class="cv">'Nama:'</span>, data.nickname);
+    } <span class="ck">else</span> {
+      console.error(<span class="cv">'Error:'</span>, data.message);
+    }
+  })
+  .<span class="ck">catch</span>(err => console.error(err));</div>
+              </div>
+            </div>
+
+            <!-- PHP -->
+            <div id="lang-php" class="auth-pane">
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">PHP</span>
+                  <button class="code-copy" onclick="copyEl('code-php')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="code-php"><span class="cm">&lt;?php</span>
+<span class="cm">// Konfigurasi Niar API</span>
+<span class="ck">define</span>(<span class="cv">'NIAR_ENDPOINT'</span>, <span class="cs">'https://api.digitalsoft.id/check-id-game'</span>);
+<span class="ck">define</span>(<span class="cv">'NIAR_API_KEY'</span>,  <span class="cs">'<span id="php-key-1">NIAR-XXXX-XXXX-XXXX-XXXX</span>'</span>);
+
+<span class="ck">function</span> <span class="cs">cekIdGame</span>(<span class="cp">$game</span>, <span class="cp">$userId</span>, <span class="cp">$zoneId</span> = <span class="cv">''</span>) {
+  <span class="cp">$params</span> = http_build_query([
+    <span class="cv">'type_name'</span> => <span class="cp">$game</span>,
+    <span class="cv">'userId'</span>    => <span class="cp">$userId</span>,
+    <span class="cv">'zoneId'</span>    => <span class="cp">$zoneId</span>,
+    <span class="cv">'api_key'</span>   => <span class="cn">NIAR_API_KEY</span>,
+  ]);
+
+  <span class="cp">$ch</span> = curl_init(<span class="cn">NIAR_ENDPOINT</span> . <span class="cv">'?'</span> . <span class="cp">$params</span>);
+  curl_setopt_array(<span class="cp">$ch</span>, [
+    CURLOPT_RETURNTRANSFER => <span class="cn">true</span>,
+    CURLOPT_TIMEOUT        => <span class="cn">30</span>,
+    CURLOPT_SSL_VERIFYPEER => <span class="cn">true</span>,
+  ]);
+
+  <span class="cp">$json</span> = curl_exec(<span class="cp">$ch</span>);
+  curl_close(<span class="cp">$ch</span>);
+
+  <span class="ck">return</span> json_decode(<span class="cp">$json</span>, <span class="cn">true</span>);
+}
+
+<span class="cm">// Contoh: Cek ID Free Fire</span>
+<span class="cp">$result</span> = cekIdGame(<span class="cv">'ff'</span>, <span class="cv">'12345678'</span>);
+<span class="ck">if</span> (<span class="cp">$result</span>[<span class="cv">'status'</span>]) {
+  echo <span class="cv">'Nama: '</span> . <span class="cp">$result</span>[<span class="cv">'nickname'</span>];
+} <span class="ck">else</span> {
+  echo <span class="cv">'Error: '</span> . <span class="cp">$result</span>[<span class="cv">'message'</span>];
+}</div>
+              </div>
+            </div>
+
+            <!-- Python -->
+            <div id="lang-py" class="auth-pane">
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">Python 3</span>
+                  <button class="code-copy" onclick="copyEl('code-py')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="code-py"><span class="ck">import</span> requests
+
+<span class="cm"># Konfigurasi Niar API</span>
+NIAR_ENDPOINT = <span class="cv">'https://api.digitalsoft.id/check-id-game'</span>
+NIAR_API_KEY  = <span class="cv">'<span id="py-key-1">NIAR-XXXX-XXXX-XXXX-XXXX</span>'</span>
+
+<span class="ck">def</span> <span class="cs">cek_id_game</span>(game, user_id, zone_id=<span class="cv">''</span>):
+    params = {
+        <span class="cv">'type_name'</span>: game,
+        <span class="cv">'userId'</span>:    user_id,
+        <span class="cv">'zoneId'</span>:    zone_id,
+        <span class="cv">'api_key'</span>:   NIAR_API_KEY,
+    }
+    response = requests.get(NIAR_ENDPOINT, params=params, timeout=<span class="cn">30</span>)
+    response.raise_for_status()
+    <span class="ck">return</span> response.json()
+
+<span class="cm"># Contoh: Cek ID PUBG Mobile</span>
+result = cek_id_game(<span class="cv">'pubgm'</span>, <span class="cv">'5123456789'</span>, <span class="cv">'100'</span>)
+<span class="ck">if</span> result[<span class="cv">'status'</span>]:
+    print(<span class="cv">f"Nama: {result['nickname']}"</span>)
+<span class="ck">else</span>:
+    print(<span class="cv">f"Error: {result['message']}"</span>)</div>
+              </div>
+            </div>
+
+            <!-- cURL -->
+            <div id="lang-curl" class="auth-pane">
+              <div class="code-wrap">
+                <div class="code-topbar">
+                  <span class="code-lang">cURL (Terminal)</span>
+                  <button class="code-copy" onclick="copyEl('code-curl')"><i class="fa fa-copy"></i> Salin</button>
+                </div>
+                <div class="code-body" id="code-curl"><span class="cm"># GET — Mobile Legends</span>
+curl -X GET \
+  <span class="cv">"https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678"</span> \
+  -H <span class="cs">"X-API-Key: NIAR-XXXX-XXXX-XXXX-XXXX"</span>
+
+<span class="cm"># POST — dengan JSON body</span>
+curl -X POST \
+  <span class="cv">"https://api.digitalsoft.id/check-id-game"</span> \
+  -H <span class="cs">"Content-Type: application/json"</span> \
+  -H <span class="cs">"X-API-Key: NIAR-XXXX-XXXX-XXXX-XXXX"</span> \
+  -d <span class="cs">'{"type_name":"ff","userId":"12345678"}'</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+
+      <!-- ═══════════════════════════════════════════════
+           STEP 5 — Game yang Didukung
+      ═══════════════════════════════════════════════ -->
+      <div class="step-block" id="step-5">
+        <div class="step-header">
+          <div class="step-num">5</div>
+          <div>
+            <div class="step-tag">Langkah 5</div>
+            <div class="step-title"><i class="fa fa-gamepad" style="color:var(--accent2);margin-right:7px"></i>Game yang Didukung</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-body">
+            <p class="step-desc">Gunakan nilai <code style="color:var(--accent2);background:rgba(99,102,241,.12);padding:2px 7px;border-radius:5px">type_name</code> berikut pada parameter request. Kolom <strong>Zone ID</strong> menunjukkan apakah parameter <code style="color:var(--accent2);background:rgba(99,102,241,.12);padding:2px 7px;border-radius:5px">zoneId</code> wajib disertakan.</p>
+
+            <!-- Search filter -->
+            <div style="margin-bottom:12px;position:relative">
+              <i class="fa fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px"></i>
+              <input type="text" id="gameSearch" class="form-input" placeholder="Cari nama game atau type_name…"
+                style="padding-left:36px" oninput="filterGames(this.value)">
+            </div>
+
+            <div class="game-table-wrap">
+              <table class="game-table" id="gameTable">
+                <tr><th style="width:36px">#</th><th>Nama Game</th><th>type_name</th><th>Zone ID</th><th>Parameter</th></tr>
+                                <tr class="game-row" data-name="mobile legends bang bang" data-type="mlbb">
+                  <td class="game-no">1</td>
+                  <td style="font-weight:500;font-size:13px">Mobile Legends Bang Bang</td>
+                  <td><span class="type-code">mlbb</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="free fire" data-type="ff">
+                  <td class="game-no">2</td>
+                  <td style="font-weight:500;font-size:13px">Free Fire</td>
+                  <td><span class="type-code">ff</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="pubg mobile" data-type="pubgm">
+                  <td class="game-no">3</td>
+                  <td style="font-weight:500;font-size:13px">PUBG Mobile</td>
+                  <td><span class="type-code">pubgm</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="genshin impact" data-type="genshin">
+                  <td class="game-no">4</td>
+                  <td style="font-weight:500;font-size:13px">Genshin Impact</td>
+                  <td><span class="type-code">genshin</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="honkai: star rail" data-type="honkai">
+                  <td class="game-no">5</td>
+                  <td style="font-weight:500;font-size:13px">Honkai: Star Rail</td>
+                  <td><span class="type-code">honkai</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="honkai impact 3rd" data-type="honkai3">
+                  <td class="game-no">6</td>
+                  <td style="font-weight:500;font-size:13px">Honkai Impact 3rd</td>
+                  <td><span class="type-code">honkai3</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="clash of clans" data-type="coc">
+                  <td class="game-no">7</td>
+                  <td style="font-weight:500;font-size:13px">Clash of Clans</td>
+                  <td><span class="type-code">coc</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="clash royale" data-type="cr">
+                  <td class="game-no">8</td>
+                  <td style="font-weight:500;font-size:13px">Clash Royale</td>
+                  <td><span class="type-code">cr</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="valorant" data-type="valorant">
+                  <td class="game-no">9</td>
+                  <td style="font-weight:500;font-size:13px">Valorant</td>
+                  <td><span class="type-code">valorant</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="brawl stars" data-type="brawlstars">
+                  <td class="game-no">10</td>
+                  <td style="font-weight:500;font-size:13px">Brawl Stars</td>
+                  <td><span class="type-code">brawlstars</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="call of duty mobile" data-type="codm">
+                  <td class="game-no">11</td>
+                  <td style="font-weight:500;font-size:13px">Call of Duty Mobile</td>
+                  <td><span class="type-code">codm</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="arena of valor" data-type="aov">
+                  <td class="game-no">12</td>
+                  <td style="font-weight:500;font-size:13px">Arena of Valor</td>
+                  <td><span class="type-code">aov</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="undawn" data-type="undawn">
+                  <td class="game-no">13</td>
+                  <td style="font-weight:500;font-size:13px">Undawn</td>
+                  <td><span class="type-code">undawn</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="wuthering waves" data-type="wuwa">
+                  <td class="game-no">14</td>
+                  <td style="font-weight:500;font-size:13px">Wuthering Waves</td>
+                  <td><span class="type-code">wuwa</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="tower of fantasy" data-type="tof">
+                  <td class="game-no">15</td>
+                  <td style="font-weight:500;font-size:13px">Tower of Fantasy</td>
+                  <td><span class="type-code">tof</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="zenless zone zero" data-type="zzz">
+                  <td class="game-no">16</td>
+                  <td style="font-weight:500;font-size:13px">Zenless Zone Zero</td>
+                  <td><span class="type-code">zzz</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="love &amp; deepspace" data-type="lads">
+                  <td class="game-no">17</td>
+                  <td style="font-weight:500;font-size:13px">Love &amp; Deepspace</td>
+                  <td><span class="type-code">lads</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="ragnarok m" data-type="rom">
+                  <td class="game-no">18</td>
+                  <td style="font-weight:500;font-size:13px">Ragnarok M</td>
+                  <td><span class="type-code">rom</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="lords mobile" data-type="lords">
+                  <td class="game-no">19</td>
+                  <td style="font-weight:500;font-size:13px">Lords Mobile</td>
+                  <td><span class="type-code">lords</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="rise of kingdoms" data-type="rok">
+                  <td class="game-no">20</td>
+                  <td style="font-weight:500;font-size:13px">Rise of Kingdoms</td>
+                  <td><span class="type-code">rok</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="state of survival" data-type="sos">
+                  <td class="game-no">21</td>
+                  <td style="font-weight:500;font-size:13px">State of Survival</td>
+                  <td><span class="type-code">sos</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="whiteout survival" data-type="wos">
+                  <td class="game-no">22</td>
+                  <td style="font-weight:500;font-size:13px">Whiteout Survival</td>
+                  <td><span class="type-code">wos</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="last war" data-type="lastwar">
+                  <td class="game-no">23</td>
+                  <td style="font-weight:500;font-size:13px">Last War</td>
+                  <td><span class="type-code">lastwar</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="point blank" data-type="pb">
+                  <td class="game-no">24</td>
+                  <td style="font-weight:500;font-size:13px">Point Blank</td>
+                  <td><span class="type-code">pb</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="league of legends" data-type="lol">
+                  <td class="game-no">25</td>
+                  <td style="font-weight:500;font-size:13px">League of Legends</td>
+                  <td><span class="type-code">lol</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="stumble guys" data-type="stumble">
+                  <td class="game-no">26</td>
+                  <td style="font-weight:500;font-size:13px">Stumble Guys</td>
+                  <td><span class="type-code">stumble</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="among us" data-type="amgus">
+                  <td class="game-no">27</td>
+                  <td style="font-weight:500;font-size:13px">Among Us</td>
+                  <td><span class="type-code">amgus</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="punishing: gray raven" data-type="pgr">
+                  <td class="game-no">28</td>
+                  <td style="font-weight:500;font-size:13px">Punishing: Gray Raven</td>
+                  <td><span class="type-code">pgr</span></td>
+                  <td>
+                                          <span class="zone-yes"><i class="fa fa-check-circle"></i> Wajib</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId + zoneId</td>
+                </tr>
+                                <tr class="game-row" data-name="aether gazer" data-type="ag">
+                  <td class="game-no">29</td>
+                  <td style="font-weight:500;font-size:13px">Aether Gazer</td>
+                  <td><span class="type-code">ag</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="sausage man" data-type="sm">
+                  <td class="game-no">30</td>
+                  <td style="font-weight:500;font-size:13px">Sausage Man</td>
+                  <td><span class="type-code">sm</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                                <tr class="game-row" data-name="super sus" data-type="sus">
+                  <td class="game-no">31</td>
+                  <td style="font-weight:500;font-size:13px">Super SUS</td>
+                  <td><span class="type-code">sus</span></td>
+                  <td>
+                                          <span class="zone-no"><i class="fa fa-minus-circle"></i> Tidak perlu</span>
+                                      </td>
+                  <td style="font-size:11.5px;color:var(--muted2)">userId saja</td>
+                </tr>
+                              </table>
+            </div>
+            <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:right">31 game didukung</p>
+          </div>
+        </div>
+      </div>
+      <div class="step-sep"></div>
+
+      <!-- ═══════════════════════════════════════════════
+           STEP 6 — Daftar API Key
+      ═══════════════════════════════════════════════ -->
+      <div class="step-block" id="step-6">
+        <div class="step-header">
+          <div class="step-num" style="background:linear-gradient(135deg,#f59e0b,#f97316)">6</div>
+          <div>
+            <div class="step-tag">Langkah 6</div>
+            <div class="step-title"><i class="fa fa-tags" style="color:var(--yellow);margin-right:7px"></i>Daftar &amp; Beli API Key</div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-body">
+            <p class="step-desc">Belum punya API Key? Pilih paket yang sesuai kebutuhan Anda. Setelah pembayaran dikonfirmasi, API Key langsung aktif dan siap digunakan.</p>
+
+            <div class="info-box ok-box" style="margin-bottom:18px">
+              <i class="fa fa-shield-halved"></i>
+              <div>
+                <strong>Domain dikunci otomatis saat checkout.</strong>
+                Masukkan domain website Anda saat beli — API Key hanya bisa digunakan dari domain tersebut. Pembayaran aman via <strong>Midtrans</strong>.
+              </div>
+            </div>
+
+            <div class="price-grid">
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">⚡</div>
+                <div class="pm-sub">Flash Trial</div>
+                <div class="pm-label">7 Hari</div>
+                <div class="pm-price">Rp 15.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">🌙</div>
+                <div class="pm-sub">Most Popular</div>
+                <div class="pm-label">3 Bulan</div>
+                <div class="pm-price">Rp 45.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">🚀</div>
+                <div class="pm-sub">Best Value</div>
+                <div class="pm-label">1 Tahun</div>
+                <div class="pm-price">Rp 150.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">👑</div>
+                <div class="pm-sub">Ultimate</div>
+                <div class="pm-label">2 Tahun</div>
+                <div class="pm-price">Rp 250.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">⚡</div>
+                <div class="pm-sub">Starter</div>
+                <div class="pm-label">3 Hari</div>
+                <div class="pm-price">Rp 15.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">🌙</div>
+                <div class="pm-sub">Paling Populer</div>
+                <div class="pm-label">1 Bulan</div>
+                <div class="pm-price">Rp 25.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                            <div class="price-mini" onclick="window.location.href='/#pricing'">
+                <div class="pm-emoji">🚀</div>
+                <div class="pm-sub">Paling Hemat</div>
+                <div class="pm-label">2 Bulan</div>
+                <div class="pm-price">Rp 39.000</div>
+                <button class="btn btn-accent btn-sm" style="width:100%;justify-content:center">
+                  <i class="fa fa-cart-shopping"></i> Beli
+                </button>
+              </div>
+                          </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+              <a href="/#pricing" class="btn btn-orange" style="text-decoration:none">
+                <i class="fa fa-cart-shopping"></i> Ke Halaman Pembelian
+              </a>
+              <a href="/dashboard/" class="btn btn-ghost" style="text-decoration:none">
+                <i class="fa fa-user"></i> Dashboard Member
+              </a>
+            </div>
+
+            <div style="margin-top:18px;padding:14px 16px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;font-size:12.5px;line-height:1.7;color:var(--muted2)">
+              <strong style="color:var(--text);display:block;margin-bottom:6px">📋 Alur Pembelian:</strong>
+              <span style="color:var(--accent2)">①</span> Pilih paket →
+              <span style="color:var(--accent2)">②</span> Isi Nama + Email + Domain website →
+              <span style="color:var(--accent2)">③</span> Bayar via Midtrans →
+              <span style="color:var(--accent2)">④</span> API Key aktif otomatis →
+              <span style="color:var(--accent2)">⑤</span> Login ke dashboard member
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps-list -->
+  </div><!-- /main-content -->
+</div><!-- /layout -->
+
+<!-- FOOTER -->
+<footer class="docs-footer">
+  <p>© 2026 <strong>Niar API</strong> — Layanan Cek ID Game untuk Developer Indonesia</p>
+  <div style="display:flex;gap:16px">
+    <a href="/">Beranda</a>
+    <a href="/#pricing">Harga</a>
+    <a href="/dashboard/">Dashboard</a>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   SIDEBAR — Active link on scroll
+══════════════════════════════════════════════════ */
+function setActive(el) {
+  document.querySelectorAll('.sn-link').forEach(function(a){ a.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+/* Intersection Observer untuk highlight sidebar saat scroll */
+(function(){
+  var ids = ['step-1','step-2','step-3','step-4','step-5','step-6'];
+  var linkMap = {};
+  document.querySelectorAll('.sn-link[href]').forEach(function(a){
+    var h = (a.getAttribute('href')||'').replace('#','');
+    if (h) linkMap[h] = a;
+  });
+  if (!('IntersectionObserver' in window)) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && linkMap[e.target.id]) {
+        document.querySelectorAll('.sn-link').forEach(function(a){ a.classList.remove('active'); });
+        linkMap[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+
+/* ══════════════════════════════════════════════════
+   AUTH TABS (Step 2)
+══════════════════════════════════════════════════ */
+function switchAuth(id) {
+  document.querySelectorAll('.auth-tabs .auth-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.auth-pane').forEach(function(p){ p.classList.remove('active'); });
+  var tab = document.querySelector('.auth-tabs .auth-tab[onclick*="'+id+'"]');
+  var pane = document.getElementById('auth-'+id);
+  if (tab) tab.classList.add('active');
+  if (pane) pane.classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════
+   LANGUAGE TABS (Step 4)
+══════════════════════════════════════════════════ */
+var _activeLang = 'js';
+function switchLang(id) {
+  _activeLang = id;
+  var langTabs = document.querySelectorAll('#step-4 .auth-tabs .auth-tab');
+  var langPanes = document.querySelectorAll('#step-4 .auth-pane');
+  langTabs.forEach(function(t){ t.classList.remove('active'); });
+  langPanes.forEach(function(p){ p.classList.remove('active'); });
+  var tab = document.querySelector('#step-4 .auth-tab[onclick*="\''+id+'\'"]');
+  var pane = document.getElementById('lang-'+id);
+  if (tab) tab.classList.add('active');
+  if (pane) pane.classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════
+   SYNC API KEY ke snippet code (Step 4)
+══════════════════════════════════════════════════ */
+function syncKey(val) {
+  var display = val || 'NIAR-XXXX-XXXX-XXXX-XXXX';
+  ['js-key-1','php-key-1','py-key-1'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.textContent = display;
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   TEST KONEKSI (Step 3)
+══════════════════════════════════════════════════ */
+function updateZoneHint() {
+  var sel    = document.getElementById('testGame');
+  var opt    = sel.options[sel.selectedIndex];
+  var needsZ = opt && opt.getAttribute('data-zone') === '1';
+  var req    = document.getElementById('zoneReq');
+  if (req) req.style.display = needsZ ? 'inline' : 'none';
+}
+updateZoneHint(); /* init */
+
+function runTest() {
+  var apiKey = document.getElementById('testApiKey').value.trim();
+  var game   = document.getElementById('testGame').value;
+  var userId = document.getElementById('testUserId').value.trim();
+  var zoneId = document.getElementById('testZoneId').value.trim();
+  var btn    = document.getElementById('testBtn');
+  var box    = document.getElementById('testResult');
+
+  if (!apiKey || apiKey.substring(0,5) !== 'NIAR-') {
+    showResult('⚠ Masukkan API Key yang valid (format: NIAR-XXXX-XXXX-XXXX-XXXX)', 'err');
+    return;
+  }
+  if (!userId) {
+    showResult('⚠ Masukkan User ID untuk melakukan test', 'err');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Menghubungi server…';
+  showResult('⏳ Mengirim request ke ' + 'https://api.digitalsoft.id/check-id-game' + '…', 'info');
+
+  var params = new URLSearchParams({ type_name: game, userId: userId, api_key: apiKey });
+  if (zoneId) params.set('zoneId', zoneId);
+
+  fetch('https://api.digitalsoft.id/check-id-game?' + params.toString(), {
+    method: 'GET',
+    mode: 'cors',
+  })
+  .then(function(r) {
+    return r.json().then(function(data){ return { status: r.status, data: data }; });
+  })
+  .then(function(obj) {
+    var data = obj.data;
+    var http = obj.status;
+    var pretty = JSON.stringify(data, null, 2);
+    if (data && data.status === true) {
+      showResult('✅ Berhasil! HTTP ' + http + '\n\n' + pretty, 'ok');
+    } else if (http === 401) {
+      showResult('❌ API Key tidak valid atau expired. HTTP ' + http + '\n\n' + pretty, 'err');
+    } else if (http === 403) {
+      showResult('❌ Domain tidak diizinkan. HTTP ' + http + '\n' +
+                 '→ Pastikan domain terdaftar di API Key.\n\n' + pretty, 'err');
+    } else if (http === 429) {
+      showResult('⚠ Rate limit tercapai (60 req/menit). Tunggu sebentar.\n\n' + pretty, 'err');
+    } else {
+      showResult('ℹ HTTP ' + http + '\n\n' + pretty, data && data.status === false ? 'err' : 'info');
+    }
+  })
+  .catch(function(err) {
+    showResult('❌ Gagal terhubung ke server.\n→ Periksa koneksi internet Anda.\n→ Error: ' + err.message, 'err');
+  })
+  .finally(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa fa-plug"></i> Test Koneksi';
+  });
+}
+
+function showResult(msg, cls) {
+  var box = document.getElementById('testResult');
+  box.textContent = msg;
+  box.className = 'result-box show ' + (cls || '');
+}
+
+function clearResult() {
+  var box = document.getElementById('testResult');
+  box.className = 'result-box';
+  box.textContent = '';
+  document.getElementById('testApiKey').value = '';
+  document.getElementById('testUserId').value = '';
+  document.getElementById('testZoneId').value = '';
+  syncKey('');
+}
+
+/* ══════════════════════════════════════════════════
+   GAME TABLE SEARCH (Step 5)
+══════════════════════════════════════════════════ */
+function filterGames(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.game-row').forEach(function(row){
+    var name = row.getAttribute('data-name') || '';
+    var type = row.getAttribute('data-type') || '';
+    row.style.display = (!q || name.indexOf(q) !== -1 || type.indexOf(q) !== -1) ? '' : 'none';
+  });
+}
+
+/* ══════════════════════════════════════════════════
+   COPY HELPERS
+══════════════════════════════════════════════════ */
+function copyEl(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.innerText || el.textContent).then(function(){
+    showToast('✓ Disalin ke clipboard', 'ok');
+  }).catch(function(){ showToast('Gagal menyalin', 'err'); });
+}
+
+/* ══════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════ */
+function showToast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.className = 'toast'; }, 2800);
+}
+
+/* ══════════════════════════════════════════════════
+   MOBILE RESPONSIVE — Sidebar Drawer & Quick-Nav
+══════════════════════════════════════════════════ */
+function toggleSidenav() {
+  var open = document.body.classList.toggle('sn-open');
+  var btn  = document.getElementById('tbBurger');
+  if (btn) {
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+}
+
+function closeSidenav() {
+  document.body.classList.remove('sn-open');
+  var btn = document.getElementById('tbBurger');
+  if (btn) {
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+/* Close on resize to desktop */
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 860) closeSidenav();
+});
+
+/* Mobile quick-nav bar: sync active link on scroll */
+function mbSetActive(el) {
+  document.querySelectorAll('.mobile-bar a').forEach(function(a){ a.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+/* Smooth scroll for mobile-bar and sn-link anchor clicks */
+document.querySelectorAll('.mobile-bar a[href^="#"], .sn-link[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      closeSidenav();
+      var offset = 54;
+      var mbar = document.getElementById('mobileBar');
+      if (mbar && mbar.offsetParent !== null) offset += mbar.offsetHeight;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset - 10;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+      /* Sync mobile bar active */
+      var href = this.getAttribute('href');
+      var mbLink = document.querySelector('.mobile-bar a[href="' + href + '"]');
+      if (mbLink) mbSetActive(mbLink);
+    }
+  });
+});
+
+/* Sync mobile-bar highlight on scroll using IntersectionObserver */
+(function(){
+  var ids = ['step-1','step-2','step-3','step-4','step-5','step-6'];
+  var mbMap = {};
+  document.querySelectorAll('.mobile-bar a[href]').forEach(function(a){
+    var h = (a.getAttribute('href') || '').replace('#','');
+    if (h) mbMap[h] = a;
+  });
+  if (!('IntersectionObserver' in window)) return;
+  var obs2 = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && mbMap[e.target.id]) {
+        document.querySelectorAll('.mobile-bar a').forEach(function(a){ a.classList.remove('active'); });
+        mbMap[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  ids.forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) obs2.observe(el);
+  });
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="115" fill="#09090b"/>
+  <path d="M140 140 L235 340 L285 340 L370 140 L300 140 L256 250 L210 140 Z" fill="#ff4655"/>
+  <path d="M315 140 L365 140 L365 240 Z" fill="#ff4655"/>
+  <text x="256" y="435" font-family="Impact, Arial Black, sans-serif" font-size="46" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="8">VALORANT</text>
+</svg>

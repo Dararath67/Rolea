@@ -1,0 +1,72 @@
+{
+  "mobile-legends": {
+    "success": true,
+    "verified": true,
+    "playerName": "Eveline",
+    "provider": "Flub71 MLBB Lookup Engine",
+    "message": null
+  },
+  "free-fire": {
+    "success": true,
+    "verified": true,
+    "playerName": "VP丶PuHeng",
+    "provider": "VngZz 2 Game ID Verification",
+    "message": null
+  },
+  "free-fire-global": {
+    "success": true,
+    "verified": true,
+    "playerName": "VP丶PuHeng",
+    "provider": "VngZz 2 Game ID Verification",
+    "message": null
+  },
+  "pubg-mobile": {
+    "success": true,
+    "verified": true,
+    "playerName": "Eliah2",
+    "provider": "VngZz 2 Game ID Verification",
+    "message": null
+  },
+  "honor-of-kings": {
+    "success": false,
+    "verified": false,
+    "playerName": null,
+    "provider": null,
+    "message": "រកមិនឃើញឈ្មោះអ្នកលេង ឬ ID មិនត្រឹមត្រូវ (Player ID not found)"
+  },
+  "genshin-impact": {
+    "success": false,
+    "verified": false,
+    "playerName": null,
+    "provider": null,
+    "message": "រកមិនឃើញឈ្មោះអ្នកលេង ឬ ID មិនត្រឹមត្រូវ (Player ID not found)"
+  },
+  "blood-strike": {
+    "success": false,
+    "verified": false,
+    "playerName": null,
+    "provider": null,
+    "message": "រកមិនឃើញឈ្មោះអ្នកលេង ឬ ID មិនត្រឹមត្រូវ (Player ID not found)"
+  },
+  "roblox": {
+    "success": false,
+    "verified": false,
+    "playerName": null,
+    "provider": null,
+    "message": "រកមិនឃើញឈ្មោះអ្នកលេង ឬ ID មិនត្រឹមត្រូវ (Player ID not found)"
+  },
+  "call-of-duty-mobile": {
+    "success": false,
+    "verified": false,
+    "playerName": null,
+    "provider": null,
+    "message": "រកមិនឃើញឈ្មោះអ្នកលេង ឬ ID មិនត្រឹមត្រូវ (Player ID not found)"
+  },
+  "arena-of-valor": {
+    "success": false,
+    "verified": false,
+    "playerName": null,
+    "provider": null,
+    "message": "រកមិនឃើញឈ្មោះអ្នកលេង ឬ ID មិនត្រឹមត្រូវ (Player ID not found)"
+  }
+}

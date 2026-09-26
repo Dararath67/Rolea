@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="hokg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="115" fill="#1e1b4b"/>
+  <path d="M130 310 L170 180 L220 240 L256 120 L292 240 L342 180 L382 310 Z" fill="url(#hokg)"/>
+  <circle cx="256" cy="350" r="26" fill="#ef4444"/>
+  <text x="256" y="435" font-family="Impact, Arial Black, sans-serif" font-size="48" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="3">HONOR OF KINGS</text>
+</svg>

@@ -1,0 +1,100 @@
+Dokumentasi API — Niar API Cek ID Game
+/* ── Game table ── */
+.game-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+.game-table{width:100%;border-collapse:collapse;font-size:13px}
+.game-table th{background:var(--bg3);color:var(--muted);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.game-table th:first-child{border-radius:10px 0 0 0}
+.game-table th:last-child{border-radius:0 10px 0 0}
+.game-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.game-table tr:last-child td{border-bottom:none}
+.game-table tr:hover td{background:rgba(255,255,255,.015)}
+.game-no{color:var(--muted);font-size:12px;text-align:center;width:32px;display:inline-block}
+/* Game table: hide Parameter column on tiny screens */
+.game-table th:nth-child(5),.game-table td:nth-child(5){display:none}
+.game-table{font-size:12px}
+.game-table th,.game-table td{padding:8px 10px}
+Niar  API
+API Live
+2  API Key
+5  Game
+1  Base URL API
+2  API Key
+5  Game yang Didukung
+6  Daftar API Key
+API Status
+Step by Step Konfigurasi  Cek ID Game API
+Panduan lengkap untuk mengintegrasikan Niar API ke dalam aplikasi, website, atau bot Anda.
+Ikuti 6 langkah berikut untuk mulai menggunakan API dalam hitungan menit.
+API Live & Ready
+31+ Game Didukung
+Base URL API
+Semua request API dikirim ke endpoint berikut. Gunakan HTTPS untuk keamanan. Tersedia 2 metode request:  GET  dan  POST .
+Endpoint Utama
+https://api.digitalsoft.id/check-id-game
+https://api.digitalsoft.id/check-id-game
+&amp;api_key = NIAR-XXXX-XXXX-XXXX-XXXX
+Kode game. Lihat daftar di  Step 5
+ID pengguna game
+Server/zona. Wajib untuk game tertentu (lihat Step 5)
+api_key
+API Key
+API Key adalah kunci akses unik Anda ke layanan ini. Ada  3 cara  mengirimkan API Key dalam setiap request — pilih yang paling sesuai dengan framework Anda.
+Domain Locked:  API Key hanya bisa digunakan dari domain yang sudah terdaftar saat pembelian. Request dari domain lain akan ditolak dengan kode  403 Forbidden .
+Header X-API-Key
+Cara paling mudah — tambahkan  api_key  langsung di URL.
+https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678& api_key = NIAR-XXXX-XXXX-XXXX-XXXX
+Cara lebih aman — API Key tidak terekspos di URL log. Direkomendasikan untuk production.
+// Kirim API Key via request header
+fetch( 'https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345' , {
+'X-API-Key' :  'NIAR-XXXX-XXXX-XXXX-XXXX'
+"https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678"  \
+" message ":      "Success Requesting to API" ,
+" nickname ":     "NamaAkunGame" ,
+" message ":      "API Key tidak valid, expired, atau nonaktif."
+401   Unauthorized   — API Key tidak valid / expired
+Masukkan API Key Anda dan lakukan test langsung ke server API untuk memverifikasi koneksi berjalan normal.
+API Key Anda
+Game
+Zone ID  (wajib untuk game ini)
+Test ini melakukan request nyata ke  https://api.digitalsoft.id/check-id-game . Pastikan domain Anda sudah terdaftar di API Key. Untuk testing awal, gunakan  localhost  sebagai domain saat beli.
+Setelah koneksi berhasil, integrasikan API ke dalam kode aplikasi Anda. Pilih bahasa pemrograman:
+// Konfigurasi Niar API
+const   NIAR_ENDPOINT  =  'https://api.digitalsoft.id/check-id-game' ;
+const   NIAR_API_KEY   =  ' NIAR-XXXX-XXXX-XXXX-XXXX ' ;
+* Cek ID Game via Niar API
+* @param {string} game   - Kode game (mlbb, ff, dll.)
+async function   cekIdGame (game, userId, zoneId =  '' ) {
+type_name: game,
+api_key:  NIAR_API_KEY ,
+const  res =  await  fetch( `${NIAR_ENDPOINT}?${params}` );
+cekIdGame( 'mlbb' ,  '12345' ,  '5678' )
+console.log( 'Nama:' , data.nickname);
+// Konfigurasi Niar API
+define ( 'NIAR_ENDPOINT' ,  'https://api.digitalsoft.id/check-id-game' );
+define ( 'NIAR_API_KEY' ,   ' NIAR-XXXX-XXXX-XXXX-XXXX ' );
+function   cekIdGame ( $game ,  $userId ,  $zoneId  =  '' ) {
+'type_name'  =>  $game ,
+'api_key'    =>  NIAR_API_KEY ,
+$ch  = curl_init( NIAR_ENDPOINT  .  '?'  .  $params );
+$result  = cekIdGame( 'ff' ,  '12345678' );
+echo  'Nama: '  .  $result [ 'nickname' ];
+# Konfigurasi Niar API
+NIAR_ENDPOINT =  'https://api.digitalsoft.id/check-id-game'
+NIAR_API_KEY  =  ' NIAR-XXXX-XXXX-XXXX-XXXX '
+def   cek_id_game (game, user_id, zone_id= '' ):
+'type_name' : game,
+'api_key' :   NIAR_API_KEY,
+response = requests.get(NIAR_ENDPOINT, params=params, timeout= 30 )
+result = cek_id_game( 'pubgm' ,  '5123456789' ,  '100' )
+print( f"Nama: {result['nickname']}" )
+"https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678"  \
+-H  "X-API-Key: NIAR-XXXX-XXXX-XXXX-XXXX"
+"https://api.digitalsoft.id/check-id-game"  \
+-H  "X-API-Key: NIAR-XXXX-XXXX-XXXX-XXXX"  \
+Game yang Didukung
+#  Nama Game  type_name  Zone ID  Parameter
+31 game didukung
+Daftar &amp; Beli API Key
+Belum punya API Key? Pilih paket yang sesuai kebutuhan Anda. Setelah pembayaran dikonfirmasi, API Key langsung aktif dan siap digunakan.
+Domain dikunci otomatis saat checkout.
+Masukkan domain website Anda saat beli — API Key hanya bisa digunakan dari domain tersebut. Pembayaran aman via  Midtrans .

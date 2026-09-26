@@ -1,0 +1,138 @@
+[1] *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+[4] --border:#1e2d45;--border2:#253550;
+[12] ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+[16] .topbar{position:sticky;top:0;z-index:200;background:rgba(7,9,15,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:54px;gap:16px}
+[18] .tb-logo .ico{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-size:14px}
+[22] .tb-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);color:var(--green)}
+[23] .tb-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:dotPulse 2s infinite}
+[24] @keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.3}}
+[26] .tb-link{padding:6px 13px;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;color:var(--muted2);border:1px solid var(--border);transition:all .15s}
+[27] .tb-link:hover{color:var(--text);border-color:var(--border2)}
+[28] .tb-link.cta{background:var(--accent);color:#fff;border-color:var(--accent)}.tb-link.cta:hover{background:#4f46e5}
+[32] .sidenav{width:var(--sidebar-w);flex-shrink:0;border-right:1px solid var(--border);position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;padding:20px 0}
+[35] .sn-link{display:flex;align-items:center;gap:9px;padding:8px 20px;font-size:13px;color:var(--muted2);text-decoration:none;border-left:2px solid transparent;transition:all .13s;cursor:pointer}
+[36] .sn-link:hover{color:var(--text);background:rgba(255,255,255,.03);border-left-color:var(--border2)}
+[37] .sn-link.active{color:var(--accent2);border-left-color:var(--accent);background:rgba(99,102,241,.07)}
+[38] .sn-link .sn-num{width:20px;height:20px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+[39] .sn-link.active .sn-num{background:var(--accent);border-color:var(--accent);color:#fff}
+[40] .sn-divider{height:1px;background:var(--border);margin:12px 20px}
+[47] .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:var(--accent2);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+[52] .hero-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:600;border:1px solid}
+[53] .chip-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--green)}
+[54] .chip-blue{background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25);color:var(--accent2)}
+[55] .chip-yellow{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--yellow)}
+[60] .step-num{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a855f7);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0}
+[64] .step-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+[68] .code-wrap{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;overflow:hidden;margin-bottom:12px}
+[69] .code-topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border2);background:rgba(99,102,241,.06)}
+[71] .code-copy{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 6px;border-radius:5px;transition:color .15s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:4px}
+[82] .info-box{display:flex;gap:10px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:9px;padding:12px 14px;font-size:12.5px;color:var(--muted2);line-height:1.6;margin-bottom:14px}
+[84] .warn-box{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)}.warn-box i{color:var(--yellow)}
+[85] .ok-box{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2)}.ok-box i{color:var(--green)}
+[86] .err-box{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.2)}.err-box i{color:var(--red)}
+[88] .method{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+[95] .form-input{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12.5px;outline:none;transition:border-color .15s;width:100%}
+[96] .form-input:focus{border-color:var(--accent)}
+[98] .form-select{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 13px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;width:100%;cursor:pointer}
+[99] .form-select:focus{border-color:var(--accent)}
+[101] .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap}
+[103] .btn-green{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}.btn-green:hover{background:rgba(16,185,129,.25)}
+[104] .btn-yellow{background:rgba(245,158,11,.15);color:var(--yellow);border:1px solid rgba(245,158,11,.3)}.btn-yellow:hover{background:rgba(245,158,11,.25)}
+[105] .btn-ghost{background:var(--bg3);color:var(--muted2);border:1px solid var(--border2)}.btn-ghost:hover{color:var(--text);border-color:var(--border)}
+[110] .result-box{background:var(--bg3);border:1px solid var(--border2);border-radius:9px;padding:13px 15px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted2);line-height:1.75;min-height:52px;display:none;margin-top:12px;word-break:break-all;white-space:pre-wrap}
+[112] .result-box.ok{border-color:rgba(16,185,129,.35);color:#6ee7b7}
+[113] .result-box.err{border-color:rgba(239,68,68,.35);color:#fca5a5}
+[114] .result-box.info{border-color:rgba(99,102,241,.3);color:#a5b4fc}
+[116] .auth-tabs{display:flex;gap:0;border:1px solid var(--border2);border-radius:9px;overflow:hidden;margin-bottom:12px;flex-wrap:wrap}
+[117] .auth-tab{flex:1;padding:9px 14px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;border:none;cursor:pointer;background:var(--bg3);color:var(--muted2);transition:all .13s;border-right:1px solid var(--border2);min-width:100px}
+[118] .auth-tab:last-child{border-right:none}
+[122] .game-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
+[123] .game-table{width:100%;border-collapse:collapse;font-size:13px}
+[124] .game-table th{background:var(--bg3);color:var(--muted);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+[125] .game-table th:first-child{border-radius:10px 0 0 0}
+[126] .game-table th:last-child{border-radius:0 10px 0 0}
+[127] .game-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+[128] .game-table tr:last-child td{border-bottom:none}
+[130] .type-code{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent2);background:rgba(99,102,241,.1);padding:2px 8px;border-radius:5px}
+[136] .price-mini{background:var(--bg3);border:1px solid var(--border2);border-radius:11px;padding:16px 14px;text-align:center;transition:all .15s;cursor:pointer}
+[137] .price-mini:hover{border-color:var(--accent2);transform:translateY(-2px)}
+[143] .step-sep{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:8px 0 24px}
+[145] .docs-footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+[150] .toast{position:fixed;bottom:24px;right:24px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:11px 16px;border-radius:9px;font-size:13px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;gap:8px;max-width:300px}
+[152] .toast.ok{border-color:rgba(16,185,129,.4);color:#6ee7b7}
+[153] .toast.err{border-color:rgba(239,68,68,.4);color:#fca5a5}
+[162] background:var(--bg2);border:1px solid var(--border2);border-radius:8px;
+[165] .tb-burger:hover{border-color:rgba(99,102,241,.5);background:rgba(99,102,241,.08)}
+[166] .tb-burger span{display:block;width:18px;height:2px;background:var(--text);border-radius:1px;transition:all .24s}
+[182] border-bottom:1px solid var(--border);
+[191] padding:5px 12px;border-radius:20px;
+[194] background:var(--bg3);border:1px solid var(--border2);
+[198] background:rgba(99,102,241,.12);color:var(--accent2);border-color:rgba(99,102,241,.3)
+[201] width:18px;height:18px;border-radius:50%;
+[202] background:var(--bg4);border:1px solid var(--border2);
+[206] /* ── Mobile sidebar page-links (Beranda / Harga / Dashboard) ── */
+[207] .sn-mobile-links{display:none;border-top:1px solid var(--border);margin-top:8px;padding-top:8px}
+[225] border-right:1px solid var(--border2);
+[299] Harga
+[302] 2  API Key
+[306] 6  Beli Key
+[309] 2  API Key
+[314] 6  Daftar API Key
+[316] Beli Key
+[319] Harga
+[328] Domain Locked Security
+[343] &amp;api_key = NIAR-XXXX-XXXX-XXXX-XXXX
+[356] Kode game. Lihat daftar di  Step 5
+[365] api_key
+[371] API Key
+[372] API Key adalah kunci akses unik Anda ke layanan ini. Ada  3 cara  mengirimkan API Key dalam setiap request — pilih yang paling sesuai dengan framework Anda.
+[373] Domain Locked:  API Key hanya bisa digunakan dari domain yang sudah terdaftar saat pembelian. Request dari domain lain akan ditolak dengan kode  403 Forbidden .
+[375] Header X-API-Key
+[377] Cara paling mudah — tambahkan  api_key  langsung di URL.
+[380] https://api.digitalsoft.id/check-id-game?type_name=mlbb&userId=12345&zoneId=5678& api_key = NIAR-XXXX-XXXX-XXXX-XXXX
+[381] Cara lebih aman — API Key tidak terekspos di URL log. Direkomendasikan untuk production.
+[384] // Kirim API Key via request header
+[387] 'X-API-Key' :  'NIAR-XXXX-XXXX-XXXX-XXXX'
+[412] " message ":      "API Key tidak valid, expired, atau nonaktif."
+[415] 401   Unauthorized   — API Key tidak valid / expired
+[416] 403   Forbidden      — Domain tidak diizinkan
+[421] Masukkan API Key Anda dan lakukan test langsung ke server API untuk memverifikasi koneksi berjalan normal.
+[422] API Key Anda
+[459] Test ini melakukan request nyata ke  https://api.digitalsoft.id/check-id-game . Pastikan domain Anda sudah terdaftar di API Key. Untuk testing awal, gunakan  localhost  sebagai domain saat beli.
+[472] const   NIAR_API_KEY   =  ' NIAR-XXXX-XXXX-XXXX-XXXX ' ;
+[484] api_key:  NIAR_API_KEY ,
+[505] define ( 'NIAR_API_KEY' ,   ' NIAR-XXXX-XXXX-XXXX-XXXX ' );
+[511] 'api_key'    =>  NIAR_API_KEY ,
+[535] NIAR_API_KEY  =  ' NIAR-XXXX-XXXX-XXXX-XXXX '
+[541] 'api_key' :   NIAR_API_KEY,
+[557] -H  "X-API-Key: NIAR-XXXX-XXXX-XXXX-XXXX"
+[562] -H  "X-API-Key: NIAR-XXXX-XXXX-XXXX-XXXX"  \
+[727] Daftar &amp; Beli API Key
+[728] Belum punya API Key? Pilih paket yang sesuai kebutuhan Anda. Setelah pembayaran dikonfirmasi, API Key langsung aktif dan siap digunakan.
+[729] Domain dikunci otomatis saat checkout.
+[730] Masukkan domain website Anda saat beli — API Key hanya bisa digunakan dari domain tersebut. Pembayaran aman via  Midtrans .
+[735] Beli
+[740] Beli
+[745] Beli
+[750] Beli
+[755] Beli
+[760] Beli
+[765] Beli
+[766] Ke Halaman Pembelian
+[768] 📋 Alur Pembelian:
+[769] ①  Pilih paket →
+[770] ②  Isi Nama + Email + Domain website →
+[772] ④  API Key aktif otomatis →
+[776] Harga
+[834] SYNC API KEY ke snippet code (Step 4)
+[836] function syncKey(val) {
+[838] ['js-key-1','php-key-1','py-key-1'].forEach(function(id){
+[855] var apiKey = document.getElementById('testApiKey').value.trim();
+[861] if (!apiKey || apiKey.substring(0,5) !== 'NIAR-') {
+[862] showResult('⚠ Masukkan API Key yang valid (format: NIAR-XXXX-XXXX-XXXX-XXXX)', 'err');
+[872] var params = new URLSearchParams({ type_name: game, userId: userId, api_key: apiKey });
+[888] showResult('❌ API Key tidak valid atau expired. HTTP ' + http + '\n\n' + pretty, 'err');
+[890] showResult('❌ Domain tidak diizinkan. HTTP ' + http + '\n' +
+[891] '→ Pastikan domain terdaftar di API Key.\n\n' + pretty, 'err');
+[915] document.getElementById('testApiKey').value = '';
+[918] syncKey('');

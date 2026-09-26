@@ -1,26 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Noto+Sans+Khmer:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Kantumruy Pro', 'Plus Jakarta Sans', 'Inter', 'Noto Sans Khmer', system-ui, -apple-system, sans-serif;
+  --font-km: 'Kantumruy Pro', 'Noto Sans Khmer', 'Inter', sans-serif;
+}
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-border: #e2e8f0;
+  --primary: #2563eb;
+  --primary-glow: rgba(37, 99, 235, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  background-color: #ffffff;
+  color: #0f172a;
+  font-family: 'Kantumruy Pro', 'Plus Jakarta Sans', 'Inter', 'Noto Sans Khmer', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Ensure font family is strictly inherited everywhere */
+*, ::before, ::after {
+  font-family: 'Kantumruy Pro', 'Plus Jakarta Sans', 'Inter', 'Noto Sans Khmer', system-ui, -apple-system, sans-serif;
+}
+
+/* Prevent Khmer subscript feet & upper vowels from clipping or dropping awkwardly */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.4;
+  padding-top: 0.05em;
+  padding-bottom: 0.05em;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+p, span, a, button, input, label, select, textarea {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Auto-running game logo slider / marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom utility classes */
+.card-white {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-white-hover {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card-white-hover:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.1), 0 8px 10px -6px rgba(37, 99, 235, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
