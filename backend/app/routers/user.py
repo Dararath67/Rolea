@@ -713,18 +713,22 @@ def user_ai_chat_response(payload: Dict[str, Any] = Body(...)):
             "provider": "local_fallback"
         }
 
+    system_rules = getattr(settings, "ai_system_rules", None) or (
+        "អ្នកគឺជា Rolea AI Support Assistant ដែលជា AI ផ្លូវការបម្រើអតិថិជនរបស់គេហទំព័រ RoleaTopup (https://roleastore.vercel.app)។\n"
+        "ច្បាប់តឹងរឹងក្នុងការឆ្លើយតប (Strict Rules):\n"
+        "១. ត្រូវឆ្លើយតបជាភាសាខ្មែរយ៉ាងរលូន គួរសម និងច្បាស់លាស់ជានិច្ច។\n"
+        "២. ឆ្លើយតប តែអំពីប្រព័ន្ធ និងសេវាកម្មរបស់ RoleaTopup ប៉ុណ្ណោះ ដូចជា៖ ការបញ្ចូលប្រាក់ហ្គេម, ការទូទាត់ប្រាក់តាម Bakong KHQR, របៀបពិនិត្យមើល Order, និងសេវាកម្មដេប៉ូបោះដុំ B2B Reseller។\n"
+        "៣. ប្រសិនបើសំណួរមិនទាក់ទងនឹងប្រព័ន្ធ RoleaTopup ឡើយ (ដូចជាសំណួរចំណេះដឹងទូទៅ នយោបាយ ឬប្រធានបទផ្សេងទៀត) សូមបដិសេធដោយគួរសមថា៖ 'សូមអភ័យទោស ខ្ញុំជា AI ជំនួយការរបស់ RoleaTopup ខ្ញុំអាចឆ្លើយតបបានតែសំណួរដែលទាក់ទងនឹងសេវាកម្មរបស់ RoleaTopup ប៉ុណ្ណោះ។'\n"
+        "៤. ប្រសិនបើអតិថិជនត្រូវការជួបក្រុមការងារ ឬត្រូវការជំនួយផ្ទាល់ សូមណែនាំឲ្យទាក់ទងតាម Telegram ផ្លូវការ @RoleaToP_bot ឬបង្កើត Support Ticket លើវេបសាយ។"
+    )
+
     try:
         import httpx
         
         messages_payload = [
             {
                 "role": "system",
-                "content": (
-                    "You are Rolea AI Support Assistant for RoleaTopup platform (https://roleatopup.com). "
-                    "Always reply politely in Khmer language. Provide clear assistance about game top-ups (MLBB, Free Fire, PUBG, etc.), "
-                    "instant 30-second KHQR Bakong payments (0% fee), order tracking, and B2B Reseller benefits. "
-                    "If user needs human help, direct them to Telegram @RoleaToP_bot."
-                )
+                "content": system_rules
             }
         ]
         

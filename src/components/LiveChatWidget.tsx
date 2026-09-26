@@ -40,6 +40,8 @@ export default function LiveChatWidget() {
     { label: isKm ? 'ទាក់ទង Telegram Support' : 'Telegram Support', answer: isKm ? 'លោកអ្នកអាចទាក់ទងមកកាន់ Telegram Support ផ្លូវការ @RoleaToP_bot ឬ Channel @RothzTopup បាន 24/7។' : 'Contact our official Telegram Support @RoleaToP_bot or join Channel @RothzTopup 24/7.' }
   ];
 
+  const [aiAutoReplyEnabled, setAiAutoReplyEnabled] = useState(true);
+
   const handleSend = async (textToSend?: string) => {
     const text = textToSend || inputText;
     if (!text.trim() || isLoadingAI) return;
@@ -54,6 +56,21 @@ export default function LiveChatWidget() {
     setMessages(newMessages);
     if (!textToSend) setInputText('');
     setIsLoadingAI(true);
+
+    if (!aiAutoReplyEnabled) {
+      setMessages(prev => [
+        ...prev,
+        {
+          sender: 'bot',
+          text: isKm 
+            ? 'ប្រព័ន្ធ AI Auto-Reply ត្រូវបានបិទបណ្ដោះអាសន្ន។ សម្រាប់ជំនួយផ្ទាល់ពីក្រុមការងារ សូមបង្កើត Support Ticket ឬទាក់ទង Telegram @RoleaToP_bot (24/7)។'
+            : 'AI Auto-Reply is turned OFF. For direct human support, please submit a Support Ticket or contact Telegram @RoleaToP_bot (24/7).',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
+      ]);
+      setIsLoadingAI(false);
+      return;
+    }
 
     try {
       const res = await fetch('/api/v1/user/chat/ai', {
@@ -127,18 +144,33 @@ export default function LiveChatWidget() {
               <div>
                 <h4 className="text-xs font-black tracking-tight">{isKm ? 'Rolea Support AI Assistant' : 'Rolea Support AI Assistant'}</h4>
                 <div className="flex items-center gap-1.5 text-[10px] text-blue-100 font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>AI Powered (https://api.laalaa.me)</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${aiAutoReplyEnabled ? 'bg-emerald-400 animate-pulse' : 'bg-slate-400'}`} />
+                  <span>{aiAutoReplyEnabled ? 'AI Active (api.laalaa.me)' : 'AI Auto-Reply Disabled'}</span>
                 </div>
               </div>
             </div>
 
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-1 rounded-xl hover:bg-white/20 text-white transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setAiAutoReplyEnabled(!aiAutoReplyEnabled)}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-black transition-all flex items-center gap-1 border cursor-pointer ${
+                  aiAutoReplyEnabled 
+                    ? 'bg-emerald-500/20 text-emerald-100 border-emerald-300/40 hover:bg-emerald-500/30' 
+                    : 'bg-slate-700/60 text-slate-200 border-slate-500/50 hover:bg-slate-700'
+                }`}
+                title={aiAutoReplyEnabled ? 'Click to turn OFF AI Auto-Reply' : 'Click to turn ON AI Auto-Reply'}
+              >
+                <span>{aiAutoReplyEnabled ? (isKm ? 'AI: បើក' : 'AI: ON') : (isKm ? 'AI: បិទ' : 'AI: OFF')}</span>
+              </button>
+
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1 rounded-xl hover:bg-white/20 text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Quick Support Links Banner */}

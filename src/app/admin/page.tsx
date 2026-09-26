@@ -4110,6 +4110,22 @@ function AdminControlPanelContent() {
  </p>
  </div>
 
+ <div className="sm:col-span-2">
+ <label className="block text-slate-700 font-bold mb-1">
+ {isKm ? 'ច្បាប់ និងការកំណត់ AI (AI System Rules & Prompt Instructions)' : 'AI System Prompt Rules'}
+ </label>
+ <textarea
+ rows={5}
+ value={platformSettings.ai_system_rules || ''}
+ onChange={(e) => setPlatformSettings({ ...platformSettings, ai_system_rules: e.target.value })}
+ placeholder={isKm ? 'បញ្ចូលច្បាប់ណែនាំឲ្យ AI ឆ្លើយតប...' : 'Set strict instructions for AI responses...'}
+ className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-xs text-slate-900 leading-relaxed focus:bg-white focus:outline-none focus:border-blue-600"
+ />
+ <p className="text-[10px] text-slate-400 mt-1">
+ {isKm ? 'កំណត់ច្បាប់ឲ្យ AI ឆ្លើយតបតែអំពី RoleaTopup ប៉ុណ្ណោះ និងបដិសេធសំណួរផ្សេងៗ' : 'Instruct AI to strictly answer only about RoleaTopup website and decline unrelated topics.'}
+ </p>
+ </div>
+
  <div className="sm:col-span-2 flex justify-end">
  <button
  type="submit"

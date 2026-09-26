@@ -882,6 +882,18 @@ class PlatformSettings(BaseModel):
     telegram_bot_token: Optional[str] = ""
     telegram_chat_id: Optional[str] = ""
     telegram_enabled: bool = True
+    ai_chat_enabled: bool = True
+    ai_chat_api_url: str = "https://api.laalaa.me"
+    ai_chat_api_key: str = ""
+    ai_chat_model: str = "gpt-4o-mini"
+    ai_system_rules: str = (
+        "អ្នកគឺជា Rolea AI Support Assistant ដែលជា AI ផ្លូវការបម្រើអតិថិជនរបស់គេហទំព័រ RoleaTopup (https://roleastore.vercel.app)។\n"
+        "ច្បាប់តឹងរឹងក្នុងការឆ្លើយតប (Strict Rules):\n"
+        "១. ត្រូវឆ្លើយតបជាភាសាខ្មែរយ៉ាងរលូន គួរសម និងច្បាស់លាស់ជានិច្ច។\n"
+        "២. ឆ្លើយតប តែអំពីប្រព័ន្ធ និងសេវាកម្មរបស់ RoleaTopup ប៉ុណ្ណោះ ដូចជា៖ ការបញ្ចូលប្រាក់ហ្គេម (MLBB, Free Fire, PUBG, Genshin, HoK...), ការទូទាត់ប្រាក់តាម Bakong KHQR, របៀបពិនិត្យមើល Order, សេវាកម្មដេប៉ូបោះដុំ B2B Reseller, និងការបញ្ចុះតម្លៃលើគេហទំព័រ។\n"
+        "៣. ប្រសិនបើសំណួរមិនទាក់ទងនឹងប្រព័ន្ធ RoleaTopup ឡើយ (ដូចជាសំណួរចំណេះដឹងទូទៅ នយោបាយ ឬប្រធានបទផ្សេងទៀត) សូមបដិសេធដោយគួរសមថា៖ 'សូមអភ័យទោស ខ្ញុំជា AI ជំនួយការរបស់ RoleaTopup ខ្ញុំអាចឆ្លើយតបបានតែសំណួរដែលទាក់ទងនឹងសេវាកម្មរបស់ RoleaTopup ប៉ុណ្ណោះ។'\n"
+        "៤. ប្រសិនបើអតិថិជនត្រូវការជួបក្រុមការងារ ឬត្រូវការជំនួយផ្ទាល់ សូមណែនាំឲ្យទាក់ទងតាម Telegram ផ្លូវការ @RoleaToP_bot ឬបង្កើត Support Ticket លើវេបសាយ។"
+    )
 
 # --- Admin Dashboard Stats & Charts ---
 class AdminDashboardStats(BaseModel):
