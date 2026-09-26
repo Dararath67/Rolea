@@ -53,5 +53,8 @@ def health_check():
  }
 
 if __name__ == "__main__":
- import uvicorn
- uvicorn.run("backend.app.main:app", host="0.0.0.0", port=8000, reload=True)
+    import os
+    import uvicorn
+    port = int(os.environ.get("PORT") or os.environ.get("SERVER_PORT") or 15511)
+    uvicorn.run("backend.app.main:app", host="0.0.0.0", port=port, reload=False)
+
