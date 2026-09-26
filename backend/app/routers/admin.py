@@ -1510,6 +1510,16 @@ def admin_unban_ip(payload: Dict[str, Any] = Body(...)):
         "banned": False
     }
 
+# ==========================================
+# ENDPOINT SECURITY SHIELD METRICS
+# ==========================================
+from ..services.endpoint_security_guard import EndpointSecurityGuard
+
+@router.get("/security/endpoint-shield-status", response_model=Dict[str, Any])
+def admin_get_endpoint_shield_status():
+    return EndpointSecurityGuard.get_security_metrics()
+
+
 
 
 # ==========================================
