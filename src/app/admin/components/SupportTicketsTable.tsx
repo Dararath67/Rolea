@@ -306,6 +306,9 @@ export default function SupportTicketsTable({ language = 'km' }: SupportTicketsT
   const timerRef = useRef<any>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const prevTicketIdRef = useRef<string | number | null>(null);
+  const prevMsgCountRef = useRef<number>(0);
 
   useEffect(() => {
     fetchTickets();
@@ -316,8 +319,27 @@ export default function SupportTicketsTable({ language = 'km' }: SupportTicketsT
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [selectedTicket?.messages]);
+    if (!selectedTicket) return;
+
+    const currentMsgCount = selectedTicket.messages?.length || 0;
+    const ticketChanged = prevTicketIdRef.current !== selectedTicket.id;
+    const msgCountIncreased = currentMsgCount > prevMsgCountRef.current;
+
+    let isNearBottom = true;
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      isNearBottom = (scrollHeight - scrollTop - clientHeight) < 150;
+    }
+
+    if (ticketChanged || (msgCountIncreased && isNearBottom)) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+    }
+
+    prevTicketIdRef.current = selectedTicket.id;
+    prevMsgCountRef.current = currentMsgCount;
+  }, [selectedTicket?.id, selectedTicket?.messages?.length]);
 
   const fetchTickets = async () => {
     setLoading(true);
@@ -1020,7 +1042,7 @@ export default function SupportTicketsTable({ language = 'km' }: SupportTicketsT
               )}
 
               {/* Chat Messages Viewport (With FB-Style Reply, Edit, Delete, Copy, Pin Action Bar) */}
-              <div className="flex-1 p-6 overflow-y-auto overflow-x-hidden space-y-4 max-h-[640px] bg-slate-50/50 no-scrollbar scrollbar-none [scrollbar-width:none]">
+              <div ref={chatContainerRef} className="flex-1 p-6 overflow-y-auto overflow-x-hidden space-y-4 max-h-[640px] bg-slate-50/50 no-scrollbar scrollbar-none [scrollbar-width:none]">
                 {selectedTicket.messages && selectedTicket.messages.length > 0 ? (
                   selectedTicket.messages.map((msg) => {
                     const isAdmin = msg.sender_role === 'admin';
