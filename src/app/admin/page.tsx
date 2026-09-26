@@ -4085,19 +4085,6 @@ function AdminControlPanelContent() {
  />
  </div>
 
- <div>
- <label className="block text-slate-700 font-bold mb-1">
- {isKm ? 'AI Model (ឧទាហរណ៍: gpt-4o-mini)' : 'AI Model Name'}
- </label>
- <input
- type="text"
- value={platformSettings.ai_chat_model || 'gpt-4o-mini'}
- onChange={(e) => setPlatformSettings({ ...platformSettings, ai_chat_model: e.target.value })}
- placeholder="gpt-4o-mini"
- className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold"
- />
- </div>
-
  <div className="sm:col-span-2">
  <label className="block text-slate-700 font-bold mb-1">
  {isKm ? 'AI API Key (https://api.laalaa.me Key)' : 'AI API Key'}
