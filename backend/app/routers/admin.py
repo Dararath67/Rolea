@@ -1519,6 +1519,16 @@ from ..services.endpoint_security_guard import EndpointSecurityGuard
 def admin_get_endpoint_shield_status():
     return EndpointSecurityGuard.get_security_metrics()
 
+# ==========================================
+# ENDPOINT PAYLOAD ENCRYPTION & SIGNATURE METRICS
+# ==========================================
+from ..services.endpoint_payload_encryption import EndpointPayloadEncryptionGuard
+
+@router.get("/security/payload-encryption-status", response_model=Dict[str, Any])
+def admin_get_payload_encryption_status():
+    return EndpointPayloadEncryptionGuard.get_encryption_metrics()
+
+
 
 
 
