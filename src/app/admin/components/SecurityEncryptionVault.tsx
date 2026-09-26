@@ -119,16 +119,16 @@ export default function SecurityEncryptionVault({ language = 'km' }: SecurityEnc
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-black text-white">
-                  {isKm ? 'ប្រព័ន្ធកូដនីយកម្មសុវត្ថិភាព (AES-256 Encryption Vault)' : 'Security Encryption Vault (AES-256 + HMAC-SHA256)'}
+                  {isKm ? 'ប្រព័ន្ធកូដនីយកម្មសុវត្ថិភាពធនាគារ ១០០ ស្រទាប់ (100-Layer Bank Security Vault)' : '100-Layer Enterprise Bank Security Vault'}
                 </h3>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  {isKm ? 'សកម្ម 100%' : '100% ACTIVE'}
+                  {isKm ? 'សុវត្ថិភាព 100% ធនាគារ' : '100% BANK GRADE'}
                 </span>
               </div>
               <p className="text-xs text-slate-300 mt-1 max-w-2xl">
                 {isKm 
-                  ? 'ការពារទិន្នន័យសម្ងាត់ API keys និង passwords ដោយប្រើប្រាស់ PBKDF2 (100,000 Rounds) + AES-256 CTR Encrypt-then-MAC តាមស្តង់ដារធនាគារអន្តរជាតិ'
-                  : 'Bank-grade PBKDF2 (100,000 rounds) key derivation + AES-256 CTR payload cipher with HMAC-SHA256 zero-tamper verification.'}
+                  ? 'ការពារប្រព័ន្ធទាំងមូលជាមួយ 100-Layer Enterprise Security Pillars រួមមាន AES-256 CTR Encrypt-then-MAC, PBKDF2 (100,000 Rounds), WAF Anti-DDoS, IP Ban, និង Transparent Disk Vault'
+                  : 'A+++ 100% Bank Grade Protection across 10 security pillars including AES-256 CTR, PBKDF2 (100,000 rounds), WAF Threat Inspector, and Transparent Vault Encryption.'}
               </p>
             </div>
           </div>
