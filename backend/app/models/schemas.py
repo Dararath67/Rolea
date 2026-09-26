@@ -648,7 +648,7 @@ class SystemNotification(BaseModel):
 # --- Platform Settings ---
 class PlatformSettings(BaseModel):
  platform_name: str = "RoleaTopup Core Engine"
- api_base_url: str = "http://localhost:8000"
+ api_base_url: str = "http://us.apsara.lol:15511"
  support_telegram: str = "https://t.me/rolea_support"
  support_whatsapp: str = "+855 12 345 678"
  support_email: str = "support@roleatopup.com"
