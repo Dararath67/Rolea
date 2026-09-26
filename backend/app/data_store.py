@@ -17,7 +17,8 @@ from .models.schemas import (
     GamerVerificationLog, GamerVerificationSettings, UserActivityLog,
     SupportTicket, TicketMessage, TicketCreateRequest, TicketReplyRequest, TicketStatusUpdateRequest,
     PromoterApplication, Promoter, PromoterCommission, PromoterWithdrawal, PromoterApplyRequest,
-    PromoterReviewRequest, PromoterUpdateRequest, PromoterWithdrawRequest
+    PromoterReviewRequest, PromoterUpdateRequest, PromoterWithdrawRequest,
+    BroadcastRequest, BroadcastItem
 )
 from .services.auth_service import AuthService
 from .services.provider_service import ProviderService
