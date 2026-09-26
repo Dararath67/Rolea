@@ -1,11 +1,12 @@
 import random
 import time
 from typing import Dict, Any, Optional
-from fastapi import APIRouter, HTTPException, Header, Depends, Body
+from fastapi import APIRouter, HTTPException, Header, Depends, Body, Request
 from ..models.schemas import LoginRequest, RegisterRequest, AuthResponse, User, OrderCreate
 from ..data_store import db
 from ..services.auth_service import AuthService
 from ..services.pricing_service import PricingService
+from ..services.anti_bot_login_guard import AntiBotLoginGuard
 
 router = APIRouter(prefix="/api/v1/user", tags=["User Dashboard & Auth"])
 
@@ -238,8 +239,16 @@ def register(req: RegisterRequest):
     }
 
 @router.post("/login", response_model=Dict[str, Any])
-def login(req: LoginRequest):
+def login(req: LoginRequest, request: Request):
     identifier = req.username_or_email.strip().lower()
+
+    # Anti-Bot Login & Credential Stuffing Inspection
+    is_allowed_login, bot_err_msg = AntiBotLoginGuard.inspect_login_request(request, identifier)
+    if not is_allowed_login:
+        raise HTTPException(
+            status_code=403,
+            detail=f"ប្រព័ន្ធសុវត្ថិភាព Anti-Bot បានទប់ស្កាត់ការចូលប្រើប្រាស់: {bot_err_msg}"
+        )
 
     entry = db.get_user_entry_by_username_or_email(identifier)
     is_admin = False

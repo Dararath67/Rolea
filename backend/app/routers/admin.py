@@ -1537,6 +1537,16 @@ from ..services.global_security_encryption import GlobalSecurityEncryptionEngine
 def admin_get_global_encryption_status():
     return GlobalSecurityEncryptionEngine.get_global_status()
 
+# ==========================================
+# ANTI-BOT LOGIN & CREDENTIAL STUFFING METRICS
+# ==========================================
+from ..services.anti_bot_login_guard import AntiBotLoginGuard
+
+@router.get("/security/anti-bot-status", response_model=Dict[str, Any])
+def admin_get_anti_bot_status():
+    return AntiBotLoginGuard.get_anti_bot_metrics()
+
+
 
 
 
