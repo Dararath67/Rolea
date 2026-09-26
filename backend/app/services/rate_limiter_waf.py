@@ -8,7 +8,8 @@ import re
 from typing import Dict, Any, List, Set, Tuple
 from fastapi import Request, HTTPException, Response
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, HTMLResponse
+from .security_block_page import SecurityBlockPageRenderer
 
 class RateLimiterWAFEngine:
     """
@@ -156,23 +157,34 @@ class WAFAndRateLimiterMiddleware(BaseHTTPMiddleware):
     """FastAPI Middleware to intercept & enforce WAF and Rate Limiting on every request."""
     async def dispatch(self, request: Request, call_next):
         client_ip = RateLimiterWAFEngine.get_client_ip(request)
+        accepts_html = "text/html" in request.headers.get("Accept", "").lower()
+        path = request.url.path
 
         # 1. Check if IP is currently banned
         banned, remaining_secs = RateLimiterWAFEngine.is_ip_banned(client_ip)
         if banned:
+            if accepts_html and not path.startswith("/api/"):
+                html_content = SecurityBlockPageRenderer.render_block_html(
+                    ip=client_ip,
+                    reason_title="IP Address Temporarily Banned",
+                    reason_detail=f"Your IP address ({client_ip}) has been blocked by WAF due to security violations.",
+                    error_code="IP_TEMPORARILY_BANNED",
+                    retry_after=remaining_secs
+                )
+                return HTMLResponse(content=html_content, status_code=403)
+
             return JSONResponse(
                 status_code=403,
                 content={
                     "success": False,
                     "error": "IP_TEMPORARILY_BANNED",
                     "detail": f"Your IP address ({client_ip}) has been blocked by WAF due to security violations. Retry in {remaining_secs}s.",
+                    "client_ip": client_ip,
                     "retry_after_seconds": remaining_secs
                 }
             )
 
         # 2. WAF Threat Inspection
-        path = request.url.path
-        # Skip docs endpoints from rigid WAF regex matching
         if not (path.startswith("/docs") or path.startswith("/redoc") or path.startswith("/openapi.json")):
             has_threat, threat_desc = RateLimiterWAFEngine.inspect_waf_threats(request)
             if has_threat:
@@ -182,6 +194,15 @@ class WAFAndRateLimiterMiddleware(BaseHTTPMiddleware):
                 # Auto ban after 3 WAF violations
                 if violations >= 3:
                     RateLimiterWAFEngine.ban_ip(client_ip, duration_seconds=1800)
+
+                if accepts_html and not path.startswith("/api/"):
+                    html_content = SecurityBlockPageRenderer.render_block_html(
+                        ip=client_ip,
+                        reason_title="Access Denied by WAF Threat Inspector",
+                        reason_detail=f"Request blocked by Web Application Firewall (WAF): {threat_desc}",
+                        error_code="WAF_THREAT_BLOCKED"
+                    )
+                    return HTMLResponse(content=html_content, status_code=403)
 
                 return JSONResponse(
                     status_code=403,
@@ -204,6 +225,16 @@ class WAFAndRateLimiterMiddleware(BaseHTTPMiddleware):
 
         allowed, remaining, limit = RateLimiterWAFEngine.check_rate_limit(client_ip, is_sensitive=is_sensitive_route)
         if not allowed:
+            if accepts_html and not path.startswith("/api/"):
+                html_content = SecurityBlockPageRenderer.render_block_html(
+                    ip=client_ip,
+                    reason_title="Rate Limit Exceeded",
+                    reason_detail=f"Too many requests. Limit is {limit} req/min. Please slow down.",
+                    error_code="RATE_LIMIT_EXCEEDED",
+                    retry_after=60
+                )
+                return HTMLResponse(content=html_content, status_code=429)
+
             return JSONResponse(
                 status_code=429,
                 headers={
