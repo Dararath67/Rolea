@@ -658,6 +658,10 @@ class PlatformSettings(BaseModel):
  auto_sync_interval: SyncInterval = "1h"
  low_balance_alert_usd: float = 100.0
  idempotency_window_minutes: int = 60
+ ai_chat_enabled: bool = True
+ ai_chat_api_url: str = "https://api.laalaa.me"
+ ai_chat_api_key: str = ""
+ ai_chat_model: str = "gpt-4o-mini"
 
 # --- Admin Dashboard Stats & Charts ---
 class AdminDashboardStats(BaseModel):

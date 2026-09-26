@@ -676,3 +676,113 @@ def user_spin_lucky_draw(payload: Dict[str, Any] = Body(...)):
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
 
+# ==========================================
+# AI SUPPORT CHAT SYSTEM (https://api.laalaa.me)
+# ==========================================
+@router.post("/chat/ai", response_model=Dict[str, Any])
+def user_ai_chat_response(payload: Dict[str, Any] = Body(...)):
+    user_message = str(payload.get("message") or payload.get("text") or "").strip()
+    history = payload.get("history") or []
+    
+    if not user_message:
+        raise HTTPException(status_code=400, detail="Message cannot be empty")
+
+    settings = db.get_settings()
+    ai_enabled = getattr(settings, "ai_chat_enabled", True)
+    api_url = (getattr(settings, "ai_chat_api_url", "https://api.laalaa.me") or "https://api.laalaa.me").rstrip("/")
+    api_key = (getattr(settings, "ai_chat_api_key", "") or "").strip()
+    model = getattr(settings, "ai_chat_model", "gpt-4o-mini") or "gpt-4o-mini"
+
+    def get_fallback_answer(msg: str) -> str:
+        msg_lower = msg.lower()
+        if any(k in msg_lower for k in ["bakong", "khqr", "បង់លុយ", "ទូទាត់", "កាត", "aba"]):
+            return "លោកអ្នកអាចទូទាត់តាមការ Scan Bakong KHQR ជាមួយគ្រប់ធនាគារក្នុងប្រទេសកម្ពុជា (ABA, Wing, ACLEDA...) ដោយឥតគិតថ្លៃ 0% សេវា។"
+        elif any(k in msg_lower for k in ["order", "បញ្ជាទិញ", "ស្ថានភាព", "ដាន", "track"]):
+            return "លោកអ្នកអាចពិនិត្យស្ថានភាព Order បានតាមរយៈទំព័រ Track Order ឬចុចក្នុង Menu 'ពិនិត្យ Order' ដោយបញ្ចូល Order ID របស់អ្នក។"
+        elif any(k in msg_lower for k in ["reseller", "ដេប៉ូ", "តំលៃ", "បោះដុំ"]):
+            return "លោកអ្នកអាចស្នើសុំគណនី Reseller B2B ដើម្បីទទួលបានតម្លៃបោះដុំពិសេសបំផុត! សូមចូលទៅកាន់ Menu Reseller ក្នុងទំព័រដើម។"
+        elif any(k in msg_lower for k in ["mlbb", "free fire", "pubg", "genshin", "hok", "ហ្គេម"]):
+            return "RoleaTopup ផ្តល់ជូនការបញ្ចូលប្រាក់ហ្គេមស្វ័យប្រវត្តក្នុងរយៈពេលក្រោម ៣០វិនាទី! គ្រាន់តែជ្រើសរើសកញ្ចប់ហ្គេម បញ្ចូល Player ID និង Scan KHQR។"
+        else:
+            return "សូមអរគុណសម្រាប់សាររបស់អ្នក! ខ្ញុំជា Rolea Support Assistant។ ប្រសិនបើលោកអ្នកត្រូវការជំនួយផ្ទាល់ សូមបង្កើត Support Ticket ឬទាក់ទងមក Telegram ផ្លូវការ @RoleaToP_bot (24/7)។"
+
+    if not ai_enabled:
+        return {
+            "success": True,
+            "reply": get_fallback_answer(user_message),
+            "provider": "local_fallback"
+        }
+
+    try:
+        import httpx
+        
+        messages_payload = [
+            {
+                "role": "system",
+                "content": (
+                    "You are Rolea AI Support Assistant for RoleaTopup platform (https://roleatopup.com). "
+                    "Always reply politely in Khmer language. Provide clear assistance about game top-ups (MLBB, Free Fire, PUBG, etc.), "
+                    "instant 30-second KHQR Bakong payments (0% fee), order tracking, and B2B Reseller benefits. "
+                    "If user needs human help, direct them to Telegram @RoleaToP_bot."
+                )
+            }
+        ]
+        
+        for h in history[-4:]:
+            sender = h.get("sender")
+            text = h.get("text", "")
+            if text:
+                role = "user" if sender == "user" else "assistant"
+                messages_payload.append({"role": role, "content": text})
+                
+        messages_payload.append({"role": "user", "content": user_message})
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+        if api_key:
+            headers["Authorization"] = f"Bearer {api_key}"
+            headers["api-key"] = api_key
+
+        endpoint_url = f"{api_url}/v1/chat/completions" if not api_url.endswith("/v1/chat/completions") else api_url
+
+        resp = httpx.post(
+            endpoint_url,
+            json={
+                "model": model,
+                "messages": messages_payload,
+                "temperature": 0.7,
+                "max_tokens": 500
+            },
+            headers=headers,
+            timeout=8.0
+        )
+
+        if resp.status_code == 200:
+            data = resp.json()
+            reply_text = ""
+            if "choices" in data and len(data["choices"]) > 0:
+                reply_text = data["choices"][0].get("message", {}).get("content", "")
+            elif "reply" in data:
+                reply_text = data.get("reply", "")
+            elif "response" in data:
+                reply_text = data.get("response", "")
+            elif "text" in data:
+                reply_text = data.get("text", "")
+
+            if reply_text:
+                return {
+                    "success": True,
+                    "reply": reply_text.strip(),
+                    "provider": "laalaa.me"
+                }
+    except Exception as e:
+        print(f"[AI_CHAT_WARN] Failed calling AI API {api_url}: {e}")
+
+    return {
+        "success": True,
+        "reply": get_fallback_answer(user_message),
+        "provider": "smart_fallback"
+    }
+
+

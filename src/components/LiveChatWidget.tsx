@@ -12,7 +12,9 @@ import {
   ExternalLink,
   ChevronRight,
   ShieldCheck,
-  Zap
+  Zap,
+  Bot,
+  Sparkles
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -20,12 +22,13 @@ export default function LiveChatWidget() {
   const { language } = useLanguage();
   const isKm = language === 'km';
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [messages, setMessages] = useState<Array<{ sender: 'bot' | 'user'; text: string; time: string }>>([
     {
       sender: 'bot',
       text: isKm 
-        ? 'ជំរាបសួរ! តើខ្ញុំអាចជួយអ្វីលោកអ្នកបានខ្លះអំពីការបញ្ចូលប្រាក់ហ្គេម ឬការពិនិត្យ Order?' 
-        : 'Hello! How can I assist you today with game top-ups or order status?',
+        ? 'ជំរាបសួរ! ខ្ញុំជា Rolea AI Support Assistant។ តើខ្ញុំអាចជួយអ្វីលោកអ្នកបានខ្លះអំពីការបញ្ចូលប្រាក់ហ្គេម ឬការពិនិត្យ Order?' 
+        : 'Hello! I am Rolea AI Support Assistant. How can I assist you today with game top-ups or order status?',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -37,9 +40,9 @@ export default function LiveChatWidget() {
     { label: isKm ? 'ទាក់ទង Telegram Support' : 'Telegram Support', answer: isKm ? 'លោកអ្នកអាចទាក់ទងមកកាន់ Telegram Support ផ្លូវការ @RoleaToP_bot ឬ Channel @RothzTopup បាន 24/7។' : 'Contact our official Telegram Support @RoleaToP_bot or join Channel @RothzTopup 24/7.' }
   ];
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const text = textToSend || inputText;
-    if (!text.trim()) return;
+    if (!text.trim() || isLoadingAI) return;
 
     const userMsg = {
       sender: 'user' as const,
@@ -47,18 +50,28 @@ export default function LiveChatWidget() {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    setMessages(prev => [...prev, userMsg]);
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
     if (!textToSend) setInputText('');
+    setIsLoadingAI(true);
 
-    // Auto bot response
-    setTimeout(() => {
-      let botAnswer = isKm 
-        ? 'សូមអរគុណសម្រាប់សាររបស់អ្នក! ប្រសិនបើលោកអ្នកត្រូវការជំនួយផ្ទាល់ សូមបង្កើត Support Ticket ឬទាក់ទង Telegram @RoleaToP_bot' 
-        : 'Thank you for your inquiry! For direct human assistance, please create a Support Ticket or contact Telegram @RoleaToP_bot';
+    try {
+      const res = await fetch('/api/v1/user/chat/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: text.trim(),
+          history: newMessages.slice(-6)
+        })
+      });
 
-      const match = quickQuestions.find(q => q.label === text);
-      if (match) {
-        botAnswer = match.answer;
+      const data = await res.json();
+      let botAnswer = data.reply;
+      if (!botAnswer) {
+        const match = quickQuestions.find(q => q.label === text);
+        botAnswer = match ? match.answer : (isKm 
+          ? 'សូមអរគុណសម្រាប់សាររបស់អ្នក! ប្រសិនបើលោកអ្នកត្រូវការជំនួយផ្ទាល់ សូមបង្កើត Support Ticket ឬទាក់ទង Telegram @RoleaToP_bot' 
+          : 'Thank you for your inquiry! For direct human assistance, please create a Support Ticket or contact Telegram @RoleaToP_bot');
       }
 
       setMessages(prev => [
@@ -69,7 +82,21 @@ export default function LiveChatWidget() {
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ]);
-    }, 600);
+    } catch (err) {
+      console.error('AI chat error:', err);
+      setMessages(prev => [
+        ...prev,
+        {
+          sender: 'bot',
+          text: isKm 
+            ? 'សូមអរគុណសម្រាប់សាររបស់អ្នក! សម្រាប់ជំនួយផ្ទាល់បន្ថែម សូមទាក់ទង Telegram @RoleaToP_bot (24/7)។'
+            : 'Thank you! For direct human assistance, please contact Telegram @RoleaToP_bot (24/7).',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
+      ]);
+    } finally {
+      setIsLoadingAI(false);
+    }
   };
 
   return (
@@ -84,7 +111,7 @@ export default function LiveChatWidget() {
             <MessageSquare className="w-5 h-5" />
             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full ring-2 ring-blue-600 animate-pulse" />
           </div>
-          <span>{isKm ? 'ជំនួយផ្ទាល់ 24/7' : 'Live Support'}</span>
+          <span>{isKm ? 'ជំនួយ AI 24/7' : 'AI Live Support'}</span>
         </button>
       )}
 
@@ -95,13 +122,13 @@ export default function LiveChatWidget() {
           <div className="p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center">
-                <Headphones className="w-5 h-5 text-white" />
+                <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h4 className="text-xs font-black tracking-tight">{isKm ? 'Rolea Support Assistant' : 'Rolea Support Assistant'}</h4>
+                <h4 className="text-xs font-black tracking-tight">{isKm ? 'Rolea Support AI Assistant' : 'Rolea Support AI Assistant'}</h4>
                 <div className="flex items-center gap-1.5 text-[10px] text-blue-100 font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Online 24/7</span>
+                  <span>AI Powered (https://api.laalaa.me)</span>
                 </div>
               </div>
             </div>
@@ -157,6 +184,15 @@ export default function LiveChatWidget() {
               </div>
             ))}
 
+            {isLoadingAI && (
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-slate-200 text-xs text-slate-500 max-w-[75%] mr-auto rounded-tl-none shadow-2xs">
+                <Bot className="w-4 h-4 text-blue-600 animate-spin" />
+                <span className="font-medium text-slate-600 animate-pulse">
+                  {isKm ? 'AI កំពុងគិត និងឆ្លើយតប...' : 'AI is thinking...'}
+                </span>
+              </div>
+            )}
+
             {/* Quick Questions Buttons */}
             <div className="pt-2 space-y-1.5">
               <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block px-1">
@@ -166,7 +202,8 @@ export default function LiveChatWidget() {
                 <button
                   key={idx}
                   onClick={() => handleSend(q.label)}
-                  className="w-full text-left p-2 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-xs font-bold text-slate-700 hover:text-blue-700 transition-colors flex items-center justify-between gap-2 shadow-2xs"
+                  disabled={isLoadingAI}
+                  className="w-full text-left p-2 rounded-xl bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-xs font-bold text-slate-700 hover:text-blue-700 transition-colors flex items-center justify-between gap-2 shadow-2xs disabled:opacity-50"
                 >
                   <span className="truncate">{q.label}</span>
                   <ChevronRight className="w-3.5 h-3.5 shrink-0 text-slate-400" />
@@ -187,12 +224,13 @@ export default function LiveChatWidget() {
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder={isKm ? 'សរសេរសារ...' : 'Type a message...'}
-              className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white"
+              placeholder={isKm ? 'សរសេរសារដើម្បីឆាតជាមួយ AI...' : 'Ask AI support anything...'}
+              disabled={isLoadingAI}
+              className="flex-1 px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white disabled:opacity-50"
             />
             <button
               type="submit"
-              disabled={!inputText.trim()}
+              disabled={!inputText.trim() || isLoadingAI}
               className="p-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold transition-colors cursor-pointer"
             >
               <Send className="w-4 h-4" />

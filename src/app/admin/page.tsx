@@ -114,6 +114,7 @@ function AdminControlPanelContent() {
  const [notifications, setNotifications] = useState<any[]>([]);
  const [syncLogs, setSyncLogs] = useState<any[]>([]);
  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+ const [showAiApiKey, setShowAiApiKey] = useState(false);
  const [platformSettings, setPlatformSettings] = useState<any>({
  platform_name: 'RoleaTopup Core Engine',
  support_telegram: 'https://t.me/rolea_support',
@@ -123,7 +124,11 @@ function AdminControlPanelContent() {
  maintenance_mode: false,
  auto_sync_master_enabled: true,
  auto_sync_interval: '1h',
- low_balance_alert_usd: 100.0
+ low_balance_alert_usd: 100.0,
+ ai_chat_enabled: true,
+ ai_chat_api_url: 'https://api.laalaa.me',
+ ai_chat_api_key: '',
+ ai_chat_model: 'gpt-4o-mini'
  });
  const [pricingConfig, setPricingConfig] = useState<any>({
  default_user_markup_percent: 12.0,
@@ -4031,6 +4036,98 @@ function AdminControlPanelContent() {
  className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs"
  >
  Save Platform Settings
+ </button>
+ </div>
+ </form>
+ </div>
+
+ {/* AI Support Assistant Integration (https://api.laalaa.me) */}
+ <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-4">
+ <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+ <div>
+ <h3 className="text-base font-black text-slate-900">
+ {isKm ? 'ការកំណត់ AI Support Assistant (https://api.laalaa.me)' : 'AI Support Assistant Integration (https://api.laalaa.me)'}
+ </h3>
+ <p className="text-xs text-slate-500">
+ {isKm ? 'កំណត់ AI API Key និង Base URL សម្រាប់ឲ្យ AI ឆ្លើយតបអតិថិជនស្វ័យប្រវត្តតាម Live Chat' : 'Configure AI API Key and Base URL for automated live chat customer support'}
+ </p>
+ </div>
+ <span className="px-3 py-1 rounded-full text-xs font-bold uppercase bg-blue-50 text-blue-700 border border-blue-200">
+ laalaa.me AI
+ </span>
+ </div>
+
+ <form onSubmit={handleSavePlatformSettings} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+ <div className="sm:col-span-2 flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-200">
+ <input
+ type="checkbox"
+ id="ai_chat_enabled"
+ checked={platformSettings.ai_chat_enabled !== false}
+ onChange={(e) => setPlatformSettings({ ...platformSettings, ai_chat_enabled: e.target.checked })}
+ className="w-4 h-4 text-blue-600 rounded cursor-pointer"
+ />
+ <label htmlFor="ai_chat_enabled" className="text-xs font-bold text-slate-800 cursor-pointer">
+ {isKm ? 'បើកដំណើរការ AI Live Chat Support (Enable AI Assistant)' : 'Enable AI Support Assistant in Live Chat'}
+ </label>
+ </div>
+
+ <div>
+ <label className="block text-slate-700 font-bold mb-1">
+ {isKm ? 'AI Base URL (https://api.laalaa.me)' : 'AI API Base URL'}
+ </label>
+ <input
+ type="text"
+ value={platformSettings.ai_chat_api_url || 'https://api.laalaa.me'}
+ onChange={(e) => setPlatformSettings({ ...platformSettings, ai_chat_api_url: e.target.value })}
+ placeholder="https://api.laalaa.me"
+ className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-blue-600 font-bold"
+ />
+ </div>
+
+ <div>
+ <label className="block text-slate-700 font-bold mb-1">
+ {isKm ? 'AI Model (ឧទាហរណ៍: gpt-4o-mini)' : 'AI Model Name'}
+ </label>
+ <input
+ type="text"
+ value={platformSettings.ai_chat_model || 'gpt-4o-mini'}
+ onChange={(e) => setPlatformSettings({ ...platformSettings, ai_chat_model: e.target.value })}
+ placeholder="gpt-4o-mini"
+ className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold"
+ />
+ </div>
+
+ <div className="sm:col-span-2">
+ <label className="block text-slate-700 font-bold mb-1">
+ {isKm ? 'AI API Key (https://api.laalaa.me Key)' : 'AI API Key'}
+ </label>
+ <div className="relative">
+ <input
+ type={showAiApiKey ? 'text' : 'password'}
+ value={platformSettings.ai_chat_api_key || ''}
+ onChange={(e) => setPlatformSettings({ ...platformSettings, ai_chat_api_key: e.target.value })}
+ placeholder="laalaa_sk_..."
+ className="w-full pl-3.5 pr-24 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono font-bold text-slate-900"
+ />
+ <button
+ type="button"
+ onClick={() => setShowAiApiKey(!showAiApiKey)}
+ className="absolute right-2 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-slate-200 hover:bg-slate-300 text-[10px] font-bold rounded-lg text-slate-700 cursor-pointer"
+ >
+ {showAiApiKey ? (isKm ? 'លាក់ Key' : 'Hide Key') : (isKm ? 'បង្ហាញ Key' : 'Show Key')}
+ </button>
+ </div>
+ <p className="text-[10px] text-slate-400 mt-1">
+ {isKm ? 'API Key នេះត្រូវរក្សាទុកដោយសុវត្ថិភាពនៅ Backend ដោយមិនបង្ហាញជាសាធារណៈឡើយ' : 'API Key is securely kept on server backend.'}
+ </p>
+ </div>
+
+ <div className="sm:col-span-2 flex justify-end">
+ <button
+ type="submit"
+ className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs cursor-pointer"
+ >
+ {isKm ? 'រក្សាទុកការកំណត់ AI Chat' : 'Save AI Chat Settings'}
  </button>
  </div>
  </form>
