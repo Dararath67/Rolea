@@ -13,6 +13,7 @@ import BannerEditor from './components/BannerEditor';
 import SupportTicketsTable from './components/SupportTicketsTable';
 import PromotersManagement from './components/PromotersManagement';
 import BroadcastCenter from './components/BroadcastCenter';
+import SecurityEncryptionVault from './components/SecurityEncryptionVault';
 import InvoiceReceiptModal from '@/components/InvoiceReceiptModal';
 import { exportToCsv } from '@/utils/exportToCsv';
 import { 
@@ -3936,6 +3937,7 @@ function AdminControlPanelContent() {
  {/* TAB 15: AUDIT LOGS */}
  {activeTab === 'audit-logs' && (
  <div className="space-y-6">
+ <SecurityEncryptionVault language={language} />
  <div className="flex items-center justify-between">
  <div>
  <h2 className="text-xl font-black text-slate-900">Security Audit Logs ({auditLogs.length})</h2>

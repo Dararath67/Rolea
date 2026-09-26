@@ -1437,6 +1437,45 @@ def admin_get_active_sessions():
     return {"success": True, "data": sessions}
 
 # ==========================================
+# SECURITY ENCRYPTION VAULT
+# ==========================================
+from ..services.encryption_service import EncryptionService
+
+@router.get("/security/encryption-status", response_model=Dict[str, Any])
+def admin_get_security_encryption_status():
+    return EncryptionService.get_vault_status()
+
+@router.post("/security/encrypt", response_model=Dict[str, Any])
+def admin_security_encrypt_payload(payload: Dict[str, Any] = Body(...)):
+    text = str(payload.get("text") or "").strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Text parameter is required for encryption")
+    encrypted_token = EncryptionService.encrypt(text)
+    return {
+        "success": True,
+        "algorithm": "AES-256-CTR + HMAC-SHA256 Encrypt-then-MAC",
+        "plaintext": text,
+        "encrypted_token": encrypted_token
+    }
+
+@router.post("/security/decrypt", response_model=Dict[str, Any])
+def admin_security_decrypt_payload(payload: Dict[str, Any] = Body(...)):
+    token = str(payload.get("token") or "").strip()
+    if not token:
+        raise HTTPException(status_code=400, detail="Token parameter is required for decryption")
+    try:
+        decrypted_text = EncryptionService.decrypt(token)
+        return {
+            "success": True,
+            "algorithm": "AES-256-CTR + HMAC-SHA256 Encrypt-then-MAC",
+            "encrypted_token": token,
+            "decrypted_text": decrypted_text
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Decryption failed: {str(e)}")
+
+
+# ==========================================
 # TELEGRAM NOTIFICATIONS CONFIG & TEST
 # ==========================================
 from ..services.telegram_service import TelegramService
