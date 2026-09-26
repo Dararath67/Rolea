@@ -229,42 +229,7 @@
   ],
   "webhooks": [],
   "wallet_txns": [],
-  "sync_logs": [
-    {
-      "id": "sync-9124b7f1",
-      "provider_id": "bay2game",
-      "provider_name": "Bay2Game Wholesale API Provider",
-      "sync_type": "products",
-      "games_added": 0,
-      "games_updated": 0,
-      "products_added": 0,
-      "products_updated": 0,
-      "products_disabled": 0,
-      "status": "success",
-      "error_message": null,
-      "started_at": null,
-      "finished_at": null,
-      "duration_ms": 94857,
-      "created_at": "2026-09-26T16:12:36.168033+00:00"
-    },
-    {
-      "id": "sync-f6c9b619",
-      "provider_id": "bay2game",
-      "provider_name": "Bay2Game Wholesale API Provider",
-      "sync_type": "games",
-      "games_added": 0,
-      "games_updated": 0,
-      "products_added": 0,
-      "products_updated": 0,
-      "products_disabled": 0,
-      "status": "success",
-      "error_message": null,
-      "started_at": null,
-      "finished_at": null,
-      "duration_ms": 888,
-      "created_at": "2026-09-26T16:11:01.310828+00:00"
-    }
-  ],
+  "sync_logs": [],
   "pricing_config": {
     "default_user_markup_percent": 12.0,
     "default_reseller_markup_percent": 5.0,
@@ -419,6 +384,26 @@
     "updated_at": "2026-09-24T16:17:54.472418+00:00"
   },
   "audit_logs": [
+    {
+      "id": "aud-9a3cdb",
+      "admin_username": "admin",
+      "admin_role": "manager",
+      "action": "UPDATE_PRODUCT",
+      "target_id": "b2g_valorant_kh_VALORANT_KH_475",
+      "details": "Updated product 475 Diamonds in Valorant Cambodia",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-26T16:48:48.210340+00:00"
+    },
+    {
+      "id": "aud-40a126",
+      "admin_username": "admin",
+      "admin_role": "manager",
+      "action": "UPDATE_PRODUCT",
+      "target_id": "b2g_valorant_kh_VALORANT_KH_475",
+      "details": "Updated product 475 Diamonds in Valorant Cambodia",
+      "ip_address": "127.0.0.1",
+      "created_at": "2026-09-26T16:48:48.206176+00:00"
+    },
     {
       "id": "aud-e0e9a7",
       "admin_username": "admin",
@@ -2398,26 +2383,6 @@
       "details": "Set game LifeAfter to OFF (Unpublished)",
       "ip_address": "127.0.0.1",
       "created_at": "2026-09-25T11:20:41.637463+00:00"
-    },
-    {
-      "id": "aud-f3e2f7",
-      "admin_username": "admin",
-      "admin_role": "manager",
-      "action": "TOGGLE_GAME_PUBLISHING",
-      "target_id": "b2g_onmyoji_arena",
-      "details": "Set game Onmyoji Arena to OFF (Unpublished)",
-      "ip_address": "127.0.0.1",
-      "created_at": "2026-09-25T11:20:41.635859+00:00"
-    },
-    {
-      "id": "aud-e48930",
-      "admin_username": "admin",
-      "admin_role": "manager",
-      "action": "TOGGLE_GAME_PUBLISHING",
-      "target_id": "b2g_wor",
-      "details": "Set game Watcher of Realms to OFF (Unpublished)",
-      "ip_address": "127.0.0.1",
-      "created_at": "2026-09-25T11:20:41.629615+00:00"
     }
   ],
   "notifications": [],

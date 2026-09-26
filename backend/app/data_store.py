@@ -2296,17 +2296,35 @@ class DataStore:
         for idx, pkg in enumerate(game.packages):
             if pkg.id == package_id:
                 d = pkg.model_dump()
-                for k, v in update.model_dump(exclude_unset=True).items():
+                update_dict = update.model_dump(exclude_unset=True)
+                for k, v in update_dict.items():
                     if v is not None:
                         d[k] = v
-                if update.markup_percent is not None:
+
+                # Priority: explicit prices set by admin -> fallback to markup calculation
+                if update.price_user_usd is not None:
+                    d["price_user_usd"] = round(float(update.price_user_usd), 2)
+                elif update.markup_percent is not None:
+                    d["price_user_usd"] = round(pkg.cost_usd * (1 + float(update.markup_percent) / 100.0), 2)
+
+                if update.price_reseller_usd is not None:
+                    d["price_reseller_usd"] = round(float(update.price_reseller_usd), 2)
+
+                if update.price_vip_usd is not None:
+                    d["price_vip_usd"] = round(float(update.price_vip_usd), 2)
+
+                if update.manual_price_override is not None:
+                    d["manual_price_override"] = bool(update.manual_price_override)
+                else:
                     d["manual_price_override"] = True
-                    d["price_user_usd"] = round(pkg.cost_usd * (1 + update.markup_percent / 100.0), 2)
+
                 updated_pkg = ProductPackage(**d)
                 game.packages[idx] = updated_pkg
                 self.log_audit("admin", "manager", "UPDATE_PRODUCT", package_id, f"Updated product {pkg.name_en} in {game.name_en}")
+                self.save_to_disk()
                 return updated_pkg
         return None
+
 
     def batch_update_products(self, updates: List[Dict[str, Any]]) -> int:
         count = 0
