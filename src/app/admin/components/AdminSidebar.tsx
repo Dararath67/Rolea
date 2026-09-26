@@ -23,7 +23,8 @@ import {
   Store,
   LifeBuoy,
   Crown,
-  Megaphone
+  Megaphone,
+  X
 } from 'lucide-react';
 
 export type AdminTab = 
@@ -58,6 +59,8 @@ interface AdminSidebarProps {
   unreadCount: number;
   stats?: any;
   language?: string;
+  mobileOpen?: boolean;
+  setMobileOpen?: (open: boolean) => void;
 }
 
 export default function AdminSidebar({
@@ -68,7 +71,9 @@ export default function AdminSidebar({
   currentRole,
   unreadCount,
   stats,
-  language = 'km'
+  language = 'km',
+  mobileOpen = false,
+  setMobileOpen
 }: AdminSidebarProps) {
   const isKm = language === 'km';
 
@@ -127,116 +132,220 @@ export default function AdminSidebar({
   ];
 
   return (
-    <aside
-      className={`sticky top-0 h-screen bg-white border-r border-slate-200 flex flex-col justify-between transition-all duration-300 z-30 shrink-0 select-none ${
-        collapsed ? 'w-20' : 'w-64 lg:w-72'
-      }`}
-    >
-      {/* Sidebar Header */}
-      <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <div className="h-14 w-auto shrink-0 flex items-center justify-center">
-            <img src="/images/logo.png" alt="Rolea Admin Logo" className="h-14 w-auto object-contain drop-shadow-sm" />
+    <>
+      {/* Mobile Overlay Drawer */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden flex">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onClick={() => setMobileOpen && setMobileOpen(false)}
+          />
+          
+          {/* Drawer Content */}
+          <div className="relative w-80 max-w-[85vw] bg-white h-full shadow-2xl flex flex-col justify-between z-10">
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <img src="/images/logo.png" alt="Rolea Admin Logo" className="h-10 w-auto object-contain" />
+                <div>
+                  <span className="font-black text-slate-900 text-base tracking-tight block">
+                    Rolea<span className="text-blue-600">Admin</span>
+                  </span>
+                  <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                    {currentRole.replace('_', ' ')}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setMobileOpen && setMobileOpen(false)}
+                className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto py-3 px-3 space-y-4 scrollbar-thin">
+              {menuSections.map((section, idx) => (
+                <div key={idx} className="space-y-1">
+                  <div className="px-3 py-1 text-[11px] font-bold text-slate-400 leading-snug">
+                    {section.title}
+                  </div>
+                  <div className="space-y-0.5">
+                    {section.items.map((item) => {
+                      const IconComponent = item.icon;
+                      const isActive = activeTab === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setActiveTab(item.id as AdminTab);
+                            if (setMobileOpen) setMobileOpen(false);
+                          }}
+                          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold leading-relaxed transition-all ${
+                            isActive
+                              ? 'bg-blue-600 text-white shadow-xs'
+                              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                          }`}
+                        >
+                          <IconComponent className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                          <span className="flex-1 text-left truncate">{item.label}</span>
+                          {item.badge && (
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${
+                              isActive 
+                                ? 'bg-white/20 text-white' 
+                                : item.badgeColor || 'bg-blue-50 text-blue-700 border border-blue-200'
+                            }`}>
+                              {item.badge}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-3 border-t border-slate-100 space-y-2">
+              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] font-bold uppercase text-slate-400">
+                    {isKm ? 'ស្ថានភាព API ផ្គត់ផ្គង់' : 'Upstream Health'}
+                  </span>
+                  <span className="flex items-center gap-1 text-[10px] font-black text-emerald-700">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    {isKm ? 'ធម្មតា' : 'ONLINE'}
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-600 font-medium">FastAPI Engine v2.0</p>
+              </div>
+
+              <Link
+                href="/"
+                onClick={() => setMobileOpen && setMobileOpen(false)}
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors w-full"
+              >
+                <Store className="w-4 h-4" />
+                <span>{isKm ? 'ទំព័រមុខហាង' : 'Storefront'}</span>
+              </Link>
+            </div>
           </div>
-          {!collapsed && (
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="font-black text-slate-900 text-base tracking-tight truncate">
-                  Rolea<span className="text-blue-600">Admin</span>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
+      <aside
+        className={`hidden lg:flex sticky top-0 h-screen bg-white border-r border-slate-200 flex-col justify-between transition-all duration-300 z-30 shrink-0 select-none ${
+          collapsed ? 'w-20' : 'w-64 lg:w-72'
+        }`}
+      >
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="h-14 w-auto shrink-0 flex items-center justify-center">
+              <img src="/images/logo.png" alt="Rolea Admin Logo" className="h-14 w-auto object-contain drop-shadow-sm" />
+            </div>
+            {!collapsed && (
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-black text-slate-900 text-base tracking-tight truncate">
+                    Rolea<span className="text-blue-600">Admin</span>
+                  </span>
+                </div>
+                <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                  {currentRole.replace('_', ' ')}
                 </span>
               </div>
-              <span className="inline-block px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-blue-50 text-blue-700 border border-blue-200">
-                {currentRole.replace('_', ' ')}
-              </span>
+            )}
+          </div>
+
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors hidden sm:block"
+            title={collapsed ? (isKm ? "ពង្រីក Sidebar" : "Expand sidebar") : (isKm ? "បង្រួម Sidebar" : "Collapse sidebar")}
+          >
+            {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          </button>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="flex-1 overflow-y-auto py-3 px-3 space-y-4 scrollbar-thin">
+          {menuSections.map((section, idx) => (
+            <div key={idx} className="space-y-1">
+              {!collapsed && (
+                <div className="px-3 py-1 text-[11px] font-bold text-slate-400 leading-snug">
+                  {section.title}
+                </div>
+              )}
+              <div className="space-y-0.5">
+                {section.items.map((item) => {
+                  const IconComponent = item.icon;
+                  const isActive = activeTab === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => setActiveTab(item.id as AdminTab)}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold leading-relaxed transition-all relative ${
+                        isActive
+                          ? 'bg-blue-600 text-white shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      }`}
+                      title={collapsed ? item.label : undefined}
+                    >
+                      <IconComponent className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                      {!collapsed && (
+                        <span className="flex-1 text-left truncate">{item.label}</span>
+                      )}
+                      {!collapsed && item.badge && (
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${
+                          isActive 
+                            ? 'bg-white/20 text-white' 
+                            : item.badgeColor || 'bg-blue-50 text-blue-700 border border-blue-200'
+                        }`}>
+                          {item.badge}
+                        </span>
+                      )}
+                      {collapsed && item.badge && (
+                        <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Sidebar Footer */}
+        <div className="p-3 border-t border-slate-100 space-y-2">
+          {!collapsed && (
+            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] font-bold uppercase text-slate-400">
+                  {isKm ? 'ស្ថានភាព API ផ្គត់ផ្គង់' : 'Upstream Health'}
+                </span>
+                <span className="flex items-center gap-1 text-[10px] font-black text-emerald-700">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  {isKm ? 'ធម្មតា' : 'ONLINE'}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-600 font-medium">FastAPI Engine v2.0</p>
             </div>
           )}
-        </div>
 
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors hidden sm:block"
-          title={collapsed ? (isKm ? "ពង្រីក Sidebar" : "Expand sidebar") : (isKm ? "បង្រួម Sidebar" : "Collapse sidebar")}
-        >
-          {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-        </button>
-      </div>
-
-      {/* Navigation Links */}
-      <div className="flex-1 overflow-y-auto py-3 px-3 space-y-4 scrollbar-thin">
-        {menuSections.map((section, idx) => (
-          <div key={idx} className="space-y-1">
-            {!collapsed && (
-              <div className="px-3 py-1 text-[11px] font-bold text-slate-400 leading-snug">
-                {section.title}
-              </div>
-            )}
-            <div className="space-y-0.5">
-              {section.items.map((item) => {
-                const IconComponent = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id as AdminTab)}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold leading-relaxed transition-all relative ${
-                      isActive
-                        ? 'bg-blue-600 text-white shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                    }`}
-                    title={collapsed ? item.label : undefined}
-                  >
-                    <IconComponent className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
-                    {!collapsed && (
-                      <span className="flex-1 text-left truncate">{item.label}</span>
-                    )}
-                    {!collapsed && item.badge && (
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${
-                        isActive 
-                          ? 'bg-white/20 text-white' 
-                          : item.badgeColor || 'bg-blue-50 text-blue-700 border border-blue-200'
-                      }`}>
-                        {item.badge}
-                      </span>
-                    )}
-                    {collapsed && item.badge && (
-                      <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="flex items-center gap-1">
+            <Link
+              href="/"
+              className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
+              title={isKm ? "ទៅកាន់ទំព័រមុខហាង" : "Go to customer storefront"}
+            >
+              <Store className="w-4 h-4" />
+              {!collapsed && <span>{isKm ? 'ទំព័រមុខហាង' : 'Storefront'}</span>}
+            </Link>
           </div>
-        ))}
-      </div>
-
-      {/* Sidebar Footer */}
-      <div className="p-3 border-t border-slate-100 space-y-2">
-        {!collapsed && (
-          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] font-bold uppercase text-slate-400">
-                {isKm ? 'ស្ថានភាព API ផ្គត់ផ្គង់' : 'Upstream Health'}
-              </span>
-              <span className="flex items-center gap-1 text-[10px] font-black text-emerald-700">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                {isKm ? 'ធម្មតា' : 'ONLINE'}
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-600 font-medium">FastAPI Engine v2.0</p>
-          </div>
-        )}
-
-        <div className="flex items-center gap-1">
-          <Link
-            href="/"
-            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors"
-            title={isKm ? "ទៅកាន់ទំព័រមុខហាង" : "Go to customer storefront"}
-          >
-            <Store className="w-4 h-4" />
-            {!collapsed && <span>{isKm ? 'ទំព័រមុខហាង' : 'Storefront'}</span>}
-          </Link>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }
+

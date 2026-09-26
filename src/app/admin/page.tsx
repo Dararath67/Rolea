@@ -1243,6 +1243,8 @@ function AdminControlPanelContent() {
  setActiveTab={setActiveTab}
  collapsed={sidebarCollapsed}
  setCollapsed={setSidebarCollapsed}
+ mobileOpen={mobileSidebarOpen}
+ setMobileOpen={setMobileSidebarOpen}
  currentRole={currentRole}
  unreadCount={notifications.filter(n => !n.is_read).length}
  stats={stats}

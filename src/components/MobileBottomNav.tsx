@@ -22,6 +22,10 @@ export default function MobileBottomNav() {
   const isKm = language === 'km';
   const [currentUser, setCurrentUser] = useState<any | null>(null);
 
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
   useEffect(() => {
     try {
       const stored = localStorage.getItem('rothz_user') || localStorage.getItem('rolea_user');
