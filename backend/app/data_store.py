@@ -58,6 +58,7 @@ class DataStore:
         self.pending_wallet_deposits: Dict[str, Dict[str, Any]] = {}
         self.reseller_security_configs: Dict[str, Dict[str, Any]] = {}
         self.tickets: List[SupportTicket] = []
+        self.broadcasts: List[BroadcastItem] = []
         self.telegram_link_codes: Dict[str, Dict[str, Any]] = {}
         self.password_resets: List[Dict[str, Any]] = []
         self.active_primary_provider_id: str = "bay2game"
@@ -113,6 +114,7 @@ class DataStore:
                 "gamer_verification_logs": [g.model_dump() if hasattr(g, 'model_dump') else g for g in self.gamer_verification_logs],
                 "reseller_security_configs": self.reseller_security_configs,
                 "tickets": [t.model_dump() if hasattr(t, 'model_dump') else t for t in self.tickets],
+                "broadcasts": [b.model_dump() if hasattr(b, 'model_dump') else b for b in self.broadcasts],
                 "password_resets": getattr(self, "password_resets", []),
                 "active_primary_provider_id": getattr(self, "active_primary_provider_id", "bay2game"),
                 "provider_low_balance_threshold": getattr(self, "provider_low_balance_threshold", 5.0),
@@ -198,6 +200,8 @@ class DataStore:
                 self.audit_logs = [AuditLog(**a) if isinstance(a, dict) else a for a in data["audit_logs"]]
             if "notifications" in data and data["notifications"]:
                 self.notifications = [SystemNotification(**n) if isinstance(n, dict) else n for n in data["notifications"]]
+            if "broadcasts" in data and data["broadcasts"]:
+                self.broadcasts = [BroadcastItem(**b) if isinstance(b, dict) else b for b in data["broadcasts"]]
             if "settings" in data and data["settings"]:
                 self.settings = PlatformSettings(**data["settings"]) if isinstance(data["settings"], dict) else data["settings"]
             if "pricing_config" in data and data["pricing_config"]:
@@ -2806,6 +2810,102 @@ class DataStore:
     def clear_notifications(self) -> bool:
         self.notifications = []
         return True
+
+    # --- Broadcast Center ---
+    def send_broadcast(self, req: BroadcastRequest) -> Dict[str, Any]:
+        b_id = f"bc-{uuid.uuid4().hex[:8]}"
+        now_str = datetime.now(timezone.utc).isoformat()
+
+        matched_users = []
+        for u_record in self.users:
+            u = getattr(u_record, 'user', u_record)
+            role = getattr(u, 'role', 'user')
+            if req.target_role == 'all':
+                matched_users.append(u)
+            elif req.target_role == 'reseller' and role in ['reseller', 'admin', 'super_admin']:
+                matched_users.append(u)
+            elif req.target_role == 'user' and role == 'user':
+                matched_users.append(u)
+
+        recipients_count = len(matched_users)
+        telegram_sent_count = 0
+
+        if req.send_telegram:
+            try:
+                from .services.telegram_service import TelegramService
+                tg_text = (
+                    f"📢 <b>{req.title}</b>\n\n"
+                    f"{req.message}\n\n"
+                    f"🌐 <i>RoleaTopup Official Announcement</i>"
+                )
+                bot_token = getattr(self.settings, 'telegram_bot_token', '') or os.getenv("TELEGRAM_BOT_TOKEN", "")
+
+                for u in matched_users:
+                    t_chat_id = getattr(u, 'telegram_chat_id', None)
+                    if t_chat_id:
+                        res = TelegramService.send_message(t_chat_id, tg_text, bot_token=bot_token)
+                        if isinstance(res, dict) and res.get("success"):
+                            telegram_sent_count += 1
+
+                admin_chat = getattr(self.settings, 'telegram_chat_id', '') or os.getenv("TELEGRAM_CHAT_ID", "")
+                if admin_chat:
+                    TelegramService.send_message(admin_chat, tg_text, bot_token=bot_token)
+            except Exception as e:
+                print(f"[BROADCAST_TELEGRAM_WARN] {e}")
+
+        # In-app notification broadcast
+        notif_type = 'info'
+        if req.type in ['info', 'warning', 'error', 'success']:
+            notif_type = req.type
+        elif req.type == 'promo':
+            notif_type = 'success'
+
+        notif = SystemNotification(
+            id=f"notif-{uuid.uuid4().hex[:8]}",
+            title=req.title,
+            message=req.message,
+            type=notif_type,
+            is_read=False,
+            link=req.link or "/dashboard",
+            created_at=now_str
+        )
+        self.notifications.insert(0, notif)
+
+        b_item = BroadcastItem(
+            id=b_id,
+            title=req.title,
+            message=req.message,
+            target_role=req.target_role,
+            type=req.type,
+            send_telegram=req.send_telegram,
+            recipients_count=recipients_count,
+            created_at=now_str,
+            banner_url=req.banner_url,
+            link=req.link
+        )
+        self.broadcasts.insert(0, b_item)
+        self.log_audit("admin", "manager", "SEND_BROADCAST", b_id, f"Broadcast sent: '{req.title}' to {recipients_count} users")
+        self.save_to_disk()
+
+        return {
+            "success": True,
+            "data": b_item.model_dump(),
+            "recipients_count": recipients_count,
+            "telegram_sent_count": telegram_sent_count,
+            "message": f"Broadcast '{req.title}' sent successfully!"
+        }
+
+    def get_broadcasts(self) -> List[BroadcastItem]:
+        return self.broadcasts
+
+    def delete_broadcast(self, broadcast_id: str) -> bool:
+        initial = len(self.broadcasts)
+        self.broadcasts = [b for b in self.broadcasts if b.id != broadcast_id]
+        if len(self.broadcasts) < initial:
+            self.save_to_disk()
+            return True
+        return False
+
 
     # --- Settings Operations ---
     def get_settings(self) -> PlatformSettings:

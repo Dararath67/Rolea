@@ -12,6 +12,7 @@ import ConnectedGamesTable from './components/ConnectedGamesTable';
 import BannerEditor from './components/BannerEditor';
 import SupportTicketsTable from './components/SupportTicketsTable';
 import PromotersManagement from './components/PromotersManagement';
+import BroadcastCenter from './components/BroadcastCenter';
 import InvoiceReceiptModal from '@/components/InvoiceReceiptModal';
 import { exportToCsv } from '@/utils/exportToCsv';
 import { 
@@ -4193,6 +4194,11 @@ function AdminControlPanelContent() {
  {/* TAB 18: PROMOTERS MANAGEMENT */}
  {activeTab === 'promoters' && (
    <PromotersManagement language={language} />
+ )}
+
+ {/* TAB 19: BROADCAST CENTER */}
+ {activeTab === 'broadcast' && (
+   <BroadcastCenter showToast={showToast} />
  )}
 
  </main>

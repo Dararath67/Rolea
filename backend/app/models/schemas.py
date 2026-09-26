@@ -835,7 +835,7 @@ class AuditLog(BaseModel):
  ip_address: str = "127.0.0.1"
  created_at: str
 
-# --- System Notifications ---
+# --- System Notifications & Broadcasts ---
 class SystemNotification(BaseModel):
  id: str
  title: str
@@ -844,6 +844,28 @@ class SystemNotification(BaseModel):
  is_read: bool = False
  link: Optional[str] = None
  created_at: str
+
+class BroadcastRequest(BaseModel):
+ title: str
+ message: str
+ target_role: Literal['all', 'reseller', 'user', 'telegram'] = 'all'
+ type: Literal['info', 'warning', 'success', 'promo'] = 'info'
+ send_telegram: bool = True
+ banner_url: Optional[str] = None
+ link: Optional[str] = None
+
+class BroadcastItem(BaseModel):
+ id: str
+ title: str
+ message: str
+ target_role: str = 'all'
+ type: str = 'info'
+ send_telegram: bool = True
+ recipients_count: int = 0
+ created_at: str
+ banner_url: Optional[str] = None
+ link: Optional[str] = None
+
 
 # --- Platform Settings ---
 class PlatformSettings(BaseModel):

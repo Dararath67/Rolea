@@ -5,7 +5,7 @@ from ..models.schemas import (
     AdminDashboardStats, Game, Order, OrderStatusUpdate, User,
     Provider, ProviderCreate, ProviderUpdate, ProviderResponse,
     PaymentMethod, ProductPackageUpdate, SyncLog, PricingConfig,
-    Coupon, CouponCreate, Banner, BannerCreate, QuickCard, HeroBannerConfig, AuditLog, SystemNotification,
+    Coupon, CouponCreate, Banner, BannerCreate, QuickCard, HeroBannerConfig, AuditLog, SystemNotification, BroadcastRequest,
     PlatformSettings, WalletLedgerEntry, RaksmeyPayConfig, KHPayConfig, KHQRCCConfig, VngzzPaymentConfig,
     GamerVerificationLog, GamerVerificationSettings, TicketReplyRequest, TicketStatusUpdateRequest,
     PromoterApplication, Promoter, PromoterCommission, PromoterWithdrawal, PromoterReviewRequest, PromoterUpdateRequest
@@ -999,6 +999,28 @@ def admin_mark_all_notifications_read(payload: Dict[str, Any] = Body(...)):
 def admin_clear_notifications():
     res = db.clear_notifications()
     return {"success": res}
+
+# ==========================================
+# BROADCAST CENTER
+# ==========================================
+@router.post("/broadcast", response_model=Dict[str, Any])
+def admin_send_broadcast(req: BroadcastRequest):
+    if not req.title or not req.message:
+        raise HTTPException(status_code=400, detail="សូមបញ្ចូលចំណងជើង និងសាររាយការណ៍ (Title and message are required).")
+    res = db.send_broadcast(req)
+    return res
+
+@router.get("/broadcasts", response_model=Dict[str, Any])
+def admin_get_broadcasts():
+    return {"success": True, "data": db.get_broadcasts()}
+
+@router.delete("/broadcasts/{broadcast_id}", response_model=Dict[str, Any])
+def admin_delete_broadcast(broadcast_id: str):
+    res = db.delete_broadcast(broadcast_id)
+    if not res:
+        raise HTTPException(status_code=404, detail="Broadcast not found")
+    return {"success": True, "message": "Broadcast removed"}
+
 
 # ==========================================
 # 12. SYNC LOGS & AUDIT LOGS

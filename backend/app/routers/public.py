@@ -376,3 +376,8 @@ def reply_to_support_ticket(ticket_id: str, req: TicketReplyRequest):
     if not updated:
         raise HTTPException(status_code=404, detail="Support ticket not found")
     return {"success": True, "data": updated, "message": "Reply sent successfully!"}
+
+@router.get("/broadcasts", response_model=Dict[str, Any])
+def public_get_active_broadcasts():
+    return {"success": True, "data": db.get_broadcasts()}
+

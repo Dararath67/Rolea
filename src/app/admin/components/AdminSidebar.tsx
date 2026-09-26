@@ -22,7 +22,8 @@ import {
   Shield,
   Store,
   LifeBuoy,
-  Crown
+  Crown,
+  Megaphone
 } from 'lucide-react';
 
 export type AdminTab = 
@@ -45,7 +46,8 @@ export type AdminTab =
   | 'audit-logs'
   | 'settings'
   | 'tickets'
-  | 'promoters';
+  | 'promoters'
+  | 'broadcast';
 
 interface AdminSidebarProps {
   activeTab: AdminTab;
@@ -111,7 +113,8 @@ export default function AdminSidebar({
       items: [
         { id: 'coupons', label: isKm ? 'ប័ណ្ណបញ្ចុះតម្លៃ' : 'Coupons & Promos', icon: Tag },
         { id: 'banners', label: isKm ? 'បដាផ្សព្វផ្សាយ Hero' : 'Hero Banners', icon: ImageIcon },
-        { id: 'promoters', label: isKm ? 'កម្មវិធី Promoter' : 'Promoter Portal', icon: Crown }
+        { id: 'promoters', label: isKm ? 'កម្មវិធី Promoter' : 'Promoter Portal', icon: Crown },
+        { id: 'broadcast', label: isKm ? 'មជ្ឈមណ្ឌល Broadcast' : 'Broadcast Center', icon: Megaphone, badge: 'New', badgeColor: 'bg-indigo-600 text-white' }
       ]
     },
     {
