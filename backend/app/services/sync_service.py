@@ -343,13 +343,24 @@ class SyncService:
     @staticmethod
     def sync_all(data_store: Any) -> Dict[str, Any]:
         results = []
-        for prov in data_store.providers:
-            if prov.status == "active":
-                res_games = SyncService.sync_games(prov.id, data_store)
-                res_products = SyncService.sync_products(prov.id, data_store)
-                results.append({
-                    "provider": prov.name,
-                    "games": res_games,
-                    "products": res_products
-                })
-        return {"success": True, "results": results}
+        provs = data_store.get_providers() if hasattr(data_store, 'get_providers') else getattr(data_store, 'providers', [])
+        for prov in provs:
+            if getattr(prov, 'status', 'active') == "active":
+                try:
+                    res_games = SyncService.sync_games(prov.id, data_store)
+                    res_products = SyncService.sync_products(prov.id, data_store)
+                    results.append({
+                        "provider": prov.name,
+                        "games": res_games,
+                        "products": res_products
+                    })
+                except Exception as ex:
+                    print(f"[SYNC_ALL_WARN] Exception syncing provider {getattr(prov, 'name', prov.id)}: {ex}")
+                    results.append({
+                        "provider": getattr(prov, 'name', prov.id),
+                        "success": False,
+                        "error": str(ex)
+                    })
+        data_store.save_to_disk()
+        return {"success": True, "message": "API Sync All completed successfully", "results": results}
+

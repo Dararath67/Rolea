@@ -170,6 +170,8 @@ class DataStore:
                             "user": user_obj,
                             "password_hash": u.get("password_hash")
                         })
+            if "games" in data and data["games"]:
+                self.games = [Game(**g) if isinstance(g, dict) else g for g in data["games"]]
             if "orders" in data and data["orders"]:
                 self.orders = [Order(**o) if isinstance(o, dict) else o for o in data["orders"]]
             if "providers" in data and data["providers"]:
@@ -1107,11 +1109,12 @@ class DataStore:
     def get_connected_api_games(self, provider_id: Optional[str] = None, status: Optional[str] = None) -> List[Dict[str, Any]]:
         result = []
         for g in self.games:
-            p_id = (getattr(g, 'provider_id', None) or getattr(g, 'primary_provider_id', None) or '').lower()
-            provider_obj = self.get_provider(p_id)
+            p_id = (getattr(g, 'provider_id', None) or getattr(g, 'primary_provider_id', None) or 'bay2game').lower()
+            provider_obj = self.get_provider(p_id) or self.get_provider("bay2game")
 
             if provider_id and provider_id != "all":
-                if not provider_obj or provider_obj.id.lower() != provider_id.lower():
+                matched_id = provider_obj.id.lower() if provider_obj else p_id
+                if matched_id != provider_id.lower() and provider_id.lower() != "bay2game":
                     continue
 
             if status == "on" and not g.is_active:
