@@ -41,7 +41,7 @@ export default function RootLayout({
             <LoadingProvider>
               <FloatingMascots />
               <ReferralTracker />
-              <div className="pb-16 sm:pb-0 min-h-screen flex flex-col">
+              <div className="pb-24 sm:pb-0 min-h-screen flex flex-col">
                 {children}
               </div>
               <FloatingSupportWidget />

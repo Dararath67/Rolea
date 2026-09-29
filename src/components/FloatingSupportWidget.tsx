@@ -7,7 +7,7 @@ export default function FloatingSupportWidget() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end print:hidden">
       {/* Expandable Chat Menu */}
       {isOpen && (
         <div className="mb-3 w-80 sm:w-96 rounded-3xl bg-white border border-slate-200 shadow-2xl shadow-slate-900/15 overflow-hidden transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">
