@@ -130,7 +130,7 @@ export default function HeroBanner() {
       id: 'games',
       label: isKm ? 'ហ្គេម' : 'Games',
       href: '/games',
-      iconSrc: '/images/kira-logo.png',
+      iconSrc: '/images/rolea-logo.png',
       fallbackIcon: Gamepad2,
       color: 'from-blue-500 to-indigo-600'
     },
