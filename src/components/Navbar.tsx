@@ -113,24 +113,24 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-24 sm:h-26 gap-3 py-2">
           
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3.5 group shrink-0">
-            <div className="h-16 sm:h-20 flex items-center justify-center py-1">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3.5 group shrink-0 max-w-[60%] sm:max-w-none">
+            <div className="h-10 sm:h-16 flex items-center justify-center py-0.5">
               <img 
                 src="/images/logo.png" 
                 alt="Rolea TopUp Logo" 
-                className="h-16 sm:h-20 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md" 
+                className="h-10 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform drop-shadow-md" 
               />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-black tracking-tight text-slate-900">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1 sm:gap-2">
+                <span className="text-base sm:text-2xl font-black tracking-tight text-slate-900 truncate">
                   {t.brandName}
                 </span>
-                <span className="text-[10px] px-2 py-0.5 font-extrabold uppercase rounded-md bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap">
+                <span className="text-[9px] sm:text-[10px] px-1.5 py-0.5 font-extrabold uppercase rounded-md bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap">
                   KH
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 font-semibold whitespace-nowrap">Cambodia Game Top-Up</p>
+              <p className="hidden sm:block text-[11px] text-slate-500 font-semibold whitespace-nowrap">Cambodia Game Top-Up</p>
             </div>
           </Link>
 
