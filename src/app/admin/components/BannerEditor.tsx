@@ -19,7 +19,8 @@ import {
   Power,
   Link as LinkIcon,
   Globe,
-  X
+  X,
+  Upload
 } from 'lucide-react';
 
 interface BannerEditorProps {
@@ -103,6 +104,23 @@ export default function BannerEditor({
   const [editSortOrder, setEditSortOrder] = useState(1);
   const [editIsActive, setEditIsActive] = useState(true);
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, isEdit: boolean = false) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      if (result) {
+        if (isEdit) {
+          setEditImageUrl(result);
+        } else {
+          setNewImageUrl(result);
+        }
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   const showToast = (text: string, type: 'success' | 'error' = 'success') => {
     setToastMessage({ text, type });
     setTimeout(() => setToastMessage(null), 4000);
@@ -177,19 +195,23 @@ export default function BannerEditor({
   // Add Promo Banner
   const handleCreatePromoBanner = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!newImageUrl) {
+      showToast(isKm ? 'សូមជ្រើសរើស ឬបញ្ចូលរូបភាព Banner' : 'Please select or upload an image', 'error');
+      return;
+    }
     try {
       const res = await fetch('/api/v1/admin/banners', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title_en: newTitleEn,
-          title_km: newTitleKm || newTitleEn,
-          subtitle_en: newSubtitleEn,
-          subtitle_km: newSubtitleKm || newSubtitleEn,
+          title_en: 'Banner',
+          title_km: 'Banner',
+          subtitle_en: '',
+          subtitle_km: '',
           image_url: newImageUrl,
           target_url: newTargetUrl,
-          badge_en: newBadgeEn,
-          badge_km: newBadgeKm || newBadgeEn,
+          badge_en: '',
+          badge_km: '',
           sort_order: Number(newSortOrder) || 1,
           is_active: true
         })
@@ -198,10 +220,7 @@ export default function BannerEditor({
       if (data.success) {
         showToast(isKm ? 'បានបន្ថែម Photo Banner ថ្មីបានជោគជ័យ' : 'New photo promo banner created successfully', 'success');
         setIsAddingBanner(false);
-        setNewTitleEn('');
-        setNewTitleKm('');
-        setNewSubtitleEn('');
-        setNewSubtitleKm('');
+        setNewImageUrl('');
         loadBannerData();
         if (onRefreshParent) onRefreshParent();
       }
@@ -213,14 +232,8 @@ export default function BannerEditor({
   // Open Edit Banner Modal
   const openEditBannerModal = (banner: any) => {
     setEditingBanner(banner);
-    setEditTitleEn(banner.title_en || '');
-    setEditTitleKm(banner.title_km || '');
-    setEditSubtitleEn(banner.subtitle_en || '');
-    setEditSubtitleKm(banner.subtitle_km || '');
     setEditImageUrl(banner.image_url || '');
     setEditTargetUrl(banner.target_url || '/games/mobile-legends');
-    setEditBadgeEn(banner.badge_en || 'HOT PROMO');
-    setEditBadgeKm(banner.badge_km || 'ប្រូម៉ូសិន');
     setEditSortOrder(banner.sort_order || 1);
     setEditIsActive(banner.is_active !== false);
   };
@@ -235,14 +248,14 @@ export default function BannerEditor({
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title_en: editTitleEn,
-          title_km: editTitleKm || editTitleEn,
-          subtitle_en: editSubtitleEn,
-          subtitle_km: editSubtitleKm || editSubtitleEn,
+          title_en: 'Banner',
+          title_km: 'Banner',
+          subtitle_en: '',
+          subtitle_km: '',
           image_url: editImageUrl,
           target_url: editTargetUrl,
-          badge_en: editBadgeEn,
-          badge_km: editBadgeKm || editBadgeEn,
+          badge_en: '',
+          badge_km: '',
           sort_order: Number(editSortOrder) || 1,
           is_active: editIsActive
         })
@@ -521,153 +534,77 @@ export default function BannerEditor({
             </div>
 
             <form onSubmit={handleUpdatePromoBanner} className="space-y-4 text-xs">
-              {/* Photo Image URL & Presets */}
-              <div className="space-y-2 p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
-                <label className="font-bold text-slate-800 flex items-center justify-between">
-                  <span>{isKm ? 'រូបភាព Banner Photo URL (Image URL)' : 'Banner Photo URL'} <span className="text-red-500">*</span></span>
-                  <span className="text-[10px] text-blue-600">High Quality Photo</span>
+              {/* Photo Image Upload & URL */}
+              <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                <label className="font-bold text-slate-800 block text-xs">
+                  {isKm ? 'រូបភាព Banner (Upload ពីកុំព្យូទ័រ/ទូរស័ព្ទ ឬ Paste URL)' : 'Banner Photo (Upload File or Image URL)'} <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="url"
-                  required
-                  value={editImageUrl}
-                  onChange={(e) => setEditImageUrl(e.target.value)}
-                  placeholder="https://example.com/photo-banner.jpg"
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-mono text-slate-900 text-xs"
-                />
+                
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <label htmlFor="edit-banner-file-input" className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer transition-all hover:scale-[1.02] shrink-0">
+                    <Upload className="w-4 h-4" />
+                    <span>{isKm ? 'ជ្រើសរើសរូបភាពពីទូរស័ព្ទ/កុំព្យូទ័រ' : 'Upload Image File'}</span>
+                    <input 
+                      id="edit-banner-file-input" 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={(e) => handleFileUpload(e, true)} 
+                      className="hidden" 
+                    />
+                  </label>
 
-                {/* Preset Photo Image Buttons */}
-                <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                  <span className="text-[10px] text-slate-400 font-bold mr-1">{isKm ? 'រូបភាពគំរូ៖' : 'Presets:'}</span>
-                  <button
-                    type="button"
-                    onClick={() => setEditImageUrl('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-blue-100 text-blue-800 hover:bg-blue-200 font-bold"
-                  >
-                    MLBB
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditImageUrl('https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-orange-100 text-orange-800 hover:bg-orange-200 font-bold"
-                  >
-                    Free Fire
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditImageUrl('https://images.unsplash.com/photo-1542751110-97427bbecf20?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-yellow-100 text-yellow-800 hover:bg-yellow-200 font-bold"
-                  >
-                    PUBG Mobile
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditImageUrl('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-emerald-100 text-emerald-800 hover:bg-emerald-200 font-bold"
-                  >
-                    VALORANT
-                  </button>
+                  <span className="text-xs text-slate-400 font-bold">{isKm ? 'ឬ' : 'or'}</span>
+
+                  <input
+                    type="text"
+                    value={editImageUrl}
+                    onChange={(e) => setEditImageUrl(e.target.value)}
+                    placeholder="https://example.com/photo-banner.jpg"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-mono text-slate-900 text-xs"
+                  />
                 </div>
 
-                {/* Preview Thumbnail */}
+                {/* Live Preview */}
                 {editImageUrl && (
-                  <div className="h-28 rounded-xl bg-slate-900 overflow-hidden relative border border-slate-300 mt-2">
+                  <div className="h-36 rounded-2xl bg-slate-900 overflow-hidden relative border border-slate-300 mt-2 shadow-xs">
                     <img src={editImageUrl} alt="Banner Preview" className="w-full h-full object-cover" />
-                    <span className="absolute bottom-1 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-[9px] font-mono">Preview</span>
+                    <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded bg-black/70 text-white text-[10px] font-mono">
+                      Preview
+                    </span>
                   </div>
                 )}
               </div>
 
-              {/* Title Fields */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Title (KM) <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    required
-                    value={editTitleKm}
-                    onChange={(e) => setEditTitleKm(e.target.value)}
-                    placeholder="ប្រូម៉ូសិន ពេជ្រ MLBB"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
-                  />
-                </div>
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Title (EN) <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    required
-                    value={editTitleEn}
-                    onChange={(e) => setEditTitleEn(e.target.value)}
-                    placeholder="MLBB Promo Diamonds"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
-                  />
-                </div>
-              </div>
-
-              {/* Subtitle Fields */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Subtitle (KM)</label>
-                  <input
-                    type="text"
-                    value={editSubtitleKm}
-                    onChange={(e) => setEditSubtitleKm(e.target.value)}
-                    placeholder="បញ្ចូលស្វ័យប្រវត្តិតាម KHQR 24/7"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900"
-                  />
-                </div>
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Subtitle (EN)</label>
-                  <input
-                    type="text"
-                    value={editSubtitleEn}
-                    onChange={(e) => setEditSubtitleEn(e.target.value)}
-                    placeholder="Instant Auto-Delivery via KHQR"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900"
-                  />
-                </div>
-              </div>
-
-              {/* Target Link & Badge */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Target Link URL <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    required
-                    value={editTargetUrl}
-                    onChange={(e) => setEditTargetUrl(e.target.value)}
-                    placeholder="/games/mobile-legends"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 mb-1"
-                  />
-                  <div className="flex flex-wrap gap-1">
-                    <button type="button" onClick={() => setEditTargetUrl('/games/mobile-legends')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">MLBB</button>
-                    <button type="button" onClick={() => setEditTargetUrl('/games/free-fire')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">Free Fire</button>
-                    <button type="button" onClick={() => setEditTargetUrl('/games/pubg-mobile')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">PUBG</button>
-                    <button type="button" onClick={() => setEditTargetUrl('/games/honor-of-kings')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">HoK</button>
-                  </div>
-                </div>
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Badge Text (KM / EN)</label>
-                  <input
-                    type="text"
-                    value={editBadgeKm}
-                    onChange={(e) => setEditBadgeKm(e.target.value)}
-                    placeholder="ប្រូម៉ូសិន / HOT PROMO"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
-                  />
+              {/* Target Link URL */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-slate-700 block text-xs">
+                  {isKm ? 'Link តភ្ជាប់ (Target Link URL)' : 'Target Link URL'}
+                </label>
+                <input
+                  type="text"
+                  value={editTargetUrl}
+                  onChange={(e) => setEditTargetUrl(e.target.value)}
+                  placeholder="/games/mobile-legends"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 text-xs"
+                />
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  <button type="button" onClick={() => setEditTargetUrl('/games/mobile-legends')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Mobile Legends</button>
+                  <button type="button" onClick={() => setEditTargetUrl('/games/freefire-kh')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Free Fire</button>
+                  <button type="button" onClick={() => setEditTargetUrl('/games/pubg-mobile')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">PUBG</button>
+                  <button type="button" onClick={() => setEditTargetUrl('/games/roblox')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Roblox</button>
+                  <button type="button" onClick={() => setEditTargetUrl('/order/track')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Track Order</button>
                 </div>
               </div>
 
               {/* Sort Order & Active Switch */}
-              <div className="grid grid-cols-2 gap-3 pt-1 border-t border-slate-100">
+              <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100">
                 <div>
                   <label className="font-bold text-slate-700 block mb-1">Sort Order Position</label>
                   <input
                     type="number"
                     value={editSortOrder}
                     onChange={(e) => setEditSortOrder(Number(e.target.value))}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900 text-xs"
                   />
                 </div>
 
@@ -688,13 +625,13 @@ export default function BannerEditor({
                 <button
                   type="button"
                   onClick={() => setEditingBanner(null)}
-                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
+                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black shadow-md flex items-center gap-1.5"
+                  className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black shadow-md flex items-center gap-1.5 text-xs"
                 >
                   <Save className="w-4 h-4" />
                   <span>{isKm ? 'រក្សាទុកការប្រែ' : 'Save Changes'}</span>
@@ -722,139 +659,65 @@ export default function BannerEditor({
             </div>
 
             <form onSubmit={handleCreatePromoBanner} className="space-y-4 text-xs">
-              {/* Photo Image URL & Presets */}
-              <div className="space-y-2 p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
-                <label className="font-bold text-slate-800 flex items-center justify-between">
-                  <span>{isKm ? 'រូបភាព Banner Photo URL (Image URL)' : 'Banner Photo URL'} <span className="text-red-500">*</span></span>
-                  <span className="text-[10px] text-blue-600">High Quality Photo</span>
+              {/* Photo Image Upload & URL */}
+              <div className="space-y-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                <label className="font-bold text-slate-800 block text-xs">
+                  {isKm ? 'រូបភាព Banner (Upload ពីកុំព្យូទ័រ/ទូរស័ព្ទ ឬ Paste URL)' : 'Banner Photo (Upload File or Image URL)'} <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="url"
-                  required
-                  value={newImageUrl}
-                  onChange={(e) => setNewImageUrl(e.target.value)}
-                  placeholder="https://example.com/photo-banner.jpg"
-                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-mono text-slate-900 text-xs"
-                />
+                
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <label htmlFor="add-banner-file-input" className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer transition-all hover:scale-[1.02] shrink-0">
+                    <Upload className="w-4 h-4" />
+                    <span>{isKm ? 'ជ្រើសរើសរូបភាពពីទូរស័ព្ទ/កុំព្យូទ័រ' : 'Upload Image File'}</span>
+                    <input 
+                      id="add-banner-file-input" 
+                      type="file" 
+                      accept="image/*" 
+                      onChange={(e) => handleFileUpload(e, false)} 
+                      className="hidden" 
+                    />
+                  </label>
 
-                <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                  <span className="text-[10px] text-slate-400 font-bold mr-1">{isKm ? 'រូបភាពគំរូ៖' : 'Presets:'}</span>
-                  <button
-                    type="button"
-                    onClick={() => setNewImageUrl('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-blue-100 text-blue-800 hover:bg-blue-200 font-bold"
-                  >
-                    MLBB
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewImageUrl('https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-orange-100 text-orange-800 hover:bg-orange-200 font-bold"
-                  >
-                    Free Fire
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewImageUrl('https://images.unsplash.com/photo-1542751110-97427bbecf20?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-yellow-100 text-yellow-800 hover:bg-yellow-200 font-bold"
-                  >
-                    PUBG Mobile
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewImageUrl('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1600&auto=format&fit=crop&q=80')}
-                    className="text-[10px] px-2 py-1 rounded-lg bg-emerald-100 text-emerald-800 hover:bg-emerald-200 font-bold"
-                  >
-                    VALORANT
-                  </button>
+                  <span className="text-xs text-slate-400 font-bold">{isKm ? 'ឬ' : 'or'}</span>
+
+                  <input
+                    type="text"
+                    value={newImageUrl}
+                    onChange={(e) => setNewImageUrl(e.target.value)}
+                    placeholder="https://example.com/photo-banner.jpg"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl font-mono text-slate-900 text-xs"
+                  />
                 </div>
 
+                {/* Live Preview */}
                 {newImageUrl && (
-                  <div className="h-28 rounded-xl bg-slate-900 overflow-hidden relative border border-slate-300 mt-2">
+                  <div className="h-36 rounded-2xl bg-slate-900 overflow-hidden relative border border-slate-300 mt-2 shadow-xs">
                     <img src={newImageUrl} alt="Banner Preview" className="w-full h-full object-cover" />
-                    <span className="absolute bottom-1 right-2 px-2 py-0.5 rounded bg-black/70 text-white text-[9px] font-mono">Preview</span>
+                    <span className="absolute bottom-2 right-2 px-2.5 py-0.5 rounded bg-black/70 text-white text-[10px] font-mono">
+                      Preview
+                    </span>
                   </div>
                 )}
               </div>
 
-              {/* Title Fields */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Title (KM) <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    required
-                    value={newTitleKm}
-                    onChange={(e) => setNewTitleKm(e.target.value)}
-                    placeholder="ប្រូម៉ូសិន ពេជ្រ MLBB"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
-                  />
-                </div>
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Title (EN) <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    required
-                    value={newTitleEn}
-                    onChange={(e) => setNewTitleEn(e.target.value)}
-                    placeholder="MLBB Promo Diamonds"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
-                  />
-                </div>
-              </div>
-
-              {/* Subtitle Fields */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Subtitle (KM)</label>
-                  <input
-                    type="text"
-                    value={newSubtitleKm}
-                    onChange={(e) => setNewSubtitleKm(e.target.value)}
-                    placeholder="បញ្ចូលស្វ័យប្រវត្តិតាម KHQR 24/7"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900"
-                  />
-                </div>
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Subtitle (EN)</label>
-                  <input
-                    type="text"
-                    value={newSubtitleEn}
-                    onChange={(e) => setNewSubtitleEn(e.target.value)}
-                    placeholder="Instant Auto-Delivery via KHQR"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900"
-                  />
-                </div>
-              </div>
-
-              {/* Target Link & Badge */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Target Link URL <span className="text-red-500">*</span></label>
-                  <input
-                    type="text"
-                    required
-                    value={newTargetUrl}
-                    onChange={(e) => setNewTargetUrl(e.target.value)}
-                    placeholder="/games/mobile-legends"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 mb-1"
-                  />
-                  <div className="flex flex-wrap gap-1">
-                    <button type="button" onClick={() => setNewTargetUrl('/games/mobile-legends')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">MLBB</button>
-                    <button type="button" onClick={() => setNewTargetUrl('/games/free-fire')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">Free Fire</button>
-                    <button type="button" onClick={() => setNewTargetUrl('/games/pubg-mobile')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">PUBG</button>
-                    <button type="button" onClick={() => setNewTargetUrl('/games/honor-of-kings')} className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200 hover:bg-slate-300 font-mono">HoK</button>
-                  </div>
-                </div>
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Badge Text (KM / EN)</label>
-                  <input
-                    type="text"
-                    value={newBadgeKm}
-                    onChange={(e) => setNewBadgeKm(e.target.value)}
-                    placeholder="ប្រូម៉ូសិន / HOT PROMO"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
-                  />
+              {/* Target Link URL */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-slate-700 block text-xs">
+                  {isKm ? 'Link តភ្ជាប់ (Target Link URL)' : 'Target Link URL'}
+                </label>
+                <input
+                  type="text"
+                  value={newTargetUrl}
+                  onChange={(e) => setNewTargetUrl(e.target.value)}
+                  placeholder="/games/mobile-legends"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-mono text-slate-900 text-xs"
+                />
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  <button type="button" onClick={() => setNewTargetUrl('/games/mobile-legends')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Mobile Legends</button>
+                  <button type="button" onClick={() => setNewTargetUrl('/games/freefire-kh')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Free Fire</button>
+                  <button type="button" onClick={() => setNewTargetUrl('/games/pubg-mobile')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">PUBG</button>
+                  <button type="button" onClick={() => setNewTargetUrl('/games/roblox')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Roblox</button>
+                  <button type="button" onClick={() => setNewTargetUrl('/order/track')} className="text-[10px] px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono">Track Order</button>
                 </div>
               </div>
 
@@ -865,7 +728,7 @@ export default function BannerEditor({
                   type="number"
                   value={newSortOrder}
                   onChange={(e) => setNewSortOrder(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900 text-xs"
                 />
               </div>
 
@@ -873,15 +736,15 @@ export default function BannerEditor({
                 <button
                   type="button"
                   onClick={() => setIsAddingBanner(false)}
-                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
+                  className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black shadow-md"
+                  className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black shadow-md text-xs"
                 >
-                  Create Banner
+                  {isKm ? 'បន្ថែម Banner' : 'Create Banner'}
                 </button>
               </div>
             </form>
