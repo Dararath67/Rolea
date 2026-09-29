@@ -124,13 +124,13 @@ export default function HeroBanner() {
 
   const activeBanners = promoBanners.length > 0 ? promoBanners : DEFAULT_BANNER_SLIDES;
 
-  // Quick Category items matching Image 1 UX
+  // Quick Category items with REAL Game Logos matching Image UX
   const quickCategories = [
     {
       id: 'games',
       label: isKm ? 'ហ្គេម' : 'Games',
       href: '/games',
-      iconSrc: '/images/rolea-logo.png',
+      iconSrc: '/images/games/hok.png',
       fallbackIcon: Gamepad2,
       color: 'from-blue-500 to-indigo-600'
     },
@@ -138,7 +138,7 @@ export default function HeroBanner() {
       id: 'giftcards',
       label: isKm ? 'Giftcard' : 'Giftcards',
       href: '/games?category=giftcard',
-      iconSrc: '/images/rolea-logo.png',
+      iconSrc: '/images/games/steam.png',
       fallbackIcon: Gift,
       color: 'from-amber-500 to-orange-600'
     },
@@ -146,7 +146,7 @@ export default function HeroBanner() {
       id: 'mlbb',
       label: isKm ? 'Mobile Legends' : 'MLBB',
       href: '/games/mobile-legends',
-      iconSrc: '/images/logo.png',
+      iconSrc: '/images/games/mlbb.png',
       fallbackIcon: Sparkles,
       color: 'from-cyan-500 to-blue-600'
     },
@@ -154,7 +154,7 @@ export default function HeroBanner() {
       id: 'freefire',
       label: isKm ? 'Free Fire' : 'Free Fire',
       href: '/games/freefire-kh',
-      iconSrc: '/images/favicon.png',
+      iconSrc: '/images/games/freefire.png',
       fallbackIcon: Flame,
       color: 'from-red-500 to-rose-600'
     },
