@@ -6,6 +6,7 @@ import { LoadingProvider } from "@/context/LoadingContext";
 import FloatingSupportWidget from "@/components/FloatingSupportWidget";
 import ReferralTracker from "@/components/ReferralTracker";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import FloatingMascots from "@/components/FloatingMascots";
 
 export const metadata: Metadata = {
   title: "RoleaTopup | Khmer Game Top-Up Platform",
@@ -38,6 +39,7 @@ export default function RootLayout({
         <LanguageProvider>
           <Suspense fallback={null}>
             <LoadingProvider>
+              <FloatingMascots />
               <ReferralTracker />
               <div className="pb-16 sm:pb-0 min-h-screen flex flex-col">
                 {children}
