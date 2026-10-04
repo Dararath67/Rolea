@@ -2556,17 +2556,17 @@ function AdminControlPanelContent() {
 
  <div className="rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-xs">
  <div className="overflow-x-auto">
- <table className="w-full min-w-[1000px] text-left text-xs text-slate-600">
+ <table className="w-full min-w-[800px] text-left text-xs text-slate-600 border-collapse">
  <thead className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
  <tr>
- <th className="px-4 py-3 min-w-[180px]">Game & SKU</th>
- <th className="px-4 py-3 min-w-[160px]">Package Name</th>
- <th className="px-4 py-3 min-w-[110px]">Provider Cost</th>
- <th className="px-4 py-3 min-w-[110px]">User Retail</th>
- <th className="px-4 py-3 min-w-[110px]">Reseller Tier</th>
- <th className="px-4 py-3 min-w-[100px]">VIP Tier</th>
- <th className="px-4 py-3 min-w-[130px]">Pricing Mode</th>
- <th className="px-4 py-3 text-right min-w-[130px]">Action</th>
+ <th className="px-3 py-2.5">Game & SKU</th>
+ <th className="px-3 py-2.5">Package Name</th>
+ <th className="px-3 py-2.5 text-right">Provider Cost</th>
+ <th className="px-3 py-2.5 text-right">User Retail</th>
+ <th className="px-3 py-2.5 text-right">Reseller Tier</th>
+ <th className="px-3 py-2.5 text-right">VIP Tier</th>
+ <th className="px-3 py-2.5 text-center">Pricing Mode</th>
+ <th className="px-3 py-2.5 text-right sticky right-0 bg-slate-50 border-l border-slate-200 z-20 shadow-xs">Action</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-slate-100">
@@ -2576,38 +2576,38 @@ function AdminControlPanelContent() {
                   : 0;
 
                 return (
-                  <tr key={`${pkg.id}-${pkg.gameSlug || pkg.gameTitle || 'pkg'}-${idx}`} className="hover:bg-slate-50 transition-colors">
- <td className="px-4 py-3">
- <div className="font-bold text-slate-900">{pkg.gameTitle}</div>
- <span className="font-mono text-[10px] text-slate-400">{pkg.id}</span>
+                  <tr key={`${pkg.id}-${pkg.gameSlug || pkg.gameTitle || 'pkg'}-${idx}`} className="hover:bg-slate-50 transition-colors group">
+ <td className="px-3 py-2.5">
+ <div className="font-bold text-slate-900 text-xs">{pkg.gameTitle}</div>
+ <span className="font-mono text-[10px] text-slate-400 block truncate max-w-[180px]">{pkg.id}</span>
  </td>
- <td className="px-4 py-3 font-bold text-slate-800">
+ <td className="px-3 py-2.5 font-bold text-slate-800 text-xs">
  {pkg.name_en}
  </td>
- <td className="px-4 py-3 font-mono text-slate-500">
+ <td className="px-3 py-2.5 font-mono text-slate-500 text-right text-xs">
  ${pkg.cost_usd.toFixed(2)}
  </td>
- <td className="px-4 py-3 font-mono font-black text-blue-600">
+ <td className="px-3 py-2.5 font-mono font-black text-blue-600 text-right text-xs">
  ${pkg.price_user_usd.toFixed(2)}
  </td>
- <td className="px-4 py-3 font-mono font-bold text-purple-600">
+ <td className="px-3 py-2.5 font-mono font-bold text-purple-600 text-right text-xs">
  ${pkg.price_reseller_usd.toFixed(2)}
  </td>
- <td className="px-4 py-3 font-mono font-bold text-amber-600">
+ <td className="px-3 py-2.5 font-mono font-bold text-amber-600 text-right text-xs">
  ${pkg.price_vip_usd.toFixed(2)}
  </td>
- <td className="px-4 py-3">
+ <td className="px-3 py-2.5 text-center">
  {pkg.manual_price_override ? (
- <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+ <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 whitespace-nowrap">
  Manual Override
  </span>
  ) : (
- <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+ <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap">
  Auto +{marginPercent}%
  </span>
  )}
  </td>
- <td className="px-4 py-3 text-right">
+ <td className="px-3 py-2.5 text-right sticky right-0 bg-white group-hover:bg-slate-50 border-l border-slate-200 z-10 shadow-xs">
  <button
  onClick={() => {
  const parentGame = games.find(g => g.slug === pkg.gameSlug);
@@ -2618,10 +2618,10 @@ function AdminControlPanelContent() {
  setEditManualOverride(pkg.manual_price_override || false);
  setEditMarkupPercent(pkg.markup_percent || 12);
  }}
- className="px-3 py-1 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 text-xs font-bold transition-colors border border-slate-200 inline-flex items-center gap-1"
+ className="px-2.5 py-1 rounded-xl bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-xs font-bold transition-all border border-blue-200 inline-flex items-center gap-1 shadow-2xs whitespace-nowrap"
  >
  <Edit2 className="w-3 h-3" />
- <span>Edit Pricing</span>
+ <span>Edit</span>
  </button>
  </td>
  </tr>
