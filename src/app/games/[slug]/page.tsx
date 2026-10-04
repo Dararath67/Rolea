@@ -373,8 +373,31 @@ export default function GameDetailPage({ params }: { params: Promise<{ slug: str
             <div className="rounded-3xl bg-white border border-slate-200 p-6 overflow-hidden relative shadow-xs">
               <div className="relative aspect-video rounded-2xl overflow-hidden mb-5 bg-slate-100 border border-slate-200 flex items-center justify-center">
                 <img
-                  src={game.thumbnail || game.banner}
+                  src={
+                    (() => {
+                      const s = (game.slug || '').toLowerCase();
+                      if (s.includes('valorant')) return '/images/games/valorant.png';
+                      if (s.includes('wild_rift') || s.includes('wildrift') || s.includes('lol')) return '/images/games/wildrift.png';
+                      if (s.includes('bloodstrike') || s.includes('blood')) return '/images/games/bloodstrike.png';
+                      if (s.includes('fc') || s.includes('eafc') || s.includes('fifa')) return '/images/games/fcmobile.png';
+                      if (s.includes('mlbb') || s.includes('mobile_legends')) return '/images/games/mlbb.png';
+                      if (s.includes('freefire') || s.includes('free_fire') || s.includes('ff')) return '/images/games/freefire.png';
+                      if (s.includes('pubg')) return '/images/games/pubg.png';
+                      if (s.includes('hok') || s.includes('honor')) return '/images/games/hok.png';
+                      if (s.includes('roblox')) return '/images/games/roblox.png';
+                      if (s.includes('genshin')) return '/images/games/genshin.png';
+                      if (s.includes('codm') || s.includes('call_of_duty')) return '/images/games/codm.png';
+                      if (s.includes('clashofclans') || s.includes('coc')) return '/images/games/clashofclans.png';
+                      if (s.includes('steam')) return '/images/games/steam.png';
+                      const raw = game.thumbnail || game.banner;
+                      if (raw && raw.startsWith('/')) return raw;
+                      return raw || '/images/games/mlbb.png';
+                    })()
+                  }
                   alt={title}
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/rolea-logo.png';
+                  }}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-slate-900/90 text-[10px] font-bold text-white shadow-xs border border-white/10">

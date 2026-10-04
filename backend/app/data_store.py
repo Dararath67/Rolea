@@ -987,9 +987,48 @@ class DataStore:
                 )
             ]
 
+        def _resolve_thumb(slug: str, orig: str) -> str:
+            s = str(slug or "").lower().strip()
+            if "valorant" in s:
+                return "/images/games/valorant.png"
+            if "wild" in s or "rift" in s or "lol" in s:
+                return "/images/games/wildrift.png"
+            if "blood" in s or "strike" in s:
+                return "/images/games/bloodstrike.png"
+            if "fc" in s or "ea" in s or "fifa" in s:
+                return "/images/games/fcmobile.png"
+            if "mlbb" in s or "mobile_legend" in s or "mobilelegend" in s:
+                return "/images/games/mlbb.png"
+            if "freefire" in s or "free_fire" in s or "ff" in s:
+                return "/images/games/freefire.png"
+            if "pubg" in s:
+                return "/images/games/pubg.png"
+            if "hok" in s or "honor" in s or "kings" in s:
+                return "/images/games/hok.png"
+            if "roblox" in s:
+                return "/images/games/roblox.png"
+            if "genshin" in s:
+                return "/images/games/genshin.png"
+            if "codm" in s or "duty" in s:
+                return "/images/games/codm.png"
+            if "clash" in s or "coc" in s:
+                return "/images/games/clashofclans.png"
+            if "steam" in s:
+                return "/images/games/steam.png"
+            if "brawl" in s:
+                return "/images/games/brawlstars.png"
+            if "aov" in s:
+                return "/images/games/aov.png"
+            if orig and orig.startswith("/images/"):
+                return orig
+            return orig or "/images/games/mlbb.png"
+
         filtered_games = []
         for g in games_source:
             g_dict = g.model_dump()
+            resolved_t = _resolve_thumb(g.slug, g.thumbnail)
+            g_dict["thumbnail"] = resolved_t
+            g_dict["banner"] = resolved_t
             g_dict["primary_provider_id"] = target_prov
             g_dict["provider_id"] = target_prov
             pkgs = []

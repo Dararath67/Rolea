@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { Zap, ChevronRight } from 'lucide-react';
@@ -27,6 +27,28 @@ interface GameProps {
 export default function GameCard({ game }: GameProps) {
   const { language, formatPrice, t } = useLanguage();
 
+  const getLocalThumbnail = (slug: string, rawThumb: string) => {
+    const s = (slug || '').toLowerCase();
+    if (s.includes('valorant')) return '/images/games/valorant.png';
+    if (s.includes('wild_rift') || s.includes('wildrift') || s.includes('lol')) return '/images/games/wildrift.png';
+    if (s.includes('bloodstrike') || s.includes('blood')) return '/images/games/bloodstrike.png';
+    if (s.includes('fc') || s.includes('eafc') || s.includes('fifa')) return '/images/games/fcmobile.png';
+    if (s.includes('mlbb') || s.includes('mobile_legends')) return '/images/games/mlbb.png';
+    if (s.includes('freefire') || s.includes('free_fire') || s.includes('ff')) return '/images/games/freefire.png';
+    if (s.includes('pubg')) return '/images/games/pubg.png';
+    if (s.includes('hok') || s.includes('honor')) return '/images/games/hok.png';
+    if (s.includes('roblox')) return '/images/games/roblox.png';
+    if (s.includes('genshin')) return '/images/games/genshin.png';
+    if (s.includes('codm') || s.includes('call_of_duty')) return '/images/games/codm.png';
+    if (s.includes('clashofclans') || s.includes('coc')) return '/images/games/clashofclans.png';
+    if (s.includes('steam')) return '/images/games/steam.png';
+    if (rawThumb && rawThumb.startsWith('/')) return rawThumb;
+    return rawThumb || '/images/games/mlbb.png';
+  };
+
+  const initialSrc = getLocalThumbnail(game.slug, game.thumbnail);
+  const [imgSrc, setImgSrc] = useState(initialSrc);
+
   const minPriceUsd = game.packages.length > 0
     ? Math.min(...game.packages.map(p => p.price_user_usd))
     : 0;
@@ -43,8 +65,11 @@ export default function GameCard({ game }: GameProps) {
       {/* Thumbnail Aspect */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 flex items-center justify-center">
         <img
-          src={game.thumbnail}
+          src={imgSrc}
           alt={title}
+          onError={() => {
+            setImgSrc('/images/rolea-logo.png');
+          }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
         />
