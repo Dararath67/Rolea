@@ -4794,7 +4794,13 @@ function AdminControlPanelContent() {
  </div>
  <button
  type="button"
- onClick={() => setEditIsActive(!editIsActive)}
+ onClick={async () => {
+ const nextState = !editIsActive;
+ setEditIsActive(nextState);
+ if (editingProduct?.pkg) {
+ await handleToggleProductStatus(editingProduct.pkg);
+ }
+ }}
  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 border shadow-2xs cursor-pointer ${
  editIsActive
  ? 'bg-emerald-600 text-white border-emerald-700'

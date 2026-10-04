@@ -1193,10 +1193,32 @@ class DataStore:
         return None
 
     def toggle_product_publishing(self, product_id: str, game_slug: Optional[str] = None) -> Optional[Dict[str, Any]]:
-        for g in self.games:
-            if not game_slug or g.slug == game_slug or g.id == game_slug:
+        target_game = self.get_game_by_slug(game_slug) if game_slug and game_slug != 'all' else None
+        games_to_search = [target_game] if target_game else self.games
+
+        for g in games_to_search:
+            for pkg in g.packages:
+                if pkg.id == product_id or getattr(pkg, 'provider_product_id', '') == product_id or getattr(pkg, 'external_product_id', '') == product_id or product_id in pkg.id:
+                    pkg.is_active = not pkg.is_active
+                    self.save_to_disk()
+                    status_str = "ON (Published)" if pkg.is_active else "OFF (Unpublished)"
+                    self.log_audit("admin", "manager", "TOGGLE_PRODUCT_PUBLISHING", pkg.id, f"Set product {pkg.name_en} ({g.name_en}) to {status_str}")
+                    return {
+                        "id": pkg.id,
+                        "game_slug": g.slug,
+                        "game_name_en": g.name_en,
+                        "name_en": pkg.name_en,
+                        "is_active": pkg.is_active,
+                        "package": pkg
+                    }
+
+        # Fallback: search all games if target_game did not contain product_id
+        if target_game:
+            for g in self.games:
+                if g == target_game:
+                    continue
                 for pkg in g.packages:
-                    if pkg.id == product_id or pkg.provider_product_id == product_id or getattr(pkg, 'external_product_id', None) == product_id:
+                    if pkg.id == product_id or getattr(pkg, 'provider_product_id', '') == product_id or getattr(pkg, 'external_product_id', '') == product_id or product_id in pkg.id:
                         pkg.is_active = not pkg.is_active
                         self.save_to_disk()
                         status_str = "ON (Published)" if pkg.is_active else "OFF (Unpublished)"
