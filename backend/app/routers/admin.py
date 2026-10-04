@@ -28,6 +28,49 @@ def mask_key(k: str) -> str:
 # ==========================================
 # 1. DASHBOARD & STATS
 # ==========================================
+@router.get("/dashboard-bundle", response_model=Dict[str, Any])
+def admin_get_dashboard_bundle():
+    """
+    Consolidated High-Speed Bundle Endpoint for Admin Panel.
+    Bundles all admin datasets in a single fast JSON response to eliminate 18x HTTP roundtrips & browser connection queuing.
+    """
+    user_list = []
+    for u in db.users:
+        user_obj = u["user"].model_dump()
+        user_obj["password_plain"] = u.get("plain_password") or u.get("password_plain") or getattr(u["user"], "password_plain", None)
+        user_list.append(user_obj)
+
+    return {
+        "success": True,
+        "stats": db.get_admin_stats(),
+        "games": db.get_games(),
+        "orders": db.get_orders(),
+        "providers": db.get_providers(),
+        "users": user_list,
+        "resellers": db.get_reseller_applications(status="all"),
+        "wallet_ledger": db.get_wallet_ledger(limit=50),
+        "payment_methods": db.payment_methods,
+        "coupons": db.get_coupons(),
+        "banners": db.get_banners(),
+        "reports": {
+            "summary": {
+                "total_revenue_usd": sum(o.amount_usd for o in db.orders if o.status in ["success", "completed"]),
+                "total_orders": len(db.orders),
+                "completed_orders": len([o for o in db.orders if o.status in ["success", "completed"]])
+            }
+        },
+        "notifications": db.get_notifications(),
+        "sync_logs": db.get_sync_logs(limit=50),
+        "audit_logs": db.get_audit_logs(limit=50),
+        "platform_settings": db.get_settings(),
+        "pricing_config": db.get_pricing_config(),
+        "active_provider_id": getattr(db, "active_primary_provider_id", "bay2game") or "bay2game",
+        "gamer_settings": db.get_gamer_verification_settings(),
+        "gamer_logs": db.get_gamer_verification_logs(limit=50),
+        "user_activities": db.get_user_activity_logs(limit=50) if hasattr(db, "get_user_activity_logs") else [],
+        "vngzz_config": db.get_vngzz_config()
+    }
+
 @router.get("/stats", response_model=Dict[str, Any])
 @router.get("/dashboard", response_model=Dict[str, Any])
 def get_stats():

@@ -481,103 +481,49 @@ function AdminControlPanelContent() {
  };
 
   const loadData = async () => {
-  try {
-  const [
-  statsRes, gamesRes, ordersRes, provRes, usersRes, 
-  resellersRes, ledgerRes, payRes, coupRes, banRes, 
-  repRes, notifRes, syncRes, auditRes, setRes, priceRes,
-  gamerSetRes, gamerLogRes
-  ] = await Promise.all([
-  fetch('/api/v1/admin/stats'),
-  fetch('/api/v1/admin/games'),
-  fetch('/api/v1/admin/orders'),
-  fetch('/api/v1/admin/providers'),
-  fetch('/api/v1/admin/users'),
-  fetch('/api/v1/admin/resellers'),
-  fetch('/api/v1/admin/wallet/ledger'),
-  fetch('/api/v1/admin/payments'),
-  fetch('/api/v1/admin/coupons'),
-  fetch('/api/v1/admin/banners'),
-  fetch('/api/v1/admin/reports/financial'),
-  fetch('/api/v1/admin/notifications'),
-  fetch('/api/v1/admin/sync-logs'),
-  fetch('/api/v1/admin/audit-logs'),
-  fetch('/api/v1/admin/settings'),
-  fetch('/api/v1/admin/pricing-config'),
-  fetch('/api/v1/admin/gamer-verification/settings'),
-  fetch('/api/v1/admin/gamer-verification/logs')
-  ]);
-
-  const [
-  statsD, gamesD, ordersD, provD, usersD, 
-  resellersD, ledgerD, payD, coupD, banD, 
-  repD, notifD, syncD, auditD, setD, priceD,
-  gamerSetD, gamerLogD
-  ] = await Promise.all([
-  safeFetchJson(statsRes), safeFetchJson(gamesRes), safeFetchJson(ordersRes), safeFetchJson(provRes), safeFetchJson(usersRes),
-  safeFetchJson(resellersRes), safeFetchJson(ledgerRes), safeFetchJson(payRes), safeFetchJson(coupRes), safeFetchJson(banRes),
-  safeFetchJson(repRes), safeFetchJson(notifRes), safeFetchJson(syncRes), safeFetchJson(auditRes), safeFetchJson(setRes), safeFetchJson(priceRes),
-  safeFetchJson(gamerSetRes), safeFetchJson(gamerLogRes)
-  ]);
-
-  if (statsD.success) setStats(statsD.data);
-  if (gamesD.success) setGames(gamesD.data);
-  if (ordersD.success) setOrders(ordersD.data);
-  if (provD.success) setProviders(provD.data);
-  if (usersD.success) setUsers(usersD.data);
-  if (resellersD.success) setResellers(resellersD.data);
-  if (ledgerD.success) setWalletLedger(ledgerD.data);
-
-  try {
-    const activeProvRes = await fetch('/api/v1/admin/providers/active');
-    const activeProvD = await safeFetchJson(activeProvRes);
-    if (activeProvD.success && activeProvD.active_provider_id) {
-      setActivePrimaryProviderId(activeProvD.active_provider_id);
-    }
-  } catch (e) {
-    // default to bay2game
-  }
-  if (payD.success) setPaymentMethods(payD.data);
-  if (coupD.success) setCoupons(coupD.data);
-  if (banD.success) setBanners(banD.data);
-  if (repD.success) setReports(repD.data);
-  if (notifD.success) setNotifications(notifD.data);
-  if (syncD.success) setSyncLogs(syncD.data);
-  if (auditD.success) setAuditLogs(auditD.data);
-  if (setD.success) setPlatformSettings(setD.data);
-  if (priceD.success) setPricingConfig(priceD.data);
-  if (gamerLogD.success) setGamerLogs(gamerLogD.data);
-
-  try {
-    const userActRes = await fetch('/api/v1/admin/user-activities');
-    const userActD = await safeFetchJson(userActRes);
-    if (userActD.success) setUserActivities(userActD.data);
-  } catch (e) {}
-
-  loadProviderBalances();
-  loadPriceComparisonData();
-
     try {
-      const vngzzRes = await fetch('/api/v1/admin/payments/vngzz');
-      const vngzzD = await safeFetchJson(vngzzRes);
-      if (vngzzD.success && vngzzD.data) {
-        setVngzzApiKey(vngzzD.data.api_key || '');
-        setVngzzApiUrl(vngzzD.data.api_url || 'https://www.vngzz2game.site/api');
-        setVngzzGenerateQrUrl(vngzzD.data.generate_qr_url || 'https://www.vngzz2game.site/api/v1/generate_qr');
-        setVngzzCheckTransUrl(vngzzD.data.check_transaction_url || 'https://www.vngzz2game.site/api/v1/check_transaction');
-        setVngzzMerchantName(vngzzD.data.merchant_name || 'Rolea TopUp (VngZz 2 Game PayWay KHQR)');
-        setVngzzActive(vngzzD.data.is_active !== false);
+      const res = await fetch('/api/v1/admin/dashboard-bundle');
+      const data = await safeFetchJson(res);
+
+      if (data.success) {
+        if (data.stats) setStats(data.stats);
+        if (data.games) setGames(data.games);
+        if (data.orders) setOrders(data.orders);
+        if (data.providers) setProviders(data.providers);
+        if (data.users) setUsers(data.users);
+        if (data.resellers) setResellers(data.resellers);
+        if (data.wallet_ledger) setWalletLedger(data.wallet_ledger);
+        if (data.payment_methods) setPaymentMethods(data.payment_methods);
+        if (data.coupons) setCoupons(data.coupons);
+        if (data.banners) setBanners(data.banners);
+        if (data.reports) setReports(data.reports);
+        if (data.notifications) setNotifications(data.notifications);
+        if (data.sync_logs) setSyncLogs(data.sync_logs);
+        if (data.audit_logs) setAuditLogs(data.audit_logs);
+        if (data.platform_settings) setPlatformSettings(data.platform_settings);
+        if (data.pricing_config) setPricingConfig(data.pricing_config);
+        if (data.active_provider_id) setActivePrimaryProviderId(data.active_provider_id);
+        if (data.gamer_settings) setGamerSettings(data.gamer_settings);
+        if (data.gamer_logs) setGamerLogs(data.gamer_logs);
+        if (data.user_activities) setUserActivities(data.user_activities);
+        if (data.vngzz_config) {
+          setVngzzApiKey(data.vngzz_config.api_key || '');
+          setVngzzApiUrl(data.vngzz_config.api_url || 'https://www.vngzz2game.site/api');
+          setVngzzGenerateQrUrl(data.vngzz_config.generate_qr_url || 'https://www.vngzz2game.site/api/v1/generate_qr');
+          setVngzzCheckTransUrl(data.vngzz_config.check_transaction_url || 'https://www.vngzz2game.site/api/v1/check_transaction');
+          setVngzzMerchantName(data.vngzz_config.merchant_name || 'Rolea TopUp (VngZz 2 Game PayWay KHQR)');
+          setVngzzActive(data.vngzz_config.is_active !== false);
+        }
       }
-    } catch (e) {
-      console.error('Payment gateway fetch error:', e);
+    } catch (err) {
+      console.error('Error loading admin data:', err);
+      showToast('Error connecting to FastAPI backend', 'error');
+    } finally {
+      setLoading(false);
+      loadProviderBalances();
+      loadPriceComparisonData();
     }
-  } catch (err) {
- console.error('Error loading admin data:', err);
- showToast('Error connecting to FastAPI backend', 'error');
- } finally {
- setLoading(false);
- }
- };
+  };
 
  useEffect(() => {
  loadData();
