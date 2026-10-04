@@ -842,7 +842,7 @@ function AdminControlPanelContent() {
  price_user_usd: Number(editPriceUser),
  price_reseller_usd: Number(editPriceReseller),
  price_vip_usd: Number(editPriceVip),
- manual_price_override: editManualOverride,
+ manual_price_override: true,
  markup_percent: Number(editMarkupPercent),
  fixed_markup_usd: Number(editFixedAddUsd),
  is_active: editIsActive
@@ -2673,7 +2673,7 @@ function AdminControlPanelContent() {
  setEditPriceUser(pkg.price_user_usd);
  setEditPriceReseller(pkg.price_reseller_usd);
  setEditPriceVip(pkg.price_vip_usd);
- setEditManualOverride(pkg.manual_price_override || false);
+ setEditManualOverride(true);
  setEditMarkupPercent(pkg.markup_percent || 12);
  setEditIsActive(pkg.is_active !== false);
  }}

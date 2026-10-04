@@ -2412,6 +2412,7 @@ class DataStore:
 
                     if update.price_user_usd is not None:
                         d["price_user_usd"] = round(float(update.price_user_usd), 2)
+                        d["manual_price_override"] = True
                     elif update.markup_percent is not None:
                         d["price_user_usd"] = round(pkg.cost_usd * (1 + float(update.markup_percent) / 100.0), 2)
 
@@ -2447,6 +2448,7 @@ class DataStore:
 
                         if update.price_user_usd is not None:
                             d["price_user_usd"] = round(float(update.price_user_usd), 2)
+                            d["manual_price_override"] = True
                         elif update.markup_percent is not None:
                             d["price_user_usd"] = round(pkg.cost_usd * (1 + float(update.markup_percent) / 100.0), 2)
 
