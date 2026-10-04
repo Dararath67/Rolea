@@ -34,6 +34,11 @@ def admin_get_dashboard_bundle():
     Consolidated High-Speed Bundle Endpoint for Admin Panel.
     Bundles all admin datasets in a single fast JSON response to eliminate 18x HTTP roundtrips & browser connection queuing.
     """
+    try:
+        db.auto_verify_processing_orders()
+    except Exception as e:
+        print(f"[AUTO_VERIFY_WARN] {e}")
+
     user_list = []
     for u in db.users:
         user_obj = u["user"].model_dump()

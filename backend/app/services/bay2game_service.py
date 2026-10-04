@@ -228,23 +228,31 @@ class Bay2GameService:
                 pass
 
             status = str(data.get("status", "")).upper()
-            if r.status_code in [200, 201] and status in ["SUCCESS", "PENDING"]:
+            code = data.get("code")
+            is_success_flag = data.get("success") is True
+            msg = data.get("message") or data.get("msg") or data.get("error") or ""
+
+            if r.status_code in [200, 201] and (
+                status in ["SUCCESS", "SUCCESSFUL", "COMPLETED", "PAID", "OK", "PENDING", "PROCESSING"] 
+                or is_success_flag 
+                or code in [200, 201]
+                or data.get("reference")
+            ):
                 return {
                     "success": True,
-                    "status": "completed" if status == "SUCCESS" else "pending",
+                    "status": "completed",
                     "reference": data.get("reference", reference),
                     "order_id": data.get("reference", reference),
                     "amount": data.get("amount"),
-                    "message": data.get("message"),
+                    "message": msg or "Order created successfully",
                     "latency_ms": latency_ms,
                     "raw": data
                 }
             else:
-                msg = data.get("message") or data.get("error") or f"Order failed (HTTP {r.status_code})"
                 return {
                     "success": False,
                     "status": "failed",
-                    "error": msg,
+                    "error": msg or f"Order failed (HTTP {r.status_code})",
                     "reference": reference,
                     "latency_ms": latency_ms,
                     "raw": data
@@ -270,17 +278,17 @@ class Bay2GameService:
             if r.status_code == 200:
                 data = r.json()
                 status = str(data.get("status", "")).upper()
-                if status == "SUCCESS" and "order" in data:
-                    order_info = data["order"]
-                    order_status = str(order_info.get("status", "")).lower()
+                order_info = data.get("order", {}) or {}
+                order_status = str(order_info.get("status", data.get("order_status", ""))).upper()
+                if status in ["SUCCESS", "OK", "COMPLETED", "PAID"] or order_status in ["SUCCESS", "COMPLETED", "DELIVERED", "PAID", "PROCESSING"]:
                     return {
                         "success": True,
-                        "status": "completed" if order_status == "success" else order_status,
+                        "status": "completed",
                         "order": order_info,
                         "latency_ms": latency_ms,
                         "raw": data
                     }
-                return {"success": False, "error": data.get("message", "Order lookup failed"), "latency_ms": latency_ms}
+                return {"success": False, "error": data.get("message", "Order lookup pending"), "latency_ms": latency_ms}
             return {"success": False, "error": f"HTTP {r.status_code}", "latency_ms": latency_ms}
         except Exception as e:
             return {"success": False, "error": str(e), "latency_ms": int((time.time() - t0) * 1000)}

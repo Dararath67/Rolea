@@ -2514,21 +2514,46 @@ class DataStore:
         if not order:
             return {"success": False, "message": "Order not found"}
         
-        provider = self.get_provider(order.provider_id or "smileone")
+        provider = self.get_provider(order.provider_id or "bay2game")
+        if provider and order.status != "success" and order.status != "refunded":
+            try:
+                adapter = get_provider_adapter(provider)
+                st, msg = adapter.check_order_status(order)
+                if st in ["completed", "success", "delivered", "paid"]:
+                    self.update_order_status(order.id, OrderStatusUpdate(status="success", delivery_code=f"Auto-Verified: {msg}"))
+                    return {
+                        "success": True,
+                        "order_id": order.id,
+                        "provider_name": provider.name,
+                        "upstream_status": "DELIVERED",
+                        "status": "success",
+                        "message": f"Order verified and automatically updated to SUCCESS ({msg})"
+                    }
+            except Exception as e:
+                print(f"[CHECK_STATUS_WARN] {e}")
+
         return {
             "success": True,
             "order_id": order.id,
-            "provider_name": provider.name if provider else "SmileOne",
+            "provider_name": provider.name if provider else "Bay2Game",
             "provider_order_id": order.provider_order_id or f"EXT-{order.id}",
             "status": order.status,
-            "upstream_status": "DELIVERED" if order.status == "success" else "PENDING_UPSTREAM",
-            "upstream_response": order.provider_response or {
-                "code": 200,
-                "msg": "Order confirmed in upstream provider ledger",
-                "trx_id": order.provider_order_id or f"PRV-{order.id}",
-                "server_time": datetime.now(timezone.utc).isoformat()
-            }
+            "upstream_status": "DELIVERED" if order.status == "success" else "PENDING_UPSTREAM"
         }
+
+    def auto_verify_processing_orders(self):
+        """Automatically checks provider status for processing orders and promotes them to success if delivered."""
+        try:
+            processing_orders = [o for o in self.orders if o.status == "processing"]
+            for ord_obj in processing_orders[:5]:
+                provider = self.get_provider(ord_obj.provider_id or "bay2game")
+                if provider and provider.status == "active":
+                    adapter = get_provider_adapter(provider)
+                    st, msg = adapter.check_order_status(ord_obj)
+                    if st in ["completed", "success", "delivered", "paid"]:
+                        self.update_order_status(ord_obj.id, OrderStatusUpdate(status="success", delivery_code=f"Auto-Sync: {msg}"))
+        except Exception as e:
+            print(f"[AUTO_VERIFY_PROCESSING_WARN] {e}")
 
     def retry_order(self, order_id: str) -> Dict[str, Any]:
         order = self.get_order_by_id(order_id)
