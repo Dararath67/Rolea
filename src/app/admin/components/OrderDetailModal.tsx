@@ -25,6 +25,7 @@ interface OrderDetailModalProps {
   onRetryOrder: (orderId: string) => void;
   onRefundOrder: (orderId: string, reason: string) => void;
   onCheckStatus: (orderId: string) => void;
+  onUpdateStatus?: (orderId: string, status: string) => void;
   actionLoading: string | null;
   language?: string;
 }
@@ -35,6 +36,7 @@ export default function OrderDetailModal({
   onRetryOrder,
   onRefundOrder,
   onCheckStatus,
+  onUpdateStatus,
   actionLoading,
   language = 'km'
 }: OrderDetailModalProps) {
@@ -240,14 +242,31 @@ export default function OrderDetailModal({
 
             {/* Safe Retry Order with Idempotency Guard */}
             {order.status !== 'success' && order.status !== 'refunded' && (
-              <button
-                onClick={() => onRetryOrder(order.id)}
-                disabled={actionLoading === `retry-${order.id}`}
-                className="flex-1 min-w-[140px] flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
-              >
-                <Zap className={`w-3.5 h-3.5 ${actionLoading === `retry-${order.id}` ? 'animate-spin' : ''}`} />
-                <span>{isKm ? 'បញ្ជូនម្ដងទៀត (Safe Retry)' : 'Safe Retry Dispatch'}</span>
-              </button>
+              <>
+                <button
+                  onClick={() => onRetryOrder(order.id)}
+                  disabled={actionLoading === `retry-${order.id}`}
+                  className="flex-1 min-w-[140px] flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+                >
+                  <Zap className={`w-3.5 h-3.5 ${actionLoading === `retry-${order.id}` ? 'animate-spin' : ''}`} />
+                  <span>{isKm ? 'បញ្ជូនម្ដងទៀត (Safe Retry)' : 'Safe Retry Dispatch'}</span>
+                </button>
+
+                {onUpdateStatus && (
+                  <button
+                    onClick={() => {
+                      if (confirm(isKm ? 'តើ Diamond បានចូលអាខោនអតិថិជនរួចហើយមែនទេ? បញ្ជាក់កំណត់ Order នេះជា SUCCESS' : 'Confirm diamonds were delivered? Mark order as SUCCESS')) {
+                        onUpdateStatus(order.id, 'success');
+                        onClose();
+                      }
+                    }}
+                    className="flex-1 min-w-[140px] flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors shadow-xs cursor-pointer"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                    <span>{isKm ? 'បញ្ជាក់ជោគជ័យ (Mark Success)' : 'Mark as Success'}</span>
+                  </button>
+                )}
+              </>
             )}
 
             {/* Refund Order */}

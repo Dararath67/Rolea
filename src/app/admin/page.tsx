@@ -4286,6 +4286,7 @@ function AdminControlPanelContent() {
  onRetryOrder={handleRetryOrder}
  onRefundOrder={handleRefundOrder}
  onCheckStatus={handleCheckUpstreamStatus}
+ onUpdateStatus={handleUpdateOrderStatus}
  actionLoading={actionLoading}
  language={language}
  />
