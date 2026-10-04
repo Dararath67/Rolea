@@ -11,14 +11,31 @@ class PricingService:
         custom_markup_percent: Optional[float] = None,
         custom_fixed_markup_usd: Optional[float] = None
     ) -> Dict[str, float]:
-        user_markup_pct = custom_markup_percent if custom_markup_percent is not None else (config.default_user_markup_percent if config else 12.0)
-        reseller_markup_pct = config.default_reseller_markup_percent if config else 5.0
-        vip_markup_pct = config.default_vip_markup_percent if config else 3.0
-        fixed_markup = custom_fixed_markup_usd if custom_fixed_markup_usd is not None else (config.default_fixed_markup_usd if config else 0.05)
+        if cost_usd <= 0:
+            return {"cost_usd": 0.0, "price_user_usd": 0.0, "price_reseller_usd": 0.0, "price_vip_usd": 0.0}
 
-        price_user = round(cost_usd * (1 + user_markup_pct / 100.0) + fixed_markup, 2)
-        price_reseller = round(cost_usd * (1 + reseller_markup_pct / 100.0), 2)
-        price_vip = round(cost_usd * (1 + vip_markup_pct / 100.0), 2)
+        # Case 1: Explicit Custom Fixed USD Markup (e.g., +$0.01 or +$0.10)
+        if custom_fixed_markup_usd is not None and custom_fixed_markup_usd > 0:
+            price_user = round(cost_usd + custom_fixed_markup_usd, 2)
+            price_reseller = round(cost_usd + (custom_fixed_markup_usd * 0.6), 2)
+            price_vip = round(cost_usd + (custom_fixed_markup_usd * 0.35), 2)
+        # Case 2: Explicit Custom Percentage Markup (e.g., +12%)
+        elif custom_markup_percent is not None and custom_markup_percent >= 0:
+            reseller_pct = custom_markup_percent * 0.6
+            vip_pct = custom_markup_percent * 0.35
+            price_user = round(cost_usd * (1.0 + custom_markup_percent / 100.0), 2)
+            price_reseller = round(cost_usd * (1.0 + reseller_pct / 100.0), 2)
+            price_vip = round(cost_usd * (1.0 + vip_pct / 100.0), 2)
+        # Case 3: Default Global Pricing Config
+        else:
+            user_markup_pct = config.default_user_markup_percent if config else 12.0
+            reseller_markup_pct = config.default_reseller_markup_percent if config else 5.0
+            vip_markup_pct = config.default_vip_markup_percent if config else 3.0
+            fixed_markup = config.default_fixed_markup_usd if config else 0.0
+
+            price_user = round(cost_usd * (1.0 + user_markup_pct / 100.0) + fixed_markup, 2)
+            price_reseller = round(cost_usd * (1.0 + reseller_markup_pct / 100.0), 2)
+            price_vip = round(cost_usd * (1.0 + vip_markup_pct / 100.0), 2)
 
         # Minimum margin guarantee
         price_user = max(price_user, cost_usd)

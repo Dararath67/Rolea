@@ -529,7 +529,7 @@ def admin_apply_markup(payload: Dict[str, Any] = Body(...)):
                     p.price_reseller_usd = round(cost + rf, 2)
                     p.price_vip_usd = round(cost + vf, 2)
                     p.fixed_markup_usd = fixed_add_usd
-                    p.markup_percent = round((fixed_add_usd / cost) * 100, 1)
+                    p.markup_percent = None
                 elif mode == "combined":
                     # e.g., Base Cost * (1 + %) + fixed
                     rp = float(reseller_markup) if reseller_markup is not None else round(markup_percent * 0.6, 1)
@@ -548,10 +548,12 @@ def admin_apply_markup(payload: Dict[str, Any] = Body(...)):
                     p.price_reseller_usd = round(cost * (1.0 + res_pct / 100.0), 2)
                     p.price_vip_usd = round(cost * (1.0 + vip_pct / 100.0), 2)
                     p.markup_percent = markup_percent
-                    p.fixed_markup_usd = round(p.price_user_usd - cost, 2)
+                    p.fixed_markup_usd = None
                 
                 p.manual_price_override = False
                 updated_count += 1
+
+    db.save_to_disk()
 
     msg = f"Successfully added +${fixed_add_usd:.2f} USD to {updated_count} packages." if mode == "fixed" else f"Successfully applied +{markup_percent}% markup to {updated_count} packages."
     return {

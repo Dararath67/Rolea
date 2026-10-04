@@ -2640,6 +2640,10 @@ function AdminControlPanelContent() {
  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 whitespace-nowrap">
  Manual Override
  </span>
+ ) : pkg.fixed_markup_usd ? (
+ <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 whitespace-nowrap">
+ Auto +${pkg.fixed_markup_usd.toFixed(2)}
+ </span>
  ) : (
  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 whitespace-nowrap">
  Auto +{marginPercent}%
