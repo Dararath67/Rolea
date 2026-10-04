@@ -2871,13 +2871,34 @@ function AdminControlPanelContent() {
                     <td className="px-4 py-3.5 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         {ord.status !== 'success' && ord.status !== 'refunded' && (
-                          <button
-                            onClick={() => handleRetryOrder(ord.id)}
-                            className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs cursor-pointer shadow-xs"
-                            title={isKm ? 'ព្យាយាមទិញម្តងទៀតតាម API (Re-purchase via Bay2Game API)' : 'Re-purchase via Provider API'}
-                          >
-                            Approve
-                          </button>
+                          <>
+                            <button
+                              onClick={() => handleRetryOrder(ord.id)}
+                              className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs cursor-pointer shadow-xs"
+                              title={isKm ? 'ព្យាយាមទិញម្តងទៀតតាម API (Re-purchase via Bay2Game API)' : 'Re-purchase via Provider API'}
+                            >
+                              Approve
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                const defaultReason = isKm ? 'បរាជ័យក្នុងការទិញពី Provider - សងប្រាក់ចូលកាបូប' : 'Failed provider purchase - refunded to wallet';
+                                const reason = prompt(
+                                  isKm ? 'បញ្ចូលមូលហេតុនៃការសងប្រាក់វិញជូនអតិថិជន:' : 'Enter reason for refunding order:',
+                                  defaultReason
+                                );
+                                if (reason) {
+                                  handleRefundOrder(ord.id, reason);
+                                }
+                              }}
+                              disabled={actionLoading === `refund-${ord.id}`}
+                              className="px-2.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs cursor-pointer shadow-xs flex items-center gap-1"
+                              title={isKm ? 'បង្វិលប្រាក់ជូនអតិថិជនវិញ (Refund Money to Customer Wallet)' : 'Refund Money to Customer Wallet'}
+                            >
+                              <RotateCcw className="w-3.5 h-3.5" />
+                              <span>{actionLoading === `refund-${ord.id}` ? (isKm ? 'កំពុងសង...' : 'Refunding...') : (isKm ? 'Refund' : 'Refund')}</span>
+                            </button>
+                          </>
                         )}
 
                         {/* View វិក្កយបត្រ / Invoice */}
