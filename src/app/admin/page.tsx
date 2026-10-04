@@ -917,8 +917,7 @@ function AdminControlPanelContent() {
 
  const handleSingleMarkupChange = (pct: number) => {
  setEditMarkupPercent(pct);
- if (editingProduct?.pkg?.cost_usd) {
- const base = Number(editingProduct.pkg.cost_usd);
+ const base = Number(editingProduct?.pkg?.cost_usd ?? editingProduct?.pkg?.cost ?? editingProduct?.pkg?.bay2game_cost_usd ?? 0);
  const userP = Math.round(base * (1 + pct / 100) * 100) / 100;
  const resP = Math.round(base * (1 + (pct * 0.6) / 100) * 100) / 100;
  const vipP = Math.round(base * (1 + (pct * 0.35) / 100) * 100) / 100;
@@ -926,13 +925,11 @@ function AdminControlPanelContent() {
  setEditPriceReseller(resP);
  setEditPriceVip(vipP);
  setEditFixedAddUsd(Math.round((userP - base) * 100) / 100);
- }
  };
 
  const handleSingleFixedAddChange = (addUsd: number) => {
  setEditFixedAddUsd(addUsd);
- if (editingProduct?.pkg?.cost_usd) {
- const base = Number(editingProduct.pkg.cost_usd);
+ const base = Number(editingProduct?.pkg?.cost_usd ?? editingProduct?.pkg?.cost ?? editingProduct?.pkg?.bay2game_cost_usd ?? 0);
  const userP = Math.round((base + addUsd) * 100) / 100;
  const resP = Math.round((base + addUsd * 0.6) * 100) / 100;
  const vipP = Math.round((base + addUsd * 0.35) * 100) / 100;
@@ -940,7 +937,6 @@ function AdminControlPanelContent() {
  setEditPriceReseller(resP);
  setEditPriceVip(vipP);
  setEditMarkupPercent(base > 0 ? Math.round((addUsd / base) * 100) : 0);
- }
  };
 
  // Coupons, Banners, Users & Settings
