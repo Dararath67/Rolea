@@ -832,7 +832,10 @@ function AdminControlPanelContent() {
  if (!editingProduct) return;
  setActionLoading('save-product-price');
  try {
- const res = await fetch('/api/v1/admin/games/' + editingProduct.game.slug + '/products/' + editingProduct.pkg.id, {
+ const targetSlug = editingProduct.game?.slug || editingProduct.pkg?.gameSlug || editingProduct.pkg?.game_slug || 'all';
+ const targetId = editingProduct.pkg?.id;
+
+ const res = await fetch('/api/v1/admin/games/' + encodeURIComponent(targetSlug) + '/products/' + encodeURIComponent(targetId), {
  method: 'PATCH',
  headers: { 'Content-Type': 'application/json' },
  body: JSON.stringify({
@@ -841,14 +844,20 @@ function AdminControlPanelContent() {
  price_vip_usd: Number(editPriceVip),
  manual_price_override: editManualOverride,
  markup_percent: Number(editMarkupPercent),
+ fixed_markup_usd: Number(editFixedAddUsd),
  is_active: editIsActive
  })
  });
- const data = await res.json();
+ const data = await safeFetchJson(res);
  if (data.success) {
- showToast('Pricing updated for ' + editingProduct.pkg.name_en, 'success');
+ showToast(
+ isKm ? `បានរក្សាទុកតម្លៃកញ្ចប់ ${editingProduct.pkg.name_en} រួចរាល់!` : `Pricing updated for ${editingProduct.pkg.name_en}`,
+ 'success'
+ );
  setEditingProduct(null);
- loadData();
+ await loadData();
+ } else {
+ showToast('Failed to save pricing: ' + (data.detail || data.message || 'Unknown error'), 'error');
  }
  } catch (err) {
  showToast('Error saving pricing', 'error');
