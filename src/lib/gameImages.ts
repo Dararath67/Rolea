@@ -1,33 +1,49 @@
+const LIVE_GAME_LOGOS: Record<string, string> = {
+  mlbb: 'https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512',
+  freefire: 'https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512',
+  pubg: 'https://play-lh.googleusercontent.com/Se7jR6A5R0Mk9ClaIguf46yi2K3k32JsqKb3gAtrktIh3JwnFfxrQRmG9GLvdMpbxbMrReUOxzDkStxGxNo-5Q=s512',
+  hok: 'https://play-lh.googleusercontent.com/hEm5NVeEv7UfFJaK8GZdfWe7p3DB_VvYx57qIEHbR0tMV_NToziH0Vbgd6CxLiWF-iURpAe-jsC_UGUDt0diPQ=s512',
+  bloodstrike: 'https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512',
+  wildrift: 'https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512',
+  fcmobile: 'https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512',
+  roblox: 'https://play-lh.googleusercontent.com/QqZj22aXblAyYDxLQw-Gg0ycW0QkKhrDnwqgERZU9BMRXZnMlgXfq-94sikG5mEpt_I0lzZxcUzfLblmQgwYzUE=s512',
+  genshin: 'https://play-lh.googleusercontent.com/PQEqjOxr-3uZaNHmWoQinLVQQ9fbSegMKXmqgFm5nGgagqC2REH-1er3BguYStWbH3YStijj5WH1DDlwPh2ehw=s512',
+  codm: 'https://play-lh.googleusercontent.com/cKXlbU72_2wSXdjcD_zPWED3EVaaOQVqqHgiA9JoRQMprYen49arNUMTngcRc9UWLnv-ANT9gyQBDQpvAn61lg=s512',
+  clashofclans: 'https://play-lh.googleusercontent.com/gX_sXesdzLc9C4tancLSiJKZom_gLi7Uc5cMfaC-zaY0gvFbXV_DTRZFNqlVx6USMWkqglYgr-k0NeaUq5zE=s512',
+  brawlstars: 'https://play-lh.googleusercontent.com/wEOIM7cYyXkMExNztvFYKHJLPegXp6h81-P_JQQ_9KQvDCWK49m2zpt1mTRXO5bA2qU_Bp4em_nfMsHXmq8Z=s512',
+  aov: 'https://play-lh.googleusercontent.com/Uezg8ZC7krrxV1VfE03Mahzr174mlPoYQBraGypDXeGamJZszE0kZ_Jl0CtpwQELYWe9fw4M55Tqiucpm0tzi7E=s512',
+  steam: 'https://play-lh.googleusercontent.com/E_x2GPSJakCdUYfECBptVyFoVnC4BxIPy3K4OdbwNyEtEJkRAY_J-Lo_Ltiybq6LiJ_aZCIzvqLv5h4Fbk91=s512',
+  netflix: 'https://play-lh.googleusercontent.com/fXVS45nukV1x9PYVSKHkCQK0QGCOishIvAOxIZS3sgRem8HS7l9l94_Ggj-WZPrTLePRdNYN4pp4SPAQL7oS0PU=s512',
+  spotify: 'https://play-lh.googleusercontent.com/IzQgYCcnCFCD08GR-3bdtcT8xzOvrNkC84avGT5CwTX2VIqmTmKKJcP_Cd4JoBOdmCMlTndlOzV6hrthg2fOWA=s512',
+  youtube: 'https://play-lh.googleusercontent.com/QNmuZQc9I6Zbe3mWnSr0hycnENqGFCI5p3yE29Hkxtf22T0IWS6zTrpxULLyyjWpB7ONAXDsDQXnXcVWokl3eg=s512',
+  valorant: 'https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png'
+};
+
 export function getGameThumbnailUrl(slug: string = '', rawThumb: string = ''): string {
   const s = (slug || '').toLowerCase();
   
-  if (s.includes('valorant') || s.includes('val')) return '/images/games/valorant.png';
-  if (s.includes('wild_rift') || s.includes('wildrift') || s.includes('lol')) return '/images/games/wildrift.png';
-  if (s.includes('bloodstrike') || s.includes('blood')) return '/images/games/bloodstrike.png';
-  if (s.includes('fc') || s.includes('eafc') || s.includes('fifa')) return '/images/games/fcmobile.png';
-  if (s.includes('mlbb') || s.includes('mobile_legends') || s.includes('legends')) return '/images/games/mlbb.png';
-  if (s.includes('freefire') || s.includes('free_fire') || s.includes('ff')) return '/images/games/freefire.png';
-  if (s.includes('pubg')) return '/images/games/pubg.png';
-  if (s.includes('hok') || s.includes('honor') || s.includes('kings')) return '/images/games/hok.png';
-  if (s.includes('roblox')) return '/images/games/roblox.png';
-  if (s.includes('genshin')) return '/images/games/genshin.png';
-  if (s.includes('codm') || s.includes('call_of_duty') || s.includes('duty')) return '/images/games/codm.png';
-  if (s.includes('clashofclans') || s.includes('clash') || s.includes('coc')) return '/images/games/clashofclans.png';
-  if (s.includes('brawlstars') || s.includes('brawl')) return '/images/games/brawlstars.png';
-  if (s.includes('aov') || s.includes('arena')) return '/images/games/aov.png';
-  if (s.includes('steam')) return '/images/games/steam.png';
-  if (s.includes('chatgpt') || s.includes('gpt')) return '/images/games/chatgpt.png';
-  if (s.includes('canva')) return '/images/games/canva.png';
-  if (s.includes('netflix')) return '/images/games/netflix.png';
-  if (s.includes('spotify')) return '/images/games/spotify.png';
-  if (s.includes('youtube')) return '/images/games/youtube.png';
-  if (s.includes('cellcard')) return '/images/games/cellcard.png';
-  if (s.includes('smart')) return '/images/games/smart.png';
-  if (s.includes('metfone')) return '/images/games/metfone.png';
+  if (s.includes('valorant') || s.includes('val')) return LIVE_GAME_LOGOS.valorant;
+  if (s.includes('wild_rift') || s.includes('wildrift') || s.includes('lol')) return LIVE_GAME_LOGOS.wildrift;
+  if (s.includes('bloodstrike') || s.includes('blood')) return LIVE_GAME_LOGOS.bloodstrike;
+  if (s.includes('fc') || s.includes('eafc') || s.includes('fifa')) return LIVE_GAME_LOGOS.fcmobile;
+  if (s.includes('mlbb') || s.includes('mobile_legends') || s.includes('legends')) return LIVE_GAME_LOGOS.mlbb;
+  if (s.includes('freefire') || s.includes('free_fire') || s.includes('ff')) return LIVE_GAME_LOGOS.freefire;
+  if (s.includes('pubg')) return LIVE_GAME_LOGOS.pubg;
+  if (s.includes('hok') || s.includes('honor') || s.includes('kings')) return LIVE_GAME_LOGOS.hok;
+  if (s.includes('roblox')) return LIVE_GAME_LOGOS.roblox;
+  if (s.includes('genshin')) return LIVE_GAME_LOGOS.genshin;
+  if (s.includes('codm') || s.includes('call_of_duty') || s.includes('duty')) return LIVE_GAME_LOGOS.codm;
+  if (s.includes('clashofclans') || s.includes('clash') || s.includes('coc')) return LIVE_GAME_LOGOS.clashofclans;
+  if (s.includes('brawlstars') || s.includes('brawl')) return LIVE_GAME_LOGOS.brawlstars;
+  if (s.includes('aov') || s.includes('arena')) return LIVE_GAME_LOGOS.aov;
+  if (s.includes('steam')) return LIVE_GAME_LOGOS.steam;
+  if (s.includes('netflix')) return LIVE_GAME_LOGOS.netflix;
+  if (s.includes('spotify')) return LIVE_GAME_LOGOS.spotify;
+  if (s.includes('youtube')) return LIVE_GAME_LOGOS.youtube;
 
-  if (rawThumb && rawThumb.startsWith('/images/')) {
+  if (rawThumb && (rawThumb.startsWith('http://') || rawThumb.startsWith('https://') || rawThumb.startsWith('/'))) {
     return rawThumb;
   }
 
-  return '/images/games/mlbb.png';
+  return LIVE_GAME_LOGOS.mlbb;
 }

@@ -987,65 +987,68 @@ class DataStore:
                 )
             ]
 
+        LIVE_GAME_LOGOS = {
+            "mlbb": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
+            "freefire": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
+            "pubg": "https://play-lh.googleusercontent.com/Se7jR6A5R0Mk9ClaIguf46yi2K3k32JsqKb3gAtrktIh3JwnFfxrQRmG9GLvdMpbxbMrReUOxzDkStxGxNo-5Q=s512",
+            "hok": "https://play-lh.googleusercontent.com/hEm5NVeEv7UfFJaK8GZdfWe7p3DB_VvYx57qIEHbR0tMV_NToziH0Vbgd6CxLiWF-iURpAe-jsC_UGUDt0diPQ=s512",
+            "bloodstrike": "https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512",
+            "wildrift": "https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512",
+            "fcmobile": "https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512",
+            "roblox": "https://play-lh.googleusercontent.com/QqZj22aXblAyYDxLQw-Gg0ycW0QkKhrDnwqgERZU9BMRXZnMlgXfq-94sikG5mEpt_I0lzZxcUzfLblmQgwYzUE=s512",
+            "genshin": "https://play-lh.googleusercontent.com/PQEqjOxr-3uZaNHmWoQinLVQQ9fbSegMKXmqgFm5nGgagqC2REH-1er3BguYStWbH3YStijj5WH1DDlwPh2ehw=s512",
+            "codm": "https://play-lh.googleusercontent.com/cKXlbU72_2wSXdjcD_zPWED3EVaaOQVqqHgiA9JoRQMprYen49arNUMTngcRc9UWLnv-ANT9gyQBDQpvAn61lg=s512",
+            "clashofclans": "https://play-lh.googleusercontent.com/gX_sXesdzLc9C4tancLSiJKZom_gLi7Uc5cMfaC-zaY0gvFbXV_DTRZFNqlVx6USMWkqglYgr-k0NeaUq5zE=s512",
+            "brawlstars": "https://play-lh.googleusercontent.com/wEOIM7cYyXkMExNztvFYKHJLPegXp6h81-P_JQQ_9KQvDCWK49m2zpt1mTRXO5bA2qU_Bp4em_nfMsHXmq8Z=s512",
+            "aov": "https://play-lh.googleusercontent.com/Uezg8ZC7krrxV1VfE03Mahzr174mlPoYQBraGypDXeGamJZszE0kZ_Jl0CtpwQELYWe9fw4M55Tqiucpm0tzi7E=s512",
+            "steam": "https://play-lh.googleusercontent.com/E_x2GPSJakCdUYfECBptVyFoVnC4BxIPy3K4OdbwNyEtEJkRAY_J-Lo_Ltiybq6LiJ_aZCIzvqLv5h4Fbk91=s512",
+            "netflix": "https://play-lh.googleusercontent.com/fXVS45nukV1x9PYVSKHkCQK0QGCOishIvAOxIZS3sgRem8HS7l9l94_Ggj-WZPrTLePRdNYN4pp4SPAQL7oS0PU=s512",
+            "spotify": "https://play-lh.googleusercontent.com/IzQgYCcnCFCD08GR-3bdtcT8xzOvrNkC84avGT5CwTX2VIqmTmKKJcP_Cd4JoBOdmCMlTndlOzV6hrthg2fOWA=s512",
+            "youtube": "https://play-lh.googleusercontent.com/QNmuZQc9I6Zbe3mWnSr0hycnENqGFCI5p3yE29Hkxtf22T0IWS6zTrpxULLyyjWpB7ONAXDsDQXnXcVWokl3eg=s512",
+            "valorant": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png"
+        }
+
         def _resolve_thumb(slug: str, orig: str) -> str:
             s = str(slug or "").lower().strip()
-            if "valorant" in s:
-                return "/images/games/valorant.png"
-            if "wild" in s or "rift" in s or "lol" in s:
-                return "/images/games/wildrift.png"
-            if "blood" in s or "strike" in s:
-                return "/images/games/bloodstrike.png"
-            if "fc" in s or "ea" in s or "fifa" in s:
-                return "/images/games/fcmobile.png"
             if "valorant" in s or "val" in s:
-                return "/images/games/valorant.png"
-            if "wild_rift" in s or "wildrift" in s or "lol" in s:
-                return "/images/games/wildrift.png"
-            if "bloodstrike" in s or "blood" in s:
-                return "/images/games/bloodstrike.png"
-            if "fc" in s or "eafc" in s or "fifa" in s:
-                return "/images/games/fcmobile.png"
+                return LIVE_GAME_LOGOS["valorant"]
+            if "wild" in s or "rift" in s or "lol" in s:
+                return LIVE_GAME_LOGOS["wildrift"]
+            if "blood" in s or "strike" in s:
+                return LIVE_GAME_LOGOS["bloodstrike"]
+            if "fc" in s or "ea" in s or "fifa" in s:
+                return LIVE_GAME_LOGOS["fcmobile"]
             if "mlbb" in s or "mobile_legend" in s or "mobilelegend" in s or "legend" in s:
-                return "/images/games/mlbb.png"
+                return LIVE_GAME_LOGOS["mlbb"]
             if "freefire" in s or "free_fire" in s or "ff" in s:
-                return "/images/games/freefire.png"
+                return LIVE_GAME_LOGOS["freefire"]
             if "pubg" in s:
-                return "/images/games/pubg.png"
+                return LIVE_GAME_LOGOS["pubg"]
             if "hok" in s or "honor" in s or "kings" in s:
-                return "/images/games/hok.png"
+                return LIVE_GAME_LOGOS["hok"]
             if "roblox" in s:
-                return "/images/games/roblox.png"
+                return LIVE_GAME_LOGOS["roblox"]
             if "genshin" in s:
-                return "/images/games/genshin.png"
+                return LIVE_GAME_LOGOS["genshin"]
             if "codm" in s or "duty" in s:
-                return "/images/games/codm.png"
+                return LIVE_GAME_LOGOS["codm"]
             if "clash" in s or "coc" in s:
-                return "/images/games/clashofclans.png"
+                return LIVE_GAME_LOGOS["clashofclans"]
             if "steam" in s:
-                return "/images/games/steam.png"
+                return LIVE_GAME_LOGOS["steam"]
             if "brawl" in s:
-                return "/images/games/brawlstars.png"
+                return LIVE_GAME_LOGOS["brawlstars"]
             if "aov" in s or "arena" in s:
-                return "/images/games/aov.png"
-            if "chatgpt" in s or "gpt" in s:
-                return "/images/games/chatgpt.png"
-            if "canva" in s:
-                return "/images/games/canva.png"
+                return LIVE_GAME_LOGOS["aov"]
             if "netflix" in s:
-                return "/images/games/netflix.png"
+                return LIVE_GAME_LOGOS["netflix"]
             if "spotify" in s:
-                return "/images/games/spotify.png"
+                return LIVE_GAME_LOGOS["spotify"]
             if "youtube" in s:
-                return "/images/games/youtube.png"
-            if "cellcard" in s:
-                return "/images/games/cellcard.png"
-            if "smart" in s:
-                return "/images/games/smart.png"
-            if "metfone" in s:
-                return "/images/games/metfone.png"
-            if orig and orig.startswith("/images/"):
+                return LIVE_GAME_LOGOS["youtube"]
+            if orig and (orig.startswith("http://") or orig.startswith("https://")):
                 return orig
-            return "/images/games/mlbb.png"
+            return LIVE_GAME_LOGOS["mlbb"]
 
         filtered_games = []
         for g in games_source:
