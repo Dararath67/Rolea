@@ -133,7 +133,7 @@ class DataStore:
 
             file_path = os.path.join(os.path.dirname(__file__), "data_store.json")
             with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(encrypted_state, f, indent=2, ensure_ascii=False, default=_serializer)
+                json.dump(encrypted_state, f, ensure_ascii=False, default=_serializer)
         except Exception as e:
             print(f"[DATASTORE_ERROR] Failed to save state to disk: {e}")
 
@@ -235,10 +235,8 @@ class DataStore:
         pass
 
     def _async_background_sync(self):
-        try:
-            SyncService.sync_all(self)
-        except Exception as e:
-            print(f"[DATASTORE_WARN] Background sync error: {e}")
+        # Catalog is pre-seeded instantly from local bay2game_catalog.json; background sync runs on-demand
+        pass
 
     def _seed_games(self) -> List[Game]:
         import json

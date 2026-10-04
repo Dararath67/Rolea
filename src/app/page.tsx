@@ -29,10 +29,26 @@ function HomeContent() {
   useEffect(() => {
     async function loadGames() {
       try {
+        if (typeof window !== 'undefined') {
+          const cached = sessionStorage.getItem('rolea_games_cache');
+          if (cached) {
+            try {
+              const parsed = JSON.parse(cached);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                setGames(parsed);
+                setLoading(false);
+              }
+            } catch (e) {}
+          }
+        }
+
         const res = await fetch('/api/v1/games');
         const data = await res.json();
-        if (data.success) {
+        if (data.success && Array.isArray(data.data)) {
           setGames(data.data);
+          if (typeof window !== 'undefined') {
+            sessionStorage.setItem('rolea_games_cache', JSON.stringify(data.data));
+          }
         }
       } catch (err) {
         console.error('Error fetching games:', err);
