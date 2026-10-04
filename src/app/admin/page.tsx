@@ -2556,17 +2556,17 @@ function AdminControlPanelContent() {
 
  <div className="rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-xs">
  <div className="overflow-x-auto">
- <table className="w-full text-left text-xs text-slate-600">
+ <table className="w-full min-w-[1000px] text-left text-xs text-slate-600">
  <thead className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
  <tr>
- <th className="px-4 py-3">Game & SKU</th>
- <th className="px-4 py-3">Package Name</th>
- <th className="px-4 py-3">Provider Cost</th>
- <th className="px-4 py-3">User Retail</th>
- <th className="px-4 py-3">Reseller Tier</th>
- <th className="px-4 py-3">VIP Tier</th>
- <th className="px-4 py-3">Pricing Mode</th>
- <th className="px-4 py-3 text-right">Action</th>
+ <th className="px-4 py-3 min-w-[180px]">Game & SKU</th>
+ <th className="px-4 py-3 min-w-[160px]">Package Name</th>
+ <th className="px-4 py-3 min-w-[110px]">Provider Cost</th>
+ <th className="px-4 py-3 min-w-[110px]">User Retail</th>
+ <th className="px-4 py-3 min-w-[110px]">Reseller Tier</th>
+ <th className="px-4 py-3 min-w-[100px]">VIP Tier</th>
+ <th className="px-4 py-3 min-w-[130px]">Pricing Mode</th>
+ <th className="px-4 py-3 text-right min-w-[130px]">Action</th>
  </tr>
  </thead>
  <tbody className="divide-y divide-slate-100">
@@ -2703,17 +2703,17 @@ function AdminControlPanelContent() {
       {/* Orders & Invoices Table */}
       <div className="rounded-3xl bg-white border border-slate-200 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-600">
+          <table className="w-full min-w-[1000px] text-left text-xs text-slate-600">
             <thead className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200 font-bold">
               <tr>
-                <th className="px-4 py-3.5">Order & Invoice ID</th>
-                <th className="px-4 py-3.5">Game & Package</th>
-                <th className="px-4 py-3.5">Player UID</th>
-                <th className="px-4 py-3.5">Payment & Invoice</th>
-                <th className="px-4 py-3.5">Provider</th>
-                <th className="px-4 py-3.5">Amount</th>
-                <th className="px-4 py-3.5">Status</th>
-                <th className="px-4 py-3.5 text-right">Actions</th>
+                <th className="px-4 py-3.5 min-w-[180px]">Order & Invoice ID</th>
+                <th className="px-4 py-3.5 min-w-[160px]">Game & Package</th>
+                <th className="px-4 py-3.5 min-w-[120px]">Player UID</th>
+                <th className="px-4 py-3.5 min-w-[150px]">Payment & Invoice</th>
+                <th className="px-4 py-3.5 min-w-[110px]">Provider</th>
+                <th className="px-4 py-3.5 min-w-[90px]">Amount</th>
+                <th className="px-4 py-3.5 min-w-[100px]">Status</th>
+                <th className="px-4 py-3.5 text-right min-w-[130px]">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
