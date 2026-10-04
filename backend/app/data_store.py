@@ -1198,6 +1198,7 @@ class DataStore:
                 for pkg in g.packages:
                     if pkg.id == product_id or pkg.provider_product_id == product_id or getattr(pkg, 'external_product_id', None) == product_id:
                         pkg.is_active = not pkg.is_active
+                        self.save_to_disk()
                         status_str = "ON (Published)" if pkg.is_active else "OFF (Unpublished)"
                         self.log_audit("admin", "manager", "TOGGLE_PRODUCT_PUBLISHING", pkg.id, f"Set product {pkg.name_en} ({g.name_en}) to {status_str}")
                         return {

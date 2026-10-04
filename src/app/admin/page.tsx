@@ -174,6 +174,7 @@ function AdminControlPanelContent() {
  const [isAddingProvider, setIsAddingProvider] = useState(false);
  const [testResultModal, setTestResultModal] = useState<{ provider: any; result: any } | null>(null);
  const [editingProduct, setEditingProduct] = useState<{ game: any; pkg: any } | null>(null);
+ const [editIsActive, setEditIsActive] = useState<boolean>(true);
  const [isAddingGame, setIsAddingGame] = useState(false);
  const [isAddingCoupon, setIsAddingCoupon] = useState(false);
  const [isAddingBanner, setIsAddingBanner] = useState(false);
@@ -799,6 +800,33 @@ function AdminControlPanelContent() {
   };
 
  // Pricing & Product Controls
+ const handleToggleProductStatus = async (pkg: any) => {
+ const targetId = pkg.id;
+ const gameSlug = pkg.gameSlug || pkg.game_slug;
+ const currentActive = pkg.is_active !== false;
+ const nextActive = !currentActive;
+
+ try {
+ const res = await fetch(`/api/v1/admin/products/${targetId}/toggle?game_slug=${encodeURIComponent(gameSlug || '')}`, {
+ method: 'PATCH'
+ });
+ const data = await safeFetchJson(res);
+ if (data.success) {
+ showToast(
+ isKm 
+ ? `បាន${nextActive ? 'បើក (ON)' : 'បិទ (OFF)'} កញ្ចប់ ${pkg.name_en} ជោគជ័យ!` 
+ : `Package ${pkg.name_en} is now ${nextActive ? 'ON (Active)' : 'OFF (Disabled)'}!`,
+ 'success'
+ );
+ loadData();
+ } else {
+ showToast(data.message || 'Failed to toggle product status', 'error');
+ }
+ } catch (err) {
+ showToast('Error toggling product status', 'error');
+ }
+ };
+
  const handleSaveProductPricing = async (e: React.FormEvent) => {
  e.preventDefault();
  if (!editingProduct) return;
@@ -812,7 +840,8 @@ function AdminControlPanelContent() {
  price_reseller_usd: Number(editPriceReseller),
  price_vip_usd: Number(editPriceVip),
  manual_price_override: editManualOverride,
- markup_percent: Number(editMarkupPercent)
+ markup_percent: Number(editMarkupPercent),
+ is_active: editIsActive
  })
  });
  const data = await res.json();
@@ -2566,6 +2595,7 @@ function AdminControlPanelContent() {
  <th className="px-3 py-2.5 text-right">Reseller Tier</th>
  <th className="px-3 py-2.5 text-right">VIP Tier</th>
  <th className="px-3 py-2.5 text-center">Pricing Mode</th>
+ <th className="px-3 py-2.5 text-center">Status</th>
  <th className="px-3 py-2.5 text-right sticky right-0 bg-slate-50 border-l border-slate-200 z-20 shadow-xs">Action</th>
  </tr>
  </thead>
@@ -2607,6 +2637,21 @@ function AdminControlPanelContent() {
  </span>
  )}
  </td>
+ <td className="px-3 py-2.5 text-center">
+ <button
+ type="button"
+ onClick={() => handleToggleProductStatus(pkg)}
+ className={`px-2.5 py-1 rounded-full text-[10px] font-black transition-all inline-flex items-center gap-1 border shadow-2xs cursor-pointer ${
+ pkg.is_active !== false
+ ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+ : 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100'
+ }`}
+ title={pkg.is_active !== false ? 'Click to Disable (Turn OFF)' : 'Click to Enable (Turn ON)'}
+ >
+ <span className={`w-2 h-2 rounded-full ${pkg.is_active !== false ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
+ <span>{pkg.is_active !== false ? (isKm ? 'បើក (ON)' : 'ON') : (isKm ? 'បិទ (OFF)' : 'OFF')}</span>
+ </button>
+ </td>
  <td className="px-3 py-2.5 text-right sticky right-0 bg-white group-hover:bg-slate-50 border-l border-slate-200 z-10 shadow-xs">
  <button
  onClick={() => {
@@ -2617,6 +2662,7 @@ function AdminControlPanelContent() {
  setEditPriceVip(pkg.price_vip_usd);
  setEditManualOverride(pkg.manual_price_override || false);
  setEditMarkupPercent(pkg.markup_percent || 12);
+ setEditIsActive(pkg.is_active !== false);
  }}
  className="px-2.5 py-1 rounded-xl bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 text-xs font-bold transition-all border border-blue-200 inline-flex items-center gap-1 shadow-2xs whitespace-nowrap"
  >
@@ -4721,6 +4767,30 @@ function AdminControlPanelContent() {
  </button>
  ))}
  </div>
+ </div>
+
+ {/* Package Status ON/OFF Toggle */}
+ <div className="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
+ <div>
+ <label className="text-slate-900 font-bold block text-xs cursor-pointer" onClick={() => setEditIsActive(!editIsActive)}>
+ {isKm ? 'ស្ថានភាពលក់កញ្ចប់នេះ (Package Status)' : 'Product Package Status'}
+ </label>
+ <span className="text-[10px] text-slate-500">
+ {editIsActive ? (isKm ? 'កំពុងបើកបង្ហាញលើហាង' : 'Active & Visible on public store') : (isKm ? 'បានបិទផ្អាកមិនឲ្យទិញ' : 'Disabled & Hidden from public store')}
+ </span>
+ </div>
+ <button
+ type="button"
+ onClick={() => setEditIsActive(!editIsActive)}
+ className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 border shadow-2xs cursor-pointer ${
+ editIsActive
+ ? 'bg-emerald-600 text-white border-emerald-700'
+ : 'bg-rose-600 text-white border-rose-700'
+ }`}
+ >
+ <span className="w-2 h-2 rounded-full bg-white" />
+ <span>{editIsActive ? 'ON (Active)' : 'OFF (Disabled)'}</span>
+ </button>
  </div>
 
  <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-2xl border border-slate-200">
