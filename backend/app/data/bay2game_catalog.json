@@ -2718,7 +2718,7 @@
   {
     "game_code": "nikke",
     "name": "GOV: Nikke",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/6qv7YkyQQ9fVeyM-PSIvnD1vnBO9xZVZoqQy9f3s9m3_IIUt2JS4ni3jDi7TZFpyrKN0cC-I2BbuXMYuhY1aCxg=s512",
     "fields": [
       "userid",
       "serverid"
@@ -2882,7 +2882,7 @@
   {
     "game_code": "harry_potter_magic_awakened",
     "name": "Harry Potter: Magic Awaken",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/9Q_fxr4mZhHoYQyYriRtHJt2-KbWDSD8jdwy25C916x6QKCkOIgvcl87VPMcIQZGnPblhT1rEcWuGCMcJy4uxhI=s512",
     "fields": [
       "userid",
       "serverid"
@@ -3142,7 +3142,7 @@
   {
     "game_code": "garena_undawn",
     "name": "Garena Undawn",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -3329,7 +3329,7 @@
   {
     "game_code": "arena_breakout",
     "name": "Arena Breakout",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/JBjC3-ztV1LX8nT2sumjHZqPi97NOuKFhIJy6i7Z0NcGvZbXpP50mwFv7SguTeNMspC6Y4HmO2qAAATi65Rl1Q=s512",
     "fields": [
       "userid"
     ],
@@ -3556,7 +3556,7 @@
   {
     "game_code": "undawn_global",
     "name": "Undawn Global",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid",
       "serverid"
@@ -3752,7 +3752,7 @@
   {
     "game_code": "super_sus",
     "name": "Super Sus",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/18DPC2VKF_9bYqnvcf2Jbas4W4pah5-mJ0rJ4lpx-7ACShqJLWRi3u-aIo-xduaYzesL5EmJK7i0yYa4fi_k=s512",
     "fields": [
       "userid"
     ],
@@ -3907,7 +3907,7 @@
   {
     "game_code": "metal_slug",
     "name": "Metal Slug Awakening",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/xDk7cvZCyJlWro3ipxmYNvuq4kQm6iXp2ryX-RWaX8AJD5BpuvZqzJ1m4NDsQjVi6Mbt5PgNqvnCSTmnPzqhIA=s512",
     "fields": [
       "userid"
     ],
@@ -4030,7 +4030,7 @@
   {
     "game_code": "stumble_guys",
     "name": "Stumble Guys",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/bt7JMYIJDQgQjkfGPCQomYgNbtNkkvME1xP1WuYouiDiia1BxNnQtq9esfUsTFFhA1H3OVl3j8_XICLkzBcakvM=s512",
     "fields": [
       "userid"
     ],
@@ -5725,7 +5725,7 @@
   {
     "game_code": "wor",
     "name": "Watcher of Realms",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid",
       "serverid"
@@ -12546,7 +12546,7 @@
   {
     "game_code": "marvel_duel",
     "name": "Marvel Duel",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/1bpPoAURFISDh7KGmHRLnsirYIBahntg2_k2hQg2psKlnRV-SX5ZEZt1NPVJXwO4HxS29aMfi3BmSL7g8UTpMA=s512",
     "fields": [
       "userid"
     ],
@@ -13136,7 +13136,7 @@
   {
     "game_code": "oncehuman",
     "name": "Once Human",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/i9HvbrmveT5ZtIKc0Hlyc4ZLfMtjj7QohOSq_HLnSH2MwTUKejJAMefICADQHKwK6KRsP7zEAo8wANSKA-0-gA=s512",
     "fields": [
       "userid",
       "serverid",
@@ -13749,7 +13749,7 @@
   {
     "game_code": "poppolive",
     "name": "Poppo Live",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/5kFm2Or1bHsU_OEZWkrWPWTBol5V5lMYbZieFg8E_8iXjuarqkb6PEQnKW84nD6KPGvLySi_XZfY90dA0aFL=s512",
     "fields": [
       "userid"
     ],
@@ -14622,7 +14622,7 @@
   {
     "game_code": "bullet_echo",
     "name": "Bullet Echo",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/JBjC3-ztV1LX8nT2sumjHZqPi97NOuKFhIJy6i7Z0NcGvZbXpP50mwFv7SguTeNMspC6Y4HmO2qAAATi65Rl1Q=s512",
     "fields": [
       "userid"
     ],
@@ -14945,7 +14945,7 @@
   {
     "game_code": "aoem",
     "name": "Age of Empire Mobile",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/hEm5NVeEv7UfFJaK8GZdfWe7p3DB_VvYx57qIEHbR0tMV_NToziH0Vbgd6CxLiWF-iURpAe-jsC_UGUDt0diPQ=s512",
     "fields": [
       "userid",
       "serverid"
@@ -15264,7 +15264,7 @@
   {
     "game_code": "slnw",
     "name": "Soul Land New World",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/S4HjezIFmL17FpPu7Z8VzxZvFMABYUjfLkcrDSEKxpjCYIL3tWLQK76_16SDOTiZlVHm_KeoMawvC7BPcyW_=s512",
     "fields": [
       "userid"
     ],
@@ -15347,7 +15347,7 @@
   {
     "game_code": "scz",
     "name": "Snowbreak Containment Zone",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/tNMaMiJ4wTQy_TeZSWHdSlP5qH0PGig9g9sDJu2QFvCHdnrbo2u17pX55W4i6KITo56v_ZyICkqLgA2svH9ycQ=s512",
     "fields": [
       "userid",
       "serverid"
@@ -15407,7 +15407,7 @@
   {
     "game_code": "deltaforce",
     "name": "Delta Force",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512",
     "fields": [
       "userid"
     ],
@@ -15618,7 +15618,7 @@
   {
     "game_code": "marvelrivals",
     "name": "Marvel Rivals",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/u89AMt1IMcva83pZm1lZm2UnSnb2AyUlNDlx5hvaZQlKo0WZVFrpxPeAzksSb2pNAuPBB8hxcgGJY-VW8TDwPMk=s512",
     "fields": [
       "userid"
     ],
@@ -15685,7 +15685,7 @@
   {
     "game_code": "moonlight_blade_m",
     "name": "Moonlight Blade M",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/TInj0KYJu5pubhK7iEaUAGIzxavLzjFT76Ei6okqcnQw-njQUnQkp9Vkz70aWf6-NA0PixqEGKs0RFBa4XyglZ4=s512",
     "fields": [
       "userid"
     ],
@@ -15848,7 +15848,7 @@
   {
     "game_code": "gsld",
     "name": "Ghost Story Love Destiny",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/iZ13yH-J7yiEeuXrvluOtbhccVpUtLmdEW5K5Tfknoeu8XRPnZcrHq0z75WAI5EHcdwKnv-UPh7d09XKcKZH1Q=s512",
     "fields": [
       "userid"
     ],
@@ -16759,7 +16759,7 @@
   {
     "game_code": "garena_deltaforce_sg",
     "name": "Garena Deltaforce Singapore",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512",
     "fields": [
       "userid"
     ],
@@ -16898,7 +16898,7 @@
   {
     "game_code": "garena_deltaforce_my",
     "name": "Garena Deltaforce Malaysia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512",
     "fields": [
       "userid"
     ],
@@ -19396,7 +19396,7 @@
   {
     "game_code": "arena_breakout_infinite",
     "name": "Arena Breakout Infinite",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/JBjC3-ztV1LX8nT2sumjHZqPi97NOuKFhIJy6i7Z0NcGvZbXpP50mwFv7SguTeNMspC6Y4HmO2qAAATi65Rl1Q=s512",
     "fields": [
       "userid"
     ],
@@ -20190,7 +20190,7 @@
   {
     "game_code": "destiny_rising",
     "name": "Destiny: Rising",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/9Q_fxr4mZhHoYQyYriRtHJt2-KbWDSD8jdwy25C916x6QKCkOIgvcl87VPMcIQZGnPblhT1rEcWuGCMcJy4uxhI=s512",
     "fields": [
       "userid",
       "serverid"
@@ -20250,7 +20250,7 @@
   {
     "game_code": "acecraft",
     "name": "Acecraft",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/KZbIal56rh5WZsua1sPp73gm4GmxD-njM6Dnds5bWrHSqS0cZLaB74RxiLbdEg8yOBbiaiKJdiSnvc--5dWiMw=s512",
     "fields": [
       "userid"
     ],
@@ -20381,7 +20381,7 @@
   {
     "game_code": "star_resonance",
     "name": "Star Resonance",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/fcFo4Yt5XaiKetmDIjbx0C2IiJT1lNzRvqBrEO4LbgQB_jYJksaNwvvLvWltJAuBCPprCmPEwTpbrJl_6TEOlXM=s512",
     "fields": [
       "userid",
       "serverid"
@@ -20489,7 +20489,7 @@
   {
     "game_code": "yalla_ludo",
     "name": "Yalla Ludo",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/pF6WXInG5Jrwug7xv99ltVV4FBJRNITAouod7MPxIRk_u8zCPBUl0bj7lYWVjO65HqlraHXfo7ZmVkgcBhmpKg=s512",
     "fields": [
       "userid"
     ],
@@ -21151,7 +21151,7 @@
   {
     "game_code": "dna",
     "name": "Duet Night Abyss",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/G7ADEwb2RbPeZRZlEgrUTDSihoVLv75sYmfC7ajqgdlkf0FYtI3TBh0a5W8pErJwK9_UvXGFeGW8vvn2ADakYQ=s512",
     "fields": [
       "userid",
       "serverid"
@@ -21211,7 +21211,7 @@
   {
     "game_code": "swordofjustice",
     "name": "Sword of Justice",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid",
       "serverid"
@@ -21543,7 +21543,7 @@
   {
     "game_code": "wwm",
     "name": "Where Winds Meet",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/yUk1ryEDzmGl8hVDAzN3I6ZnbxTHH_HMM1ueLjBUcMF7s0a1goUV8CpCfVOjrWM2BwGUkBY404SGEZg5fRaQ=s512",
     "fields": [],
     "products": [
       {
@@ -21648,7 +21648,7 @@
   {
     "game_code": "legend_of_phoenix",
     "name": "Legend of the Phoenix",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/Dmdruh7RUeZ8rgFNzMJ6T342W3xm6aucHdIiIguOLF-G2lYAMRpcb3B9_8inxCZxyRQe55YZxSeC-yUZWF99=s512",
     "fields": [
       "userid"
     ],
@@ -25508,7 +25508,7 @@
   {
     "game_code": "swordofjustice_eu",
     "name": "Sword of Justice Europe",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid",
       "serverid"
@@ -25664,7 +25664,7 @@
   {
     "game_code": "swordofjustice_us",
     "name": "Sword of Justice North America",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid",
       "serverid"
@@ -25820,7 +25820,7 @@
   {
     "game_code": "enhypen_world",
     "name": "Enhypen World",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -30386,7 +30386,7 @@
   {
     "game_code": "crossfire",
     "name": "Crossfire: Legend",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -31184,7 +31184,7 @@
   {
     "game_code": "spring_valley",
     "name": "Spring Valley: Farm Adventures",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/KZbIal56rh5WZsua1sPp73gm4GmxD-njM6Dnds5bWrHSqS0cZLaB74RxiLbdEg8yOBbiaiKJdiSnvc--5dWiMw=s512",
     "fields": [
       "userid"
     ],
@@ -31315,7 +31315,7 @@
   {
     "game_code": "oxide",
     "name": "Oxide: Survival Island",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/bt7JMYIJDQgQjkfGPCQomYgNbtNkkvME1xP1WuYouiDiia1BxNnQtq9esfUsTFFhA1H3OVl3j8_XICLkzBcakvM=s512",
     "fields": [
       "userid"
     ],
@@ -31892,7 +31892,7 @@
   {
     "game_code": "heartopia",
     "name": "Heartopia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/CxUJ-s6QRm3MtiJ92mh3euIx_rp5XvmZtVmoHXJaLsFXURIMf_XcH9uHANbQ00CUUPkSHcIZBqIhC0OC9yV6Iw=s512",
     "fields": [
       "userid",
       "serverid"
@@ -32056,7 +32056,7 @@
   {
     "game_code": "arknights_endfield",
     "name": "Arknight: Endfield",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MfVM3wvhQwzhPbwjzd5tiZQKR7EyCkZlNxG68d_4haoTAaZLT8A0GtdyeMXaMujZikQ8Nt7qP2rXol-k_zhulA=s512",
     "fields": [
       "userid",
       "serverid",

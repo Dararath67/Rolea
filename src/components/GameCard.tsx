@@ -53,7 +53,7 @@ export default function GameCard({ game }: GameProps) {
           onError={(e) => {
             const target = e.currentTarget;
             target.onerror = null;
-            setImgSrc('https://play-lh.googleusercontent.com/QqZj22aXblAyYDxLQw-Gg0ycW0QkKhrDnwqgERZU9BMRXZnMlgXfq-94sikG5mEpt_I0lzZxcUzfLblmQgwYzUE=s512');
+            setImgSrc('/images/games/default.png');
           }}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
