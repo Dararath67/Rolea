@@ -21,28 +21,30 @@ const LIVE_GAME_LOGOS: Record<string, string> = {
 
 export function getGameThumbnailUrl(slug: string = '', rawThumb: string = ''): string {
   const s = (slug || '').toLowerCase();
-  
-  if (s.includes('valorant') || s.includes('val')) return LIVE_GAME_LOGOS.valorant;
-  if (s.includes('wild_rift') || s.includes('wildrift') || s.includes('lol')) return LIVE_GAME_LOGOS.wildrift;
-  if (s.includes('bloodstrike') || s.includes('blood')) return LIVE_GAME_LOGOS.bloodstrike;
-  if (s.includes('fc') || s.includes('eafc') || s.includes('fifa')) return LIVE_GAME_LOGOS.fcmobile;
-  if (s.includes('mlbb') || s.includes('mobile_legends') || s.includes('legends')) return LIVE_GAME_LOGOS.mlbb;
-  if (s.includes('freefire') || s.includes('free_fire') || s.includes('ff')) return LIVE_GAME_LOGOS.freefire;
-  if (s.includes('pubg')) return LIVE_GAME_LOGOS.pubg;
-  if (s.includes('hok') || s.includes('honor') || s.includes('kings')) return LIVE_GAME_LOGOS.hok;
-  if (s.includes('roblox')) return LIVE_GAME_LOGOS.roblox;
-  if (s.includes('genshin')) return LIVE_GAME_LOGOS.genshin;
-  if (s.includes('codm') || s.includes('call_of_duty') || s.includes('duty')) return LIVE_GAME_LOGOS.codm;
-  if (s.includes('clashofclans') || s.includes('clash') || s.includes('coc')) return LIVE_GAME_LOGOS.clashofclans;
-  if (s.includes('brawlstars') || s.includes('brawl')) return LIVE_GAME_LOGOS.brawlstars;
-  if (s.includes('aov') || s.includes('arena')) return LIVE_GAME_LOGOS.aov;
-  if (s.includes('steam')) return LIVE_GAME_LOGOS.steam;
-  if (s.includes('netflix')) return LIVE_GAME_LOGOS.netflix;
-  if (s.includes('spotify')) return LIVE_GAME_LOGOS.spotify;
-  if (s.includes('youtube')) return LIVE_GAME_LOGOS.youtube;
 
-  if (rawThumb && (rawThumb.startsWith('http://') || rawThumb.startsWith('https://') || rawThumb.startsWith('/'))) {
-    return rawThumb;
+  // Specific top games high-res CDN overrides
+  if (s === 'valorant' || s === 'val') return LIVE_GAME_LOGOS.valorant;
+  if (s === 'lol-wild-rift' || s === 'wild_rift' || s === 'wildrift') return LIVE_GAME_LOGOS.wildrift;
+  if (s === 'bloodstrike' || s === 'blood_strike') return LIVE_GAME_LOGOS.bloodstrike;
+  if (s === 'fc-mobile' || s === 'fcmobile' || s === 'eafc') return LIVE_GAME_LOGOS.fcmobile;
+  if (s === 'mobile-legends' || s === 'mlbb' || s === 'mobile_legends') return LIVE_GAME_LOGOS.mlbb;
+  if (s === 'free-fire' || s === 'freefire' || s === 'ff') return LIVE_GAME_LOGOS.freefire;
+  if (s === 'pubg-mobile' || s === 'pubg') return LIVE_GAME_LOGOS.pubg;
+  if (s === 'honor-of-kings' || s === 'hok') return LIVE_GAME_LOGOS.hok;
+  if (s === 'roblox') return LIVE_GAME_LOGOS.roblox;
+  if (s === 'genshin-impact' || s === 'genshin') return LIVE_GAME_LOGOS.genshin;
+  if (s === 'call-of-duty-mobile' || s === 'codm') return LIVE_GAME_LOGOS.codm;
+  if (s === 'clash-of-clans' || s === 'clashofclans') return LIVE_GAME_LOGOS.clashofclans;
+  if (s === 'brawl-stars' || s === 'brawlstars') return LIVE_GAME_LOGOS.brawlstars;
+  if (s === 'arena-of-valor' || s === 'aov') return LIVE_GAME_LOGOS.aov;
+  if (s === 'steam' || s === 'steam-wallet') return LIVE_GAME_LOGOS.steam;
+  if (s === 'netflix') return LIVE_GAME_LOGOS.netflix;
+  if (s === 'spotify') return LIVE_GAME_LOGOS.spotify;
+  if (s === 'youtube') return LIVE_GAME_LOGOS.youtube;
+
+  // For all other catalog games, use rawThumb if provided
+  if (rawThumb && rawThumb.trim()) {
+    return rawThumb.trim();
   }
 
   return LIVE_GAME_LOGOS.mlbb;

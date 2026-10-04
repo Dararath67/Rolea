@@ -52,35 +52,37 @@ LIVE_GAME_LOGOS: Dict[str, str] = {
 
 def resolve_game_thumbnail_url(slug: str, orig: str = "") -> str:
     s = str(slug or "").lower().strip()
-    if "valorant" in s or "val" in s:
+    
+    # Specific top games high-res CDN overrides
+    if "valorant" in s or s == "val":
         return LIVE_GAME_LOGOS["valorant"]
-    if "wild" in s or "rift" in s or "lol" in s:
+    if "wild_rift" in s or "wildrift" in s:
         return LIVE_GAME_LOGOS["wildrift"]
-    if "blood" in s or "strike" in s:
+    if "bloodstrike" in s or "blood_strike" in s:
         return LIVE_GAME_LOGOS["bloodstrike"]
-    if "fc" in s or "ea" in s or "fifa" in s:
+    if "fc_mobile" in s or "fcmobile" in s or "eafc" in s:
         return LIVE_GAME_LOGOS["fcmobile"]
-    if "mlbb" in s or "mobile_legend" in s or "mobilelegend" in s or "legend" in s:
+    if "mlbb" in s or "mobile_legends" in s or "mobilelegends" in s:
         return LIVE_GAME_LOGOS["mlbb"]
-    if "freefire" in s or "free_fire" in s or "ff" in s:
+    if "freefire" in s or "free_fire" in s or s == "ff":
         return LIVE_GAME_LOGOS["freefire"]
     if "pubg" in s:
         return LIVE_GAME_LOGOS["pubg"]
-    if "hok" in s or "honor" in s or "kings" in s:
+    if "hok" in s or "honor_of_kings" in s or "honorofkings" in s:
         return LIVE_GAME_LOGOS["hok"]
     if "roblox" in s:
         return LIVE_GAME_LOGOS["roblox"]
     if "genshin" in s:
         return LIVE_GAME_LOGOS["genshin"]
-    if "codm" in s or "duty" in s:
+    if "codm" in s or "call_of_duty" in s:
         return LIVE_GAME_LOGOS["codm"]
-    if "clash" in s or "coc" in s:
+    if "clash_of_clans" in s or "clashofclans" in s:
         return LIVE_GAME_LOGOS["clashofclans"]
     if "steam" in s:
         return LIVE_GAME_LOGOS["steam"]
-    if "brawl" in s:
+    if "brawlstars" in s or "brawl_stars" in s:
         return LIVE_GAME_LOGOS["brawlstars"]
-    if "aov" in s or "arena" in s:
+    if "arena_of_valor" in s or s == "aov":
         return LIVE_GAME_LOGOS["aov"]
     if "netflix" in s:
         return LIVE_GAME_LOGOS["netflix"]
@@ -88,8 +90,11 @@ def resolve_game_thumbnail_url(slug: str, orig: str = "") -> str:
         return LIVE_GAME_LOGOS["spotify"]
     if "youtube" in s:
         return LIVE_GAME_LOGOS["youtube"]
-    if orig and (orig.startswith("http://") or orig.startswith("https://") or orig.startswith("/images/")):
-        return orig
+
+    # If game has its own original thumbnail URL from wholesale provider/catalog, use it!
+    if orig and str(orig).strip():
+        return str(orig).strip()
+
     return LIVE_GAME_LOGOS["mlbb"]
 
 class DataStore:
