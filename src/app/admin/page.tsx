@@ -16,6 +16,7 @@ import BroadcastCenter from './components/BroadcastCenter';
 import SecurityEncryptionVault from './components/SecurityEncryptionVault';
 import InvoiceReceiptModal from '@/components/InvoiceReceiptModal';
 import { exportToCsv } from '@/utils/exportToCsv';
+import { getGameThumbnailUrl } from '@/lib/gameImages';
 import { 
  LayoutDashboard, 
  Gamepad2, 
@@ -2301,10 +2302,10 @@ function AdminControlPanelContent() {
  <div className="flex items-start gap-3">
  <div className="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-200 p-2 flex items-center justify-center shrink-0 overflow-hidden">
  <img 
- src={g.thumbnail} 
+ src={getGameThumbnailUrl(g.slug, g.thumbnail)} 
  alt={g.name_en} 
  className="w-full h-full object-contain"
- onError={(e: any) => { e.target.src = '/images/games/mlbb.png'; }}
+ onError={(e: any) => { e.target.src = 'https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512'; }}
  />
  </div>
  <div className="min-w-0 flex-1">
