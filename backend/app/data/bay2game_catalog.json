@@ -2,7 +2,7 @@
   {
     "game_code": "freefire_global",
     "name": "Free Fire Global",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -141,7 +141,7 @@
   {
     "game_code": "freefire_sgmy",
     "name": "Free Fire MY",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -344,7 +344,7 @@
   {
     "game_code": "freefire_sg",
     "name": "Free Fire SG",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -443,7 +443,7 @@
   {
     "game_code": "freefire_me",
     "name": "Free Fire Middle East",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -566,7 +566,7 @@
   {
     "game_code": "freefire_tw",
     "name": "Free Fire Taiwan",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -713,7 +713,7 @@
   {
     "game_code": "freefire_vn",
     "name": "Free Fire Vietnam",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -804,7 +804,7 @@
   {
     "game_code": "freefire_latam",
     "name": "Free Fire LATAM",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -895,7 +895,7 @@
   {
     "game_code": "freefire_br",
     "name": "FreeFire Brazil",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -1074,7 +1074,7 @@
   {
     "game_code": "freefire_id",
     "name": "Free Fire Indonesia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -1477,7 +1477,7 @@
   {
     "game_code": "freefire_bd",
     "name": "Free Fire Bangladesh",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -1560,7 +1560,7 @@
   {
     "game_code": "valorant_sg",
     "name": "Valorant SG",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -1619,7 +1619,7 @@
   {
     "game_code": "codm_sgmy",
     "name": "Call of Duty Mobile Garena SGMY",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cKXlbU72_2wSXdjcD_zPWED3EVaaOQVqqHgiA9JoRQMprYen49arNUMTngcRc9UWLnv-ANT9gyQBDQpvAn61lg=s512",
     "fields": [
       "userid"
     ],
@@ -1726,7 +1726,7 @@
   {
     "game_code": "bigo",
     "name": "Bigo Live Diamonds",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/5kFm2Or1bHsU_OEZWkrWPWTBol5V5lMYbZieFg8E_8iXjuarqkb6PEQnKW84nD6KPGvLySi_XZfY90dA0aFL=s512",
     "fields": [
       "userid"
     ],
@@ -1929,7 +1929,7 @@
   {
     "game_code": "ragnarok_origin",
     "name": "Ragnarok Origin",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/pF6WXInG5Jrwug7xv99ltVV4FBJRNITAouod7MPxIRk_u8zCPBUl0bj7lYWVjO65HqlraHXfo7ZmVkgcBhmpKg=s512",
     "fields": [
       "userid",
       "serverid",
@@ -2298,7 +2298,7 @@
   {
     "game_code": "valorant_my",
     "name": "Valorant Malaysia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -2357,7 +2357,7 @@
   {
     "game_code": "valorant_ph",
     "name": "Valorant Philippines",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -2416,7 +2416,7 @@
   {
     "game_code": "valorant_th",
     "name": "Valorant Thailand",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -2475,7 +2475,7 @@
   {
     "game_code": "valorant_kh",
     "name": "Valorant Cambodia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -2534,7 +2534,7 @@
   {
     "game_code": "valorant_id",
     "name": "Valorant Indonesia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -2593,7 +2593,7 @@
   {
     "game_code": "maplestorym",
     "name": "MapleStory M",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/z4e8N7mZ6t7F4n9C2P1w8Z_8b4e7W9f2k0j1m2n3b4v5c6x7y8z-s512",
     "fields": [
       "userid",
       "serverid",
@@ -5190,7 +5190,7 @@
   {
     "game_code": "wild_rift_ph",
     "name": "Wild Rift Philippines",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512",
     "fields": [
       "userid"
     ],
@@ -5249,7 +5249,7 @@
   {
     "game_code": "wild_rift_kh",
     "name": "Wild Rift Cambodia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512",
     "fields": [
       "userid"
     ],
@@ -5308,7 +5308,7 @@
   {
     "game_code": "wild_rift_sg",
     "name": "Wild Rift Singapore",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512",
     "fields": [
       "userid"
     ],
@@ -6623,7 +6623,7 @@
   {
     "game_code": "bloodstrikeme",
     "name": "Blood Strike MENA",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512",
     "fields": [
       "userid"
     ],
@@ -7002,7 +7002,7 @@
   {
     "game_code": "bloodstrike",
     "name": "Blood Strike",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/2u_SRoZ-5g7nqNz4NyFpBvWMg5oEu43MmBmz3m20Rf_wAkOmIV0dOuzblA6GAlUIwjLIOMrKQrpGHMp1JxMyZg=s512",
     "fields": [
       "userid"
     ],
@@ -7381,7 +7381,7 @@
   {
     "game_code": "legends_of_runeterra_my",
     "name": "Legends of Runeterra",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -7909,7 +7909,7 @@
   {
     "game_code": "teamfight_tactics_sg",
     "name": "Teamfight Tactics SG",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -7968,7 +7968,7 @@
   {
     "game_code": "teamfight_tactics_ph",
     "name": "Teamfight Tactics Philippines",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -8027,7 +8027,7 @@
   {
     "game_code": "teamfight_tactics_th",
     "name": "Teamfight Tactics Thailand",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -8086,7 +8086,7 @@
   {
     "game_code": "teamfight_tactics_id",
     "name": "Teamfight Tactics Indonesia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [
       "userid"
     ],
@@ -8463,7 +8463,7 @@
   {
     "game_code": "eafcmobile_sg",
     "name": "EAFC Mobile Singapore",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512",
     "fields": [
       "userid"
     ],
@@ -8586,7 +8586,7 @@
   {
     "game_code": "eafcmobile_kh",
     "name": "EAFC Mobile Cambodia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512",
     "fields": [
       "userid"
     ],
@@ -8709,7 +8709,7 @@
   {
     "game_code": "eafcmobile_my",
     "name": "EAFC Mobile Malaysia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512",
     "fields": [
       "userid"
     ],
@@ -9417,7 +9417,7 @@
   {
     "game_code": "hok",
     "name": "Honor of Kings",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/hEm5NVeEv7UfFJaK8GZdfWe7p3DB_VvYx57qIEHbR0tMV_NToziH0Vbgd6CxLiWF-iURpAe-jsC_UGUDt0diPQ=s512",
     "fields": [
       "userid"
     ],
@@ -16598,7 +16598,7 @@
   {
     "game_code": "valorant_vn",
     "name": "Valorant Vietnam",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
     "fields": [
       "userid"
     ],
@@ -16708,7 +16708,7 @@
   {
     "game_code": "wild_rift_vn",
     "name": "Wild Rift Vietnam",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512",
     "fields": [
       "userid"
     ],
@@ -19186,7 +19186,7 @@
   {
     "game_code": "aove",
     "name": "Arena of Valor Europe",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/Uezg8ZC7krrxV1VfE03Mahzr174mlPoYQBraGypDXeGamJZszE0kZ_Jl0CtpwQELYWe9fw4M55Tqiucpm0tzi7E=s512",
     "fields": [
       "userid"
     ],
@@ -34103,7 +34103,7 @@
   {
     "game_code": "mlbb_tr",
     "name": "Mobile Legends Turkey",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -36304,7 +36304,7 @@
   {
     "game_code": "mlbb_global",
     "name": "Mobile Legends Global",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -36500,7 +36500,7 @@
   {
     "game_code": "mlbb_br",
     "name": "Mobile Legends Brazil",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -36656,7 +36656,7 @@
   {
     "game_code": "mlbb",
     "name": "Mobile Legends",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -37500,7 +37500,7 @@
   {
     "game_code": "mlbb_special",
     "name": "Mobile Legends Special",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -38488,7 +38488,7 @@
   {
     "game_code": "mlbb_exclusive",
     "name": "Mobile Legends Exclusive",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -39428,7 +39428,7 @@
   {
     "game_code": "mlbb_ru",
     "name": "Mobile Legends Russia",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/MztmLpB1-_eFbHnqNzzvzl5zjiOH2BEb0D71uBxZYf_4BEmW3QEPWODhRtyqY7Qz4wRLwQ--Rg1RAjOFqtHSs-o=s512",
     "fields": [
       "userid",
       "serverid"
@@ -39528,7 +39528,7 @@
   {
     "game_code": "pubgm",
     "name": "PUBG Mobile",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/Se7jR6A5R0Mk9ClaIguf46yi2K3k32JsqKb3gAtrktIh3JwnFfxrQRmG9GLvdMpbxbMrReUOxzDkStxGxNo-5Q=s512",
     "fields": [
       "userid"
     ],
@@ -39771,7 +39771,7 @@
   {
     "game_code": "fifa_futcoins_console",
     "name": "EAFC 24",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512",
     "fields": [],
     "products": [
       {
@@ -39796,7 +39796,7 @@
   {
     "game_code": "fifa_futcoins_pc",
     "name": "EAFC 24",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/uT1JkXWK9pv1DWWOuVebnsbATHMZmhG4LUDkvoXne9H2MDF1im00_-U4taZPifIBpJ47sA0i8IoCh5aEVuUG5JI=s512",
     "fields": [],
     "products": [
       {
@@ -39878,7 +39878,7 @@
   {
     "game_code": "wild_rift_my",
     "name": "Wild Rift MY",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/7-kbcpgrCOE1mleJ9g0d61sJeoqKcQRIj4iFvJ8DjPlRIfocOWfOQsXzKWw2I5oHySVdbjR2fvzfCCz1FYQ-RQ=s512",
     "fields": [],
     "products": [
       {
@@ -39951,7 +39951,7 @@
   {
     "game_code": "revelation",
     "name": "Revelation: Infinite Journey",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/G7ADEwb2RbPeZRZlEgrUTDSihoVLv75sYmfC7ajqgdlkf0FYtI3TBh0a5W8pErJwK9_UvXGFeGW8vvn2ADakYQ=s512",
     "fields": [],
     "products": [
       {
@@ -40248,7 +40248,7 @@
   {
     "game_code": "legends_of_runeterra_ph",
     "name": "Legends of Runeterra Philippines",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [],
     "products": [
       {
@@ -40305,7 +40305,7 @@
   {
     "game_code": "teamfight_tactics_my",
     "name": "Teamfight Tactics MY",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
     "fields": [],
     "products": [
       {
@@ -40362,7 +40362,7 @@
   {
     "game_code": "xbox_giftcard",
     "name": "XBOX Gift Cards",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/E_x2GPSJakCdUYfECBptVyFoVnC4BxIPy3K4OdbwNyEtEJkRAY_J-Lo_Ltiybq6LiJ_aZCIzvqLv5h4Fbk91=s512",
     "fields": [
       "userid"
     ],
@@ -40372,7 +40372,7 @@
   {
     "game_code": "ROBLOX_US_CARDS",
     "name": "Roblox Gift Cards",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/QqZj22aXblAyYDxLQw-Gg0ycW0QkKhrDnwqgERZU9BMRXZnMlgXfq-94sikG5mEpt_I0lzZxcUzfLblmQgwYzUE=s512",
     "fields": [
       "userid"
     ],
@@ -40391,7 +40391,7 @@
   {
     "game_code": "PUBG_M_MANUL",
     "name": "PUBG Mobile SLOW",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/Se7jR6A5R0Mk9ClaIguf46yi2K3k32JsqKb3gAtrktIh3JwnFfxrQRmG9GLvdMpbxbMrReUOxzDkStxGxNo-5Q=s512",
     "fields": [
       "userid"
     ],
@@ -40426,7 +40426,7 @@
   {
     "game_code": "gemini_pro",
     "name": "Gemini Pro",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/QNmuZQc9I6Zbe3mWnSr0hycnENqGFCI5p3yE29Hkxtf22T0IWS6zTrpxULLyyjWpB7ONAXDsDQXnXcVWokl3eg=s512",
     "fields": [
       "userid"
     ],
@@ -40453,7 +40453,7 @@
   {
     "game_code": "freefire_kh",
     "name": "Free Fire KH/SG",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -40632,7 +40632,7 @@
   {
     "game_code": "freefire_bonus",
     "name": "Free​ Fire Bonuse",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],
@@ -40771,7 +40771,7 @@
   {
     "game_code": "freefire_sg_cheap",
     "name": "Free Fire SG CHEAP",
-    "image_url": "/images/games/default.png",
+    "image_url": "https://play-lh.googleusercontent.com/cK-U0_B9GrnSy26SNISDuvU_hL4VggyqJ1J5V2oiuyVEfiGo7fzegdBjk0ejXPg3PKK5sPwumdLBbWv8KkBKLQ=s512",
     "fields": [
       "userid"
     ],

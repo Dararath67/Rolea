@@ -47,7 +47,16 @@ LIVE_GAME_LOGOS: Dict[str, str] = {
     "netflix": "https://play-lh.googleusercontent.com/fXVS45nukV1x9PYVSKHkCQK0QGCOishIvAOxIZS3sgRem8HS7l9l94_Ggj-WZPrTLePRdNYN4pp4SPAQL7oS0PU=s512",
     "spotify": "https://play-lh.googleusercontent.com/IzQgYCcnCFCD08GR-3bdtcT8xzOvrNkC84avGT5CwTX2VIqmTmKKJcP_Cd4JoBOdmCMlTndlOzV6hrthg2fOWA=s512",
     "youtube": "https://play-lh.googleusercontent.com/QNmuZQc9I6Zbe3mWnSr0hycnENqGFCI5p3yE29Hkxtf22T0IWS6zTrpxULLyyjWpB7ONAXDsDQXnXcVWokl3eg=s512",
-    "valorant": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png"
+    "valorant": "https://media.valorant-api.com/gamemodes/96012644-4cf7-86a8-8605-99ac6f8196e8/displayicon.png",
+    "nikke": "https://play-lh.googleusercontent.com/6qv7YkyQQ9fVeyM-PSIvnD1vnBO9xZVZoqQy9f3s9m3_IIUt2JS4ni3jDi7TZFpyrKN0cC-I2BbuXMYuhY1aCxg=s512",
+    "harry_potter": "https://play-lh.googleusercontent.com/9Q_fxr4mZhHoYQyYriRtHJt2-KbWDSD8jdwy25C916x6QKCkOIgvcl87VPMcIQZGnPblhT1rEcWuGCMcJy4uxhI=s512",
+    "undawn": "https://play-lh.googleusercontent.com/c6c6fa5e6b12a0f8b89c743842c13d3957f8979313936615b394136e0d9b4b0e=s512",
+    "arena_breakout": "https://play-lh.googleusercontent.com/JBjC3-ztV1LX8nT2sumjHZqPi97NOuKFhIJy6i7Z0NcGvZbXpP50mwFv7SguTeNMspC6Y4HmO2qAAATi65Rl1Q=s512",
+    "super_sus": "https://play-lh.googleusercontent.com/18DPC2VKF_9bYqnvcf2Jbas4W4pah5-mJ0rJ4lpx-7ACShqJLWRi3u-aIo-xduaYzesL5EmJK7i0yYa4fi_k=s512",
+    "metal_slug": "https://play-lh.googleusercontent.com/xDk7cvZCyJlWro3ipxmYNvuq4kQm6iXp2ryX-RWaX8AJD5BpuvZqzJ1m4NDsQjVi6Mbt5PgNqvnCSTmnPzqhIA=s512",
+    "stumble_guys": "https://play-lh.googleusercontent.com/bt7JMYIJDQgQjkfGPCQomYgNbtNkkvME1xP1WuYouiDiia1BxNnQtq9esfUsTFFhA1H3OVl3j8_XICLkzBcakvM=s512",
+    "identityv": "https://play-lh.googleusercontent.com/TInj0KYJu5pubhK7iEaUAGIzxavLzjFT76Ei6okqcnQw-njQUnQkp9Vkz70aWf6-NA0PixqEGKs0RFBa4XyglZ4=s512",
+    "ragnarok": "https://play-lh.googleusercontent.com/pF6WXInG5Jrwug7xv99ltVV4FBJRNITAouod7MPxIRk_u8zCPBUl0bj7lYWVjO65HqlraHXfo7ZmVkgcBhmpKg=s512"
 }
 
 def resolve_game_thumbnail_url(slug: str, orig: str = "") -> str:
@@ -56,11 +65,11 @@ def resolve_game_thumbnail_url(slug: str, orig: str = "") -> str:
     # Specific top games high-res CDN overrides
     if "valorant" in s or s == "val":
         return LIVE_GAME_LOGOS["valorant"]
-    if "wild_rift" in s or "wildrift" in s:
+    if "wild_rift" in s or "wildrift" in s or "lol" in s:
         return LIVE_GAME_LOGOS["wildrift"]
-    if "bloodstrike" in s or "blood_strike" in s:
+    if "bloodstrike" in s or "blood_strike" in s or "blood" in s:
         return LIVE_GAME_LOGOS["bloodstrike"]
-    if "fc_mobile" in s or "fcmobile" in s or "eafc" in s:
+    if "fc_mobile" in s or "fcmobile" in s or "eafc" in s or "fifa" in s:
         return LIVE_GAME_LOGOS["fcmobile"]
     if "mlbb" in s or "mobile_legends" in s or "mobilelegends" in s:
         return LIVE_GAME_LOGOS["mlbb"]
@@ -68,19 +77,19 @@ def resolve_game_thumbnail_url(slug: str, orig: str = "") -> str:
         return LIVE_GAME_LOGOS["freefire"]
     if "pubg" in s:
         return LIVE_GAME_LOGOS["pubg"]
-    if "hok" in s or "honor_of_kings" in s or "honorofkings" in s:
+    if "hok" in s or "honor_of_kings" in s or "honorofkings" in s or "honor" in s:
         return LIVE_GAME_LOGOS["hok"]
     if "roblox" in s:
         return LIVE_GAME_LOGOS["roblox"]
     if "genshin" in s:
         return LIVE_GAME_LOGOS["genshin"]
-    if "codm" in s or "call_of_duty" in s:
+    if "codm" in s or "call_of_duty" in s or "duty" in s:
         return LIVE_GAME_LOGOS["codm"]
-    if "clash_of_clans" in s or "clashofclans" in s:
+    if "clash_of_clans" in s or "clashofclans" in s or "clash" in s:
         return LIVE_GAME_LOGOS["clashofclans"]
     if "steam" in s:
         return LIVE_GAME_LOGOS["steam"]
-    if "brawlstars" in s or "brawl_stars" in s:
+    if "brawlstars" in s or "brawl_stars" in s or "brawl" in s:
         return LIVE_GAME_LOGOS["brawlstars"]
     if "arena_of_valor" in s or s == "aov":
         return LIVE_GAME_LOGOS["aov"]
@@ -90,9 +99,27 @@ def resolve_game_thumbnail_url(slug: str, orig: str = "") -> str:
         return LIVE_GAME_LOGOS["spotify"]
     if "youtube" in s:
         return LIVE_GAME_LOGOS["youtube"]
+    if "nikke" in s:
+        return LIVE_GAME_LOGOS["nikke"]
+    if "harry" in s or "potter" in s:
+        return LIVE_GAME_LOGOS["harry_potter"]
+    if "undawn" in s:
+        return LIVE_GAME_LOGOS["undawn"]
+    if "breakout" in s:
+        return LIVE_GAME_LOGOS["arena_breakout"]
+    if "sus" in s:
+        return LIVE_GAME_LOGOS["super_sus"]
+    if "metal" in s:
+        return LIVE_GAME_LOGOS["metal_slug"]
+    if "stumble" in s:
+        return LIVE_GAME_LOGOS["stumble_guys"]
+    if "identity" in s:
+        return LIVE_GAME_LOGOS["identityv"]
+    if "ragnarok" in s:
+        return LIVE_GAME_LOGOS["ragnarok"]
 
-    # If game has its own original thumbnail URL from wholesale provider/catalog, use it!
-    if orig and str(orig).strip():
+    # If game has its own original valid thumbnail URL from wholesale provider/catalog (and not default.png or cloudinary), use it!
+    if orig and str(orig).strip() and 'default.png' not in orig and 'cloudinary.com' not in orig:
         return str(orig).strip()
 
     return LIVE_GAME_LOGOS["mlbb"]
