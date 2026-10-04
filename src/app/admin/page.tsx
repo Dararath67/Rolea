@@ -1279,6 +1279,26 @@ function AdminControlPanelContent() {
 
  {/* Dynamic Main Workspace by Active Tab */}
  <main className={`flex-1 p-4 sm:p-6 lg:p-8 w-full mx-auto space-y-6 ${activeTab === 'tickets' ? 'max-w-none px-2 sm:px-4' : 'max-w-7xl'}`}>
+  {loading ? (
+    <div className="min-h-[65vh] flex flex-col items-center justify-center p-8 bg-white/90 backdrop-blur-md rounded-3xl border border-slate-200/80 shadow-xs animate-in fade-in duration-200">
+      <div className="relative mb-5 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/30">
+          <Zap className="w-8 h-8 text-white animate-pulse" />
+        </div>
+        <div className="absolute -inset-2 rounded-3xl border-2 border-blue-500/30 animate-spin border-t-blue-600" />
+      </div>
+      <h3 className="text-xl font-black text-slate-900 tracking-tight">
+        {isKm ? 'កំពុងទាញយកទិន្នន័យ Admin Control Panel...' : 'Loading Admin Control Panel...'}
+      </h3>
+      <p className="text-xs font-semibold text-slate-500 mt-1">
+        {isKm ? 'សូមរង់ចាំមួយភ្លែត ភ្នាក់ងារកំពុងភ្ជាប់ទៅកាន់ FastAPI Backend' : 'Connecting to FastAPI Backend & Synchronizing Store'}
+      </p>
+      <div className="w-full max-w-xs bg-slate-100 h-2 rounded-full mt-6 overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 h-full w-3/4 rounded-full animate-pulse" />
+      </div>
+    </div>
+  ) : (
+    <>
 
  {/* ========================================================================= */}
  {/* TAB 1: DASHBOARD */}
@@ -4230,6 +4250,8 @@ function AdminControlPanelContent() {
    <BroadcastCenter showToast={showToast} />
  )}
 
+    </>
+  )}
  </main>
  </div>
 
