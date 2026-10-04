@@ -434,7 +434,7 @@ class DataStore:
                         is_pop = top_meta.get('is_popular', False) if top_meta else False
                         is_hot = top_meta.get('is_hot_deal', False) if top_meta else False
                         
-                        img = item.get('image_url') or '/images/games/mlbb.png'
+                        img = _resolve_thumb(game_slug, item.get('image_url') or '')
                         
                         if top_meta and 'fields' in top_meta:
                             fields_def = top_meta['fields']
@@ -997,7 +997,15 @@ class DataStore:
                 return "/images/games/bloodstrike.png"
             if "fc" in s or "ea" in s or "fifa" in s:
                 return "/images/games/fcmobile.png"
-            if "mlbb" in s or "mobile_legend" in s or "mobilelegend" in s:
+            if "valorant" in s or "val" in s:
+                return "/images/games/valorant.png"
+            if "wild_rift" in s or "wildrift" in s or "lol" in s:
+                return "/images/games/wildrift.png"
+            if "bloodstrike" in s or "blood" in s:
+                return "/images/games/bloodstrike.png"
+            if "fc" in s or "eafc" in s or "fifa" in s:
+                return "/images/games/fcmobile.png"
+            if "mlbb" in s or "mobile_legend" in s or "mobilelegend" in s or "legend" in s:
                 return "/images/games/mlbb.png"
             if "freefire" in s or "free_fire" in s or "ff" in s:
                 return "/images/games/freefire.png"
@@ -1017,11 +1025,27 @@ class DataStore:
                 return "/images/games/steam.png"
             if "brawl" in s:
                 return "/images/games/brawlstars.png"
-            if "aov" in s:
+            if "aov" in s or "arena" in s:
                 return "/images/games/aov.png"
+            if "chatgpt" in s or "gpt" in s:
+                return "/images/games/chatgpt.png"
+            if "canva" in s:
+                return "/images/games/canva.png"
+            if "netflix" in s:
+                return "/images/games/netflix.png"
+            if "spotify" in s:
+                return "/images/games/spotify.png"
+            if "youtube" in s:
+                return "/images/games/youtube.png"
+            if "cellcard" in s:
+                return "/images/games/cellcard.png"
+            if "smart" in s:
+                return "/images/games/smart.png"
+            if "metfone" in s:
+                return "/images/games/metfone.png"
             if orig and orig.startswith("/images/"):
                 return orig
-            return orig or "/images/games/mlbb.png"
+            return "/images/games/mlbb.png"
 
         filtered_games = []
         for g in games_source:

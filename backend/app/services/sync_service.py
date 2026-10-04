@@ -7,35 +7,53 @@ from .provider_adapters import get_provider_adapter
 from .pricing_service import PricingService
 
 def resolve_game_thumbnail(slug: str) -> str:
-    s = slug.lower()
-    if "mobile-legends" in s or "mlbb" in s:
+    s = (slug or '').lower()
+    if "valorant" in s or "val" in s:
+        return "/images/games/valorant.png"
+    elif "wild-rift" in s or "wildrift" in s or "lol" in s:
+        return "/images/games/wildrift.png"
+    elif "bloodstrike" in s or "blood" in s:
+        return "/images/games/bloodstrike.png"
+    elif "fc-mobile" in s or "fcmobile" in s or "fc" in s or "ea" in s:
+        return "/images/games/fcmobile.png"
+    elif "mobile-legends" in s or "mlbb" in s or "legend" in s:
         return "/images/games/mlbb.png"
-    elif "pubg" in s:
-        return "/images/games/pubg.png"
     elif "free-fire" in s or "freefire" in s or "ff" in s:
         return "/images/games/freefire.png"
-    elif "honor-of-kings" in s or "hok" in s:
+    elif "pubg" in s:
+        return "/images/games/pubg.png"
+    elif "honor-of-kings" in s or "hok" in s or "kings" in s:
         return "/images/games/hok.png"
-    elif "valorant" in s or "val" in s:
-        return "/images/games/valorant.png"
-    elif "genshin" in s:
-        return "/images/games/genshin.png"
-    elif "call-of-duty" in s or "codm" in s:
-        return "/images/games/codm.png"
-    elif "wild-rift" in s or "wildrift" in s:
-        return "/images/games/wildrift.png"
     elif "roblox" in s:
         return "/images/games/roblox.png"
+    elif "genshin" in s:
+        return "/images/games/genshin.png"
+    elif "call-of-duty" in s or "codm" in s or "duty" in s:
+        return "/images/games/codm.png"
+    elif "clash" in s or "coc" in s:
+        return "/images/games/clashofclans.png"
     elif "steam" in s:
         return "/images/games/steam.png"
-    elif "fc-mobile" in s or "fcmobile" in s:
-        return "/images/games/fcmobile.png"
     elif "brawl" in s:
         return "/images/games/brawlstars.png"
-    elif "arena-of-valor" in s or "aov" in s:
+    elif "arena-of-valor" in s or "aov" in s or "arena" in s:
         return "/images/games/aov.png"
-    elif "clash" in s:
-        return "/images/games/clashofclans.png"
+    elif "chatgpt" in s or "gpt" in s:
+        return "/images/games/chatgpt.png"
+    elif "canva" in s:
+        return "/images/games/canva.png"
+    elif "netflix" in s:
+        return "/images/games/netflix.png"
+    elif "spotify" in s:
+        return "/images/games/spotify.png"
+    elif "youtube" in s:
+        return "/images/games/youtube.png"
+    elif "cellcard" in s:
+        return "/images/games/cellcard.png"
+    elif "smart" in s:
+        return "/images/games/smart.png"
+    elif "metfone" in s:
+        return "/images/games/metfone.png"
     return "/images/games/mlbb.png"
 
 class SyncService:

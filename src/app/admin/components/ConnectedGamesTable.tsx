@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { getGameThumbnailUrl } from '@/lib/gameImages';
 import { 
   Gamepad2, 
   Search, 
@@ -624,23 +625,11 @@ export default function ConnectedGamesTable({
                         <div className="flex items-center gap-3.5">
                           <div className="relative w-12 h-12 rounded-2xl bg-slate-900 border border-slate-200 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
                             <img 
-                              src={game.thumbnail || '/images/games/default.png'} 
+                              src={getGameThumbnailUrl(game.slug || game.id, game.thumbnail)} 
                               alt={game.name_en} 
                               className="w-full h-full object-contain"
                               onError={(e: any) => {
-                                const s = (game.slug || game.id || '').toLowerCase();
-                                if (s.includes('pubg')) e.target.src = '/images/games/pubg.png';
-                                else if (s.includes('free-fire') || s.includes('ff')) e.target.src = '/images/games/freefire.png';
-                                else if (s.includes('honor-of-kings') || s.includes('hok')) e.target.src = '/images/games/hok.png';
-                                else if (s.includes('valorant') || s.includes('val')) e.target.src = '/images/games/valorant.png';
-                                else if (s.includes('genshin')) e.target.src = '/images/games/genshin.png';
-                                else if (s.includes('call-of-duty') || s.includes('codm')) e.target.src = '/images/games/codm.png';
-                                else if (s.includes('wild-rift') || s.includes('wildrift')) e.target.src = '/images/games/wildrift.png';
-                                else if (s.includes('roblox')) e.target.src = '/images/games/roblox.png';
-                                else if (s.includes('steam')) e.target.src = '/images/games/steam.png';
-                                else if (s.includes('aov')) e.target.src = '/images/games/aov.png';
-                                else if (s.includes('fc-mobile') || s.includes('fcmobile')) e.target.src = '/images/games/fcmobile.png';
-                                else e.target.src = '/images/games/mlbb.png';
+                                e.target.src = '/images/games/mlbb.png';
                               }}
                             />
                             {!isActive && (
@@ -797,7 +786,7 @@ export default function ConnectedGamesTable({
               <div className="flex items-center gap-3.5">
                 <div className="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-200 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
                   <img 
-                    src={selectedGame.thumbnail || '/images/games/default.png'} 
+                    src={getGameThumbnailUrl(selectedGame.slug || selectedGame.id, selectedGame.thumbnail)} 
                     alt={selectedGame.name_en} 
                     className="w-full h-full object-contain"
                     onError={(e: any) => { e.target.src = '/images/games/mlbb.png'; }}
