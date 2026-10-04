@@ -201,11 +201,15 @@ class Bay2GameService:
         url = f"{base_url}/create_order"
         t0 = time.time()
 
+        ref_clean = str(reference or "").strip()
+        if not ref_clean:
+            ref_clean = f"B2G-{int(time.time())}-{uuid.uuid4().hex[:6].upper()}"
+
         payload = {
             "api_key": key,
             "product_code": product_code,
             "game_user_id": str(game_user_id),
-            "reference": str(reference)
+            "reference": ref_clean
         }
         if game_zone_id:
             payload["game_zone_id"] = str(game_zone_id)

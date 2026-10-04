@@ -1076,27 +1076,32 @@ class Bay2GameAdapter(BaseProviderAdapter):
             from ...data_store import db
             game = db.get_game_by_slug(order.game_slug)
             if game:
-                pkg = next((p for p in game.packages if p.id == prod_code or getattr(p, 'provider_product_id', '') == prod_code), None)
+                pkg = next((p for p in game.packages if p.id == prod_code or getattr(p, 'provider_product_id', '') == prod_code or getattr(p, 'provider_sku', '') == prod_code), None)
                 if pkg and (getattr(pkg, 'provider_product_id', None) or getattr(pkg, 'provider_sku', None)):
                     prod_code = pkg.provider_product_id or pkg.provider_sku
         except Exception:
             pass
 
+        # Generate a unique reference per request attempt to prevent Bay2Game "Reference already used" errors on retries
+        attempt_suffix = uuid.uuid4().hex[:6].upper()
+        ref_str = f"ORD-{order.id}-{int(time.time())}-{attempt_suffix}"
+
         res = Bay2GameService.create_order(
             product_code=prod_code,
             game_user_id=str(order.player_id),
-            reference=f"ORD-{order.id}",
+            reference=ref_str,
             game_zone_id=str(order.server_id or ""),
             api_url=self.api_url,
             api_key=self.api_key
         )
         if res.get("success"):
-            return True, res.get("status", "success"), res.get("reference"), f"Bay2Game Ref: {res.get('reference')}"
+            b2g_ref = res.get("reference") or res.get("raw", {}).get("reference") or ref_str
+            return True, res.get("status", "success"), b2g_ref, f"Bay2Game Ref: {b2g_ref}"
         else:
             return False, "failed", None, res.get("error")
 
     def check_order_status(self, order: Order) -> Tuple[str, Optional[str]]:
-        ref = f"ORD-{order.id}"
+        ref = getattr(order, 'provider_order_id', None) or f"ORD-{order.id}"
         res = Bay2GameService.check_order(ref, self.api_url, self.api_key)
         if res.get("success"):
             return res.get("status", "completed"), f"Bay2Game status: {res.get('status')}"
@@ -1147,22 +1152,25 @@ class FazerCardsAdapter(BaseProviderAdapter):
             from ...data_store import db
             game = db.get_game_by_slug(order.game_slug)
             if game:
-                pkg = next((p for p in game.packages if p.id == prod_code or getattr(p, 'provider_product_id', '') == prod_code), None)
+                pkg = next((p for p in game.packages if p.id == prod_code or getattr(p, 'provider_product_id', '') == prod_code or getattr(p, 'provider_sku', '') == prod_code), None)
                 if pkg and (getattr(pkg, 'provider_product_id', None) or getattr(pkg, 'provider_sku', None)):
                     prod_code = pkg.provider_product_id or pkg.provider_sku
         except Exception:
             pass
 
+        attempt_suffix = uuid.uuid4().hex[:6].upper()
+        ref_str = f"ORD-{order.id}-{int(time.time())}-{attempt_suffix}"
+
         res = FazerCardsService.create_order(
             product_id=prod_code,
             user_id=str(order.player_id),
             zone_id=str(order.server_id or ""),
-            reference=f"ORD-{order.id}",
+            reference=ref_str,
             api_url=self.api_url,
             api_key=self.api_key
         )
         if res.get("success"):
-            return True, res.get("status", "success"), res.get("order_id"), f"FazerCards Ref: {res.get('external_reference')}"
+            return True, res.get("status", "success"), res.get("order_id"), f"FazerCards Ref: {res.get('external_reference') or ref_str}"
         else:
             return False, "failed", None, res.get("error")
 
